@@ -1,0 +1,62 @@
+body{
+    background:linear-gradient(135deg,#ffd1dc,#ffe4ec);
+    font-family:Arial,sans-serif;
+    margin:0;
+}
+
+.btn-regresar{
+    display:inline-block;
+    margin:15px;
+    background:#555;
+    color:white;
+    padding:10px 15px;
+    border-radius:10px;
+    text-decoration:none;
+    opacity:0.8;
+}
+
+.btn-regresar:hover{
+    opacity:1;
+    background:#ff4d88;
+}
+
+h1 {
+    user-select:none;
+}
+
+.love-section{
+    text-align:center;
+    padding:40px 20px;
+}
+
+.heart-btn{
+    font-size:80px;
+    cursor:pointer;
+    animation:latido 1s infinite;
+}
+
+@keyframes latido{
+    50%{
+        transform:scale(1.2);
+    }
+}
+
+.carta{
+    max-width:350px;
+    margin:20px auto;
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,.15);
+    min-height:180px;
+}
+
+.carta h2{
+    color:#ff4d88;
+    user-select:none;
+}
+
+#mensaje{
+    font-size:18px;
+    line-height:1.5;
+}
