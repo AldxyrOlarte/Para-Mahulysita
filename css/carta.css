@@ -6,32 +6,34 @@
 
 body{
     min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
     background:linear-gradient(135deg,#ff9a9e,#fad0c4);
     font-family:Arial,sans-serif;
 }
 
+header{
+    padding:15px;
+}
 
 .btn-regresar{
     display:inline-block;
-    margin:15px;
     background:#555;
     color:white;
     padding:10px 15px;
     border-radius:10px;
     text-decoration:none;
-    opacity:0.8;
+    transition:.3s;
 }
 
 .btn-regresar:hover{
-    opacity:1;
     background:#ff4d88;
 }
 
 .contenedor{
-    text-align:center;
+    min-height:85vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
 }
 
 .sobre{
@@ -39,7 +41,6 @@ body{
     width:350px;
     height:220px;
     background:#ff6b81;
-    margin:auto;
     border-radius:10px;
     overflow:hidden;
     box-shadow:0 10px 25px rgba(0,0,0,0.2);
@@ -69,7 +70,6 @@ body{
     border-radius:10px;
     padding:15px;
     transition:1s;
-    z-index:1;
     overflow-y:auto;
 }
 
@@ -90,6 +90,7 @@ h2{
     color:#444;
     line-height:1.6;
     font-size:15px;
+    white-space:pre-line;
 }
 
 #mensaje::after{
@@ -116,8 +117,8 @@ button{
     border-radius:30px;
     background:#ff4757;
     color:white;
-    font-size:16px;
     cursor:pointer;
+    font-size:16px;
     transition:.3s;
 }
 
