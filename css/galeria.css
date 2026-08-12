@@ -9,6 +9,22 @@ body{
     background:#f5f5f5;
 }
 
+.btn-regresar{
+    display:inline-block;
+    margin:15px;
+    background:#555;
+    color:white;
+    padding:10px 15px;
+    border-radius:10px;
+    text-decoration:none;
+    opacity:0.8;
+}
+
+.btn-regresar:hover{
+    opacity:1;
+    background:#ff4d88;
+}
+
 header{
     background:#D45793;
     color:#fff;
