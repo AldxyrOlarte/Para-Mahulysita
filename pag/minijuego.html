@@ -1,28 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Esta línea bloquea el zoom automático en celulares para que parezca una app nativa -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	<title>Minijuego</title>
-
 	<link rel="stylesheet" href="../css/mini.css">
 </head>
 <body>
-	<header>
+	<!-- Barra superior para los botones -->
+	<div id="top-bar">
 		<a href="../index.html" class="btn-regresar">Regresar al Inicio</a>
-	</header>
-	<div id="game">
-		<div id="score"> Puntos de amor: 0</div>
-		<!-- Este es el contenedor que recibirá los mensajes -->
+		<button id="musicBtn">🎵 Música: OFF</button>
+	</div>
+
+	<!-- Contenedor centralizado para PC y Celular -->
+	<div id="game-container">
+		<div id="score">❤️ Amor: 0</div>
 		<div id="message" style="display: none;"></div>
+		
+		<!-- Área donde caen los corazones -->
+		<div id="game"></div>
+
+		<!-- Canasta con tu imagen -->
 		<div id="basket">
 			<img src="../img/hello-kitty-and-boyfriend.jpg" alt="hello-kitty-and-boyfriend">
 		</div>
 	</div>
-	<audio id="musica" autoplay loop>
+
+	<!-- Audio sin autoplay para evitar bloqueos del navegador -->
+	<audio id="musica" loop>
 		<source src="../musica/musica.mp3" type="audio/mpeg">
 	</audio>
-	<button id="musicBtn">🎵 Música</button>
+
 	<script src="../js/mini.js"></script>
 </body>
 </html>
