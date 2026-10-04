@@ -6,6 +6,19 @@ const message = document.getElementById("message");
 let score = 0;
 let basketX = window.innerWidth / 2;
 
+// --- NUEVA FUNCIÓN ---
+// Esta función recibe un texto, lo muestra y lo oculta a los 3 segundos
+function mostrarMensajeTemporal(texto) {
+    message.innerHTML = texto; // Cambiamos el texto del mensaje
+    message.style.display = "block"; // Lo hacemos visible
+
+    // setTimeout cuenta 3000 milisegundos (3 segundos) y luego lo oculta
+    setTimeout(() => {
+        message.style.display = "none";
+    }, 3000);
+}
+// ---------------------
+
 function createHeart(){
     const heart = document.createElement("div");
     heart.classList.add("heart");
@@ -33,9 +46,19 @@ function createHeart(){
             heart.remove();
             clearInterval(interval);
 
-            if(score >= 20){
-                message.style.display = "block";
+            // --- NUEVA LÓGICA DE MENSAJES ---
+            // Usamos "===" para que el mensaje salga SOLO cuando llegue a ese número exacto
+            if(score === 10){
+                mostrarMensajeTemporal("¡Qué buen ritmo! ❤️");
+            } else if(score === 20){
+                mostrarMensajeTemporal("¡Me encantas! 🥰");
+            } else if(score === 30){
+                mostrarMensajeTemporal("¡Eres increíble! 💘");
+            } else if(score === 50){
+                mostrarMensajeTemporal("¡Te amo muchísimo! 💖 ¡Ganaste mi corazón!");
             }
+            // Puedes seguir agregando más "else if" para más puntajes
+            // ---------------------------------
         }
 
         if(heartRect.top > window.innerHeight){
