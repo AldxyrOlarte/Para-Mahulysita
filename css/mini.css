@@ -10,9 +10,10 @@ html, body{
     height:100%;
 }
 
+/* Fondo detrás del "celular" (solo se nota en pantallas grandes) */
 body{
-    background:#ff6b81; /* color de respaldo */
-    background:linear-gradient(135deg,#ff6b81,#ff9ff3);
+    background:#1d0a18;
+    background:radial-gradient(circle at 50% 30%, #4a1738, #14060f);
     overflow:hidden;
     overscroll-behavior:none;
     touch-action:none;
@@ -21,9 +22,34 @@ body{
     -webkit-touch-callout:none;
 }
 
+/* ---------- El juego: columna centrada con forma de celular ---------- */
+#game{
+    position:fixed;
+    inset:0;
+    margin:auto;              /* centra horizontal y verticalmente */
+    width:100%;
+    max-width:480px;
+    height:100%;
+    max-height:900px;
+    overflow:hidden;
+    touch-action:none;
+    background:#ff6b81;       /* color de respaldo */
+    background:linear-gradient(135deg,#ff6b81,#ff9ff3);
+}
+
+/* En computadora: marco redondeado como si fuera un celular */
+@media (min-width:520px) and (min-height:600px){
+    #game{
+        height:92%;
+        max-height:860px;
+        border-radius:28px;
+        box-shadow:0 20px 60px rgba(0,0,0,0.55), 0 0 0 6px rgba(255,255,255,0.12);
+    }
+}
+
 /* Botón de regreso */
 .btn-regresar{
-    position:fixed;
+    position:absolute;
     top:calc(env(safe-area-inset-top, 0px) + 12px);
     left:12px;
     z-index:30;
@@ -43,14 +69,6 @@ body{
     background:#ff4d88;
 }
 
-/* El juego ocupa toda la pantalla */
-#game{
-    position:fixed;
-    inset:0;
-    overflow:hidden;
-    touch-action:none;
-}
-
 /* Cesta */
 #basket{
     position:absolute;
@@ -59,7 +77,6 @@ body{
     transform:translateX(-50%);
     z-index:2;
     pointer-events:none;
-    will-change:left;
 }
 
 #basket img{
@@ -130,7 +147,7 @@ body{
     opacity:0.9;
 }
 
-/* Botones de pausa y música */
+/* Botones de menú y música */
 #controls{
     position:absolute;
     top:calc(env(safe-area-inset-top, 0px) + 12px);
@@ -193,7 +210,7 @@ body{
     to{ opacity:0; transform:translateY(-60px); }
 }
 
-/* Pantalla de inicio / pausa / victoria / derrota */
+/* ---------- Pantalla de inicio / menú / victoria / derrota ---------- */
 #overlay{
     position:absolute;
     inset:0;
@@ -202,7 +219,7 @@ body{
     flex-direction:column;
     align-items:center;
     justify-content:center;
-    gap:14px;
+    gap:16px;
     text-align:center;
     color:white;
     padding:20px;
@@ -219,7 +236,14 @@ body{
     max-width:420px;
 }
 
-#overlay button{
+.botones{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px;
+}
+
+.botones button{
     min-height:48px;
     padding:12px 24px;
     border:none;
@@ -229,12 +253,59 @@ body{
     cursor:pointer;
     background:white;
     color:#ff4d88;
-    margin:5px;
 }
 
-#overlay button:active{
+.botones button:active{
     background:#ff4d88;
     color:white;
+}
+
+/* Menú de volumen */
+#volumeBox{
+    display:none;
+    align-items:center;
+    gap:6px;
+    max-width:100%;
+    padding:8px 10px;
+    border-radius:32px;
+    background:rgba(255,255,255,0.18);
+}
+
+#volumeBox button{
+    flex:none;
+    width:44px;
+    height:44px;
+    border:none;
+    border-radius:50%;
+    background:white;
+    color:#ff4d88;
+    font-size:22px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+#volumeBox button:active{
+    background:#ff4d88;
+    color:white;
+}
+
+#volSlider{
+    flex:1 1 90px;
+    width:120px;
+    min-width:70px;
+    max-width:150px;
+    height:32px;
+    accent-color:#ff4d88;
+    cursor:pointer;
+}
+
+#volValue{
+    flex:none;
+    min-width:42px;
+    padding-right:4px;
+    font-size:15px;
+    font-weight:bold;
+    text-align:center;
 }
 
 @media (max-width:600px){
@@ -244,10 +315,11 @@ body{
     #basket.emoji{ width:75px; height:75px; line-height:75px; font-size:54px; }
 }
 
-/* Para pantallas apaisadas (celular acostado) */
+/* Celular acostado */
 @media (max-height:420px){
     #hud{ top:calc(env(safe-area-inset-top, 0px) + 56px); }
     #score{ font-size:20px; }
     #lives{ font-size:18px; }
     #basket{ bottom:12px; }
+    #overlay{ gap:8px; }
 }
