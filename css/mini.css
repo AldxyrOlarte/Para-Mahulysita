@@ -3,47 +3,63 @@
     padding:0;
     box-sizing:border-box;
     font-family:Arial, sans-serif;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html, body{
+    height:100%;
 }
 
 body{
+    background:#ff6b81; /* color de respaldo */
     background:linear-gradient(135deg,#ff6b81,#ff9ff3);
     overflow:hidden;
+    overscroll-behavior:none;
     touch-action:none;
+    -webkit-user-select:none;
+    user-select:none;
+    -webkit-touch-callout:none;
 }
 
+/* Botón de regreso */
 .btn-regresar{
     position:fixed;
-    top:15px;
-    left:15px;
-    z-index:10;
+    top:calc(env(safe-area-inset-top, 0px) + 12px);
+    left:12px;
+    z-index:30;
     background:#555;
     color:white;
-    padding:10px 15px;
-    border-radius:10px;
+    padding:10px 14px;
+    border-radius:12px;
     text-decoration:none;
-    opacity:0.8;
+    font-size:15px;
+    opacity:0.85;
     transition:opacity .2s, background .2s;
 }
 
-.btn-regresar:hover{
+.btn-regresar:hover,
+.btn-regresar:active{
     opacity:1;
     background:#ff4d88;
 }
 
-/* El juego ocupa toda la pantalla (antes el header lo empujaba y la cesta quedaba cortada) */
+/* El juego ocupa toda la pantalla */
 #game{
     position:fixed;
     inset:0;
     overflow:hidden;
+    touch-action:none;
 }
 
+/* Cesta */
 #basket{
     position:absolute;
-    bottom:20px;
+    bottom:calc(env(safe-area-inset-bottom, 0px) + 24px);
     left:50%;
     transform:translateX(-50%);
-    user-select:none;
     z-index:2;
+    pointer-events:none;
+    will-change:left;
 }
 
 #basket img{
@@ -55,57 +71,98 @@ body{
     box-shadow:0 0 15px rgba(255,255,255,0.8);
     transition:transform .15s, border-color .15s;
     display:block;
+    -webkit-user-drag:none;
+}
+
+/* Si la imagen no carga, se muestra un emoji */
+#basket.emoji{
+    width:90px;
+    height:90px;
+    line-height:90px;
+    font-size:64px;
+    text-align:center;
+}
+
+#basket.hit{
+    filter:brightness(0.55);
 }
 
 #basket.hit img{
     transform:scale(0.9);
     border-color:#333;
-    box-shadow:0 0 20px rgba(0,0,0,0.6);
 }
 
+/* Corazones */
 .heart{
     position:absolute;
     top:0;
+    left:0;
     font-size:40px;
     line-height:1;
     will-change:transform;
     pointer-events:none;
-    user-select:none;
 }
 
 /* Marcador */
 #hud{
     position:absolute;
-    top:70px;
-    left:20px;
+    top:calc(env(safe-area-inset-top, 0px) + 64px);
+    left:16px;
     color:white;
     text-shadow:1px 1px 6px rgba(0,0,0,0.4);
     z-index:5;
+    pointer-events:none;
 }
 
 #score{
-    font-size:28px;
+    font-size:26px;
     font-weight:bold;
 }
 
 #lives{
-    font-size:24px;
+    font-size:22px;
     margin-top:4px;
 }
 
 #best{
-    font-size:16px;
+    font-size:15px;
     margin-top:4px;
     opacity:0.9;
 }
 
+/* Botones de pausa y música */
+#controls{
+    position:absolute;
+    top:calc(env(safe-area-inset-top, 0px) + 12px);
+    right:12px;
+    display:flex;
+    gap:8px;
+    z-index:10;
+}
+
+#controls button{
+    width:46px;
+    height:46px;
+    border:none;
+    border-radius:50%;
+    background:rgba(255,255,255,0.9);
+    font-size:20px;
+    cursor:pointer;
+}
+
+#controls button:active{
+    background:#ff4d88;
+}
+
+/* Mensajes temporales */
 #message{
     position:absolute;
     width:100%;
     top:40%;
+    padding:0 16px;
     text-align:center;
     color:white;
-    font-size:40px;
+    font-size:30px;
     font-weight:bold;
     display:none;
     text-shadow:2px 2px 10px black;
@@ -117,18 +174,6 @@ body{
 @keyframes aparecer{
     from{ opacity:0; transform:scale(0.7); }
     to{ opacity:1; transform:scale(1); }
-}
-
-#musicBtn{
-    position:absolute;
-    top:20px;
-    right:20px;
-    padding:10px 15px;
-    border:none;
-    border-radius:20px;
-    cursor:pointer;
-    font-size:16px;
-    z-index:10;
 }
 
 /* Efecto "+1" al atrapar */
@@ -148,16 +193,16 @@ body{
     to{ opacity:0; transform:translateY(-60px); }
 }
 
-/* Pantalla de victoria / derrota */
+/* Pantalla de inicio / pausa / victoria / derrota */
 #overlay{
     position:absolute;
     inset:0;
-    background:rgba(0,0,0,0.55);
+    background:rgba(0,0,0,0.6);
     display:none;
     flex-direction:column;
     align-items:center;
     justify-content:center;
-    gap:15px;
+    gap:14px;
     text-align:center;
     color:white;
     padding:20px;
@@ -165,15 +210,17 @@ body{
 }
 
 #overlayTitle{
-    font-size:36px;
+    font-size:32px;
     text-shadow:2px 2px 10px black;
 }
 
 #overlayText{
-    font-size:20px;
+    font-size:18px;
+    max-width:420px;
 }
 
 #overlay button{
+    min-height:48px;
     padding:12px 24px;
     border:none;
     border-radius:25px;
@@ -185,13 +232,22 @@ body{
     margin:5px;
 }
 
-#overlay button:hover{
+#overlay button:active{
     background:#ff4d88;
     color:white;
 }
 
 @media (max-width:600px){
-    #message{ font-size:28px; }
+    #message{ font-size:26px; }
     #overlayTitle{ font-size:26px; }
     #basket img{ width:75px; height:75px; }
+    #basket.emoji{ width:75px; height:75px; line-height:75px; font-size:54px; }
+}
+
+/* Para pantallas apaisadas (celular acostado) */
+@media (max-height:420px){
+    #hud{ top:calc(env(safe-area-inset-top, 0px) + 56px); }
+    #score{ font-size:20px; }
+    #lives{ font-size:18px; }
+    #basket{ bottom:12px; }
 }
