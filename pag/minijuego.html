@@ -6,12 +6,13 @@
 	<meta name="theme-color" content="#ff6b81">
 	<title>Minijuego</title>
 
-	<link rel="stylesheet" href="../css/mini.css">
+	<!-- El ?v=3 evita que el navegador use una versión vieja guardada en caché -->
+	<link rel="stylesheet" href="../css/mini.css?v=3">
 </head>
 <body>
-	<a href="../index.html" class="btn-regresar">← Inicio</a>
-
 	<div id="game">
+		<a href="../index.html" class="btn-regresar">← Inicio</a>
+
 		<div id="hud">
 			<div id="score">❤️ Amor: 0</div>
 			<div id="lives"></div>
@@ -19,7 +20,7 @@
 		</div>
 
 		<div id="controls">
-			<button id="pauseBtn" type="button" aria-label="Pausa">⏸</button>
+			<button id="menuBtn" type="button" aria-label="Menú y pausa">☰</button>
 			<button id="musicBtn" type="button" aria-label="Música">🔇</button>
 		</div>
 
@@ -30,11 +31,21 @@
 			<img src="../img/hello-kitty-and-boyfriend.jpg" alt="hello-kitty-and-boyfriend" draggable="false">
 		</div>
 
-		<!-- Pantalla de inicio / pausa / victoria / derrota -->
+		<!-- Pantalla de inicio / menú-pausa / victoria / derrota -->
 		<div id="overlay">
 			<h2 id="overlayTitle"></h2>
 			<p id="overlayText"></p>
-			<div>
+
+			<!-- Menú de volumen -->
+			<div id="volumeBox">
+				<button id="volMute" type="button" aria-label="Silenciar o activar música">🔊</button>
+				<button id="volDown" type="button" aria-label="Bajar volumen">−</button>
+				<input id="volSlider" type="range" min="0" max="100" step="5" value="60" aria-label="Volumen">
+				<button id="volUp" type="button" aria-label="Subir volumen">+</button>
+				<span id="volValue">60%</span>
+			</div>
+
+			<div class="botones">
 				<button id="btnContinue" type="button">Seguir jugando</button>
 				<button id="btnRestart" type="button">Jugar de nuevo</button>
 			</div>
@@ -46,6 +57,6 @@
 		<source src="../musica/musica.mp3" type="audio/mpeg">
 	</audio>
 
-	<script src="../js/mini.js"></script>
+	<script src="../js/mini.js?v=3"></script>
 </body>
 </html>
