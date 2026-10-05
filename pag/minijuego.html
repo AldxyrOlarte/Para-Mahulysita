@@ -2,36 +2,44 @@
 <html lang="es">
 <head>
 	<meta charset="utf-8">
-	<!-- Esta línea bloquea el zoom automático en celulares para que parezca una app nativa -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Minijuego</title>
+
 	<link rel="stylesheet" href="../css/mini.css">
 </head>
 <body>
-	<!-- Barra superior para los botones -->
-	<div id="top-bar">
-		<a href="../index.html" class="btn-regresar">Regresar al Inicio</a>
-		<button id="musicBtn">🎵 Música: OFF</button>
-	</div>
+	<a href="../index.html" class="btn-regresar">Regresar al Inicio</a>
 
-	<!-- Contenedor centralizado para PC y Celular -->
-	<div id="game-container">
-		<div id="score">❤️ Amor: 0</div>
-		<div id="message" style="display: none;"></div>
-		
-		<!-- Área donde caen los corazones -->
-		<div id="game"></div>
+	<div id="game">
+		<div id="hud">
+			<div id="score">❤️ Amor: 0</div>
+			<div id="lives"></div>
+			<div id="best"></div>
+		</div>
 
-		<!-- Canasta con tu imagen -->
+		<!-- Contenedor de mensajes temporales -->
+		<div id="message"></div>
+
 		<div id="basket">
 			<img src="../img/hello-kitty-and-boyfriend.jpg" alt="hello-kitty-and-boyfriend">
 		</div>
+
+		<!-- Pantalla de victoria / derrota -->
+		<div id="overlay">
+			<h2 id="overlayTitle"></h2>
+			<p id="overlayText"></p>
+			<div>
+				<button id="btnContinue">Seguir jugando</button>
+				<button id="btnRestart">Jugar de nuevo</button>
+			</div>
+		</div>
 	</div>
 
-	<!-- Audio sin autoplay para evitar bloqueos del navegador -->
+	<!-- Sin autoplay: los navegadores lo bloquean; arranca con el primer toque/clic -->
 	<audio id="musica" loop>
 		<source src="../musica/musica.mp3" type="audio/mpeg">
 	</audio>
+	<button id="musicBtn">🎵 Música</button>
 
 	<script src="../js/mini.js"></script>
 </body>
