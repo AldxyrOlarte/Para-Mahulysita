@@ -17,10 +17,12 @@ const WIN_SCORE = 50;
 const HEART_SIZE = 40;
 
 const MENSAJES = {
-    10: "¡Qué buen ritmo! ❤️",
-    20: "¡Me encantas! 🥰",
-    30: "¡Eres increíble! 💘",
-    40: "¡Ya casi lo logras! 💞"
+    10: "¡Sigaaa asiii mi amorrr! ❤️",
+    30: "¡Amorrr la que persevera alcanzaa! 🥰",
+    40: "¡Amoorrr Le gusto el juego responda por WSP! 💘",
+    60: "¡Ya casi lo logras bby! 🥹",
+    75: "Amorrr Le debooo un heladitoo <3",
+    100: "Amorrr Dioss que viciosaaa mami ;33"
 };
 
 let score, lives, basketX, items, lastSpawn, lastTime;
