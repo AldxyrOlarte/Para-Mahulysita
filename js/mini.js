@@ -13,7 +13,7 @@ const musica = document.getElementById("musica");
 const musicBtn = document.getElementById("musicBtn");
 
 const MAX_LIVES = 3;
-const WIN_SCORE = 50;
+const WIN_SCORE = 100;
 const HEART_SIZE = 40;
 
 const MENSAJES = {
@@ -25,8 +25,7 @@ const MENSAJES = {
     100: "Amorrr Dioss que viciosaaa mami ;33"
 };
 
-let score = 0, lives = MAX_LIVES, basketX = 0, lastSpawn = 0, lastTime = 0;
-let items = []; // FIX: antes era undefined y rompía iniciar()
+let score, lives, basketX, items, lastSpawn, lastTime;
 let running = false;
 let paused = false;
 let continuando = false; // true si el jugador siguió jugando después de ganar
