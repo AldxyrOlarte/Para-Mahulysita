@@ -2,13 +2,14 @@
 <html lang="es">
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+	<meta name="theme-color" content="#ff6b81">
 	<title>Minijuego</title>
 
 	<link rel="stylesheet" href="../css/mini.css">
 </head>
 <body>
-	<a href="../index.html" class="btn-regresar">Regresar al Inicio</a>
+	<a href="../index.html" class="btn-regresar">← Inicio</a>
 
 	<div id="game">
 		<div id="hud">
@@ -17,29 +18,33 @@
 			<div id="best"></div>
 		</div>
 
-		<!-- Contenedor de mensajes temporales -->
+		<div id="controls">
+			<button id="pauseBtn" type="button" aria-label="Pausa">⏸</button>
+			<button id="musicBtn" type="button" aria-label="Música">🔇</button>
+		</div>
+
+		<!-- Mensajes temporales -->
 		<div id="message"></div>
 
 		<div id="basket">
-			<img src="../img/hello-kitty-and-boyfriend.jpg" alt="hello-kitty-and-boyfriend">
+			<img src="../img/hello-kitty-and-boyfriend.jpg" alt="hello-kitty-and-boyfriend" draggable="false">
 		</div>
 
-		<!-- Pantalla de victoria / derrota -->
+		<!-- Pantalla de inicio / pausa / victoria / derrota -->
 		<div id="overlay">
 			<h2 id="overlayTitle"></h2>
 			<p id="overlayText"></p>
 			<div>
-				<button id="btnContinue">Seguir jugando</button>
-				<button id="btnRestart">Jugar de nuevo</button>
+				<button id="btnContinue" type="button">Seguir jugando</button>
+				<button id="btnRestart" type="button">Jugar de nuevo</button>
 			</div>
 		</div>
 	</div>
 
-	<!-- Sin autoplay: los navegadores lo bloquean; arranca con el primer toque/clic -->
-	<audio id="musica" loop>
+	<!-- Sin autoplay: arranca cuando el jugador toca "Jugar" -->
+	<audio id="musica" loop preload="auto">
 		<source src="../musica/musica.mp3" type="audio/mpeg">
 	</audio>
-	<button id="musicBtn">🎵 Música</button>
 
 	<script src="../js/mini.js"></script>
 </body>
