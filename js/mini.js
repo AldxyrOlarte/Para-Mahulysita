@@ -15,9 +15,15 @@ const overlayTitle = $("overlayTitle");
 const overlayText = $("overlayText");
 const btnRestart = $("btnRestart");
 const btnContinue = $("btnContinue");
-const pauseBtn = $("pauseBtn");
+const menuBtn = $("menuBtn");
 const musica = $("musica");
 const musicBtn = $("musicBtn");
+const volumeBox = $("volumeBox");
+const volMute = $("volMute");
+const volDown = $("volDown");
+const volUp = $("volUp");
+const volSlider = $("volSlider");
+const volValue = $("volValue");
 
 /* ---------- Configuración ---------- */
 
@@ -40,19 +46,25 @@ let estado = "inicio"; // inicio | jugando | pausa | fin
 let score = 0;
 let lives = MAX_LIVES;
 let basketX = 0;
-let items = [];          // ¡antes estaba sin inicializar y rompía iniciar()!
+let items = [];
 let lastSpawn = 0;
 let lastTime = 0;
 let rafId = 0;
 let continuando = false; // true si el jugador siguió jugando después de ganar
 let msgTimer = null;
 let best = 0;
+let volumen = 60;        // 0 a 100
 const keys = {};
 
 try { best = parseInt(localStorage.getItem("amorBest"), 10) || 0; } catch (e) {}
+try {
+    const v = parseInt(localStorage.getItem("amorVol"), 10);
+    if (!isNaN(v)) volumen = Math.max(0, Math.min(100, v));
+} catch (e) {}
 
 /* ---------- Utilidades ---------- */
 
+// Medidas del "celular" (el marco del juego), no de toda la ventana
 const ancho = () => game.clientWidth;
 const alto = () => game.clientHeight;
 
@@ -94,12 +106,16 @@ function efectoPop(x, y, texto) {
     setTimeout(() => pop.remove(), 700);
 }
 
-function mostrarOverlay(titulo, texto, textoContinuar, textoReiniciar) {
+function mostrarOverlay(titulo, texto, textoContinuar, textoReiniciar, conVolumen) {
     overlayTitle.textContent = titulo;
     overlayText.textContent = texto;
     btnContinue.textContent = textoContinuar || "";
     btnContinue.style.display = textoContinuar ? "inline-block" : "none";
     btnRestart.textContent = textoReiniciar;
+    volumeBox.style.display = conVolumen ? "flex" : "none";
+    // oculta cualquier mensaje temporal para que no se encime con el menú
+    clearTimeout(msgTimer);
+    message.style.display = "none";
     overlay.style.display = "flex";
 }
 
@@ -193,7 +209,15 @@ function loop(now) {
         lastSpawn = now;
     }
 
-    const cesta = basket.getBoundingClientRect();
+    // Posición de la cesta relativa al marco del juego (ya no ocupa toda la ventana)
+    const g = game.getBoundingClientRect();
+    const c = basket.getBoundingClientRect();
+    const cesta = {
+        left: c.left - g.left,
+        right: c.right - g.left,
+        top: c.top - g.top,
+        bottom: c.bottom - g.top
+    };
     const altura = alto();
 
     for (let i = items.length - 1; i >= 0; i--) {
@@ -246,14 +270,16 @@ function terminar(gano) {
             "💖 ¡Ganaste mi corazón! 💖",
             "¡Te amo muchísimo! Atrapaste " + score + " corazones.",
             "Seguir jugando",
-            "Jugar de nuevo"
+            "Jugar de nuevo",
+            false
         );
     } else {
         mostrarOverlay(
             "💔 Se acabaron las vidas",
             "Lograste " + score + " puntos de amor. ¡Inténtalo otra vez!",
             "",
-            "Jugar de nuevo"
+            "Jugar de nuevo",
+            false
         );
     }
 }
@@ -262,7 +288,7 @@ function pausar() {
     if (estado !== "jugando") return;
     estado = "pausa";
     cancelAnimationFrame(rafId);
-    mostrarOverlay("⏸ Pausa", "Toca Continuar para seguir atrapando corazones.", "Continuar", "Reiniciar");
+    mostrarOverlay("☰ Menú", "El juego está en pausa.", "Continuar", "Reiniciar", true);
 }
 
 function reanudar() {
@@ -278,47 +304,111 @@ function alternarPausa() {
     else if (estado === "pausa") reanudar();
 }
 
-/* ---------- Música ---------- */
+/* ---------- Música y volumen ---------- */
 
 let musicaOn = false;        // true si el jugador quiere música
-let musicaIntentada = false; // para arrancarla solo con el primer toque
+let musicaIntentada = false; // para arrancarla solo con un toque del jugador
 
-function actualizarBotonMusica() {
+// En iPhone/iPad el volumen del <audio> no se puede cambiar (siempre es 1).
+// En ese caso usamos Web Audio con un "gain" para que la barra sí funcione.
+const usaGain = (() => {
+    try {
+        const original = musica.volume;
+        musica.volume = 0.5;
+        const ok = Math.abs(musica.volume - 0.5) < 0.01;
+        musica.volume = original;
+        return !ok;
+    } catch (e) {
+        return true;
+    }
+})();
+
+let audioCtx = null;
+let gainNode = null;
+
+function prepararGain() {
+    if (!usaGain || gainNode) return;
+    try {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AC();
+        const fuente = audioCtx.createMediaElementSource(musica);
+        gainNode = audioCtx.createGain();
+        fuente.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+    } catch (e) {
+        gainNode = null;
+    }
+}
+
+function aplicarVolumen() {
+    const v = volumen / 100;
+    if (gainNode) gainNode.gain.value = v;
+    else musica.volume = v;
+    volSlider.value = volumen;
+    volValue.textContent = volumen + "%";
+    try { localStorage.setItem("amorVol", volumen); } catch (e) {}
+}
+
+function actualizarAudioUI() {
+    const sonando = musicaOn && volumen > 0;
     musicBtn.textContent = musicaOn ? "🎵" : "🔇";
     musicBtn.setAttribute("aria-pressed", String(musicaOn));
+    volMute.textContent = sonando ? "🔊" : "🔇";
 }
 
 function reproducir() {
+    prepararGain();
+    if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
     const p = musica.play();
     if (p && p.catch) {
         p.catch(() => {
             musicaOn = false;
-            actualizarBotonMusica();
+            actualizarAudioUI();
         });
     }
 }
 
+function cambiarVolumen(v) {
+    volumen = clamp(Math.round(Number(v)), 0, 100);
+    // si el jugador sube el volumen con la música apagada, la encendemos
+    if (volumen > 0 && !musicaOn && musicaIntentada) {
+        musicaOn = true;
+        reproducir();
+    }
+    aplicarVolumen();
+    actualizarAudioUI();
+}
+
 function alternarMusica() {
     musicaOn = !musicaOn;
-    if (musicaOn) reproducir();
-    else musica.pause();
-    actualizarBotonMusica();
+    musicaIntentada = true;
+    if (musicaOn) {
+        if (volumen === 0) volumen = 40;
+        aplicarVolumen();
+        reproducir();
+    } else {
+        musica.pause();
+    }
+    actualizarAudioUI();
 }
 
 function primeraMusica() {
     if (musicaIntentada) return;
     musicaIntentada = true;
-    musica.volume = 0.6;
     musicaOn = true;
+    aplicarVolumen();
     reproducir();
-    actualizarBotonMusica();
+    actualizarAudioUI();
 }
 
 /* ---------- Eventos ---------- */
 
-// Un solo manejador para dedo y mouse (Pointer Events)
+// Un solo manejador para dedo y mouse (Pointer Events).
+// La posición se mide respecto al marco del juego, que ahora está centrado.
 function seguirPuntero(e) {
-    if (estado === "jugando") moverCesta(e.clientX);
+    if (estado === "jugando") {
+        moverCesta(e.clientX - game.getBoundingClientRect().left);
+    }
 }
 game.addEventListener("pointerdown", seguirPuntero);
 game.addEventListener("pointermove", seguirPuntero);
@@ -351,26 +441,36 @@ btnRestart.addEventListener("click", () => {
     iniciar();
 });
 btnContinue.addEventListener("click", reanudar);
-pauseBtn.addEventListener("click", alternarPausa);
+menuBtn.addEventListener("click", alternarPausa);
 musicBtn.addEventListener("click", alternarMusica);
 
+volSlider.addEventListener("input", () => cambiarVolumen(volSlider.value));
+volDown.addEventListener("click", () => cambiarVolumen(volumen - 10));
+volUp.addEventListener("click", () => cambiarVolumen(volumen + 10));
+volMute.addEventListener("click", alternarMusica);
+
 // Si la imagen de la cesta no carga (ruta mal), usa un emoji para que el juego siga funcionando
+function usarCestaEmoji() {
+    basket.classList.add("emoji");
+    basket.textContent = "🧺";
+}
 const imgCesta = basket.querySelector("img");
 if (imgCesta) {
-    imgCesta.addEventListener("error", () => {
-        basket.classList.add("emoji");
-        basket.textContent = "🧺";
-    });
+    imgCesta.addEventListener("error", usarCestaEmoji);
+    // el error pudo ocurrir antes de que este script se ejecutara
+    if (imgCesta.complete && imgCesta.naturalWidth === 0) usarCestaEmoji();
 }
 
 /* ---------- Arranque ---------- */
 
-actualizarBotonMusica();
+aplicarVolumen();
+actualizarAudioUI();
 actualizarHUD();
 moverCesta(ancho() / 2);
 mostrarOverlay(
     "💘 Atrapa los corazones",
     "Desliza el dedo para mover la cesta. ¡Cuidado con los 💔!",
     "",
-    "Jugar"
+    "Jugar",
+    true
 );
