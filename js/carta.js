@@ -1,12 +1,9 @@
-const texto = `Hola mi amor ❤️
+const texto = `Hola mi amortitooooo lindoooo
 
-Quería escribirte esta pequeña carta para recordarte lo especial que eres para mí.
-
-Gracias por cada sonrisa, cada conversación y cada momento que hemos compartido juntos.
-
-Eres una persona increíble y espero seguir creando muchos recuerdos hermosos contigo.
-
-Te quiero muchísimo. 💖`;
+Quería decirte que soy un monstruo para usted y siento que aveces usted se siente mal y
+no me quiere hablar porque aveces me porto similar
+a como se portaba su papa y no quiero ser la persona que te haga daño posiblemente si usted quiere me alejo de usted :(
+Te quiero muchísimo mamiii perdon. 💖`;
 
 let i = 0;
 
