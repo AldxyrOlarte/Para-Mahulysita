@@ -2,7 +2,6 @@ const texto = `Hola mi amortitooooo lindoooo
 
 Amortitooo te quieroo decir muchas graciass por todoo, y de verdadd te merecess un heladitooo, perooo usted elige la opcionnn`;
 
-// Pega aquí la URL que te da Formspree
 const FORMSPREE_URL = "https://formspree.io/f/TU_CODIGO_AQUI";
 
 let i = 0;
@@ -19,7 +18,6 @@ function escribirTexto() {
 
 function abrirCarta() {
     document.getElementById("sobre").classList.toggle("abierto");
-
     if (i === 0) {
         setTimeout(escribirTexto, 1000);
     }
@@ -27,7 +25,7 @@ function abrirCarta() {
 
 function responder(opcion) {
     const respuesta = document.getElementById("respuesta");
-    respuesta.textContent = "Enviando tu respuesta... 💌";
+    respuesta.textContent = "Enviando tu respuesta...";
 
     fetch(FORMSPREE_URL, {
         method: "POST",
@@ -35,23 +33,17 @@ function responder(opcion) {
             "Content-Type": "application/json",
             "Accept": "application/json"
         },
-        body: JSON.stringify({
-            mensaje: "Mahulysita eligió: " + opcion
-        })
+        body: JSON.stringify({ mensaje: "Mahulysita eligió: " + opcion })
     })
-    .then(r => {
+    .then(function (r) {
         if (r.ok) {
-            respuesta.textContent = "¡Qué rico! Elegiste: " + opcion + " 💖 Thiago ya lo sabe 😍";
+            respuesta.textContent = "Listo, elegiste: " + opcion;
             document.getElementById("opciones").style.display = "none";
         } else {
-            respuesta.textContent = "Ups, algo falló 😢 Intenta de nuevo";
+            respuesta.textContent = "Ups, algo falló. Intenta de nuevo";
         }
     })
-    .catch(() => {
-        respuesta.textContent = "Ups, no hay conexión 😢 Intenta de nuevo";
+    .catch(function () {
+        respuesta.textContent = "Ups, no hay conexión. Intenta de nuevo";
     });
 }
-    })
-    .then(r => {
-        if (r.ok) {
-            respuesta.textContent = "¡Qué rico! Elegiste: " + opcion + " 💖
