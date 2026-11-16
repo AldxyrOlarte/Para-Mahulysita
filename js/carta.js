@@ -41,4 +41,17 @@ function responder(opcion) {
     })
     .then(r => {
         if (r.ok) {
+            respuesta.textContent = "¡Qué rico! Elegiste: " + opcion + " 💖 Thiago ya lo sabe 😍";
+            document.getElementById("opciones").style.display = "none";
+        } else {
+            respuesta.textContent = "Ups, algo falló 😢 Intenta de nuevo";
+        }
+    })
+    .catch(() => {
+        respuesta.textContent = "Ups, no hay conexión 😢 Intenta de nuevo";
+    });
+}
+    })
+    .then(r => {
+        if (r.ok) {
             respuesta.textContent = "¡Qué rico! Elegiste: " + opcion + " 💖
