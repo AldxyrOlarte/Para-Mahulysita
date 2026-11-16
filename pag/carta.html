@@ -37,7 +37,15 @@
     		<button onclick="abrirCarta()">Abrir Carta 💌</button>
 
 		</div>
+        <div class="opciones" id="opciones">
+    		<p class="pregunta">¿Qué eliges? 🍦</p>
+    		<button class="op" onclick="responder('Helado de chocolate 🍫')">🍫 Chocolate</button>
+    		<button class="op" onclick="responder('Helado de fresa 🍓')">🍓 Fresa</button>
+    		<button class="op" onclick="responder('Helado de vainilla 🍦')">🍦 Vainilla</button>
+    		<button class="op" onclick="responder('Mejor una sorpresa 🎁')">🎁 Sorpréndeme</button>
+        </div>
 
+         <p id="respuesta" class="respuesta"></p>
 		<script src="../js/carta.js"></script>
 
 	</body>
