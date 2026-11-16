@@ -1,9 +1,6 @@
 const texto = `Hola mi amortitooooo lindoooo
 
-Quería decirte que soy un monstruo para usted y siento que aveces usted se siente mal y
-no me quiere hablar porque aveces me porto similar
-a como se portaba su papa y no quiero ser la persona que te haga daño posiblemente si usted quiere me alejo de usted :(
-Te quiero muchísimo mamiii perdon. 💖`;
+Amortitooo te quieroo decir muchas graciass por todoo, y de verdadd te merecess un heladitooo, perooo usted elige la opcionnn`;
 
 let i = 0;
 
