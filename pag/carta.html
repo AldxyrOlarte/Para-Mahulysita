@@ -1,51 +1,57 @@
 <!DOCTYPE html>
 <html lang="es">
-	<head>
-    	<meta charset="UTF-8">
-    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    	<title>Carta</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta</title>
 
-    	<link rel="stylesheet" href="../css/carta.css">
-	</head>
-	<body>
+    <link rel="stylesheet" href="../css/carta.css">
+</head>
+<body>
 
-	<header>
-    	<a href="../index.html" class="btn-regresar">⬅ Regresar al Inicio</a>
-	</header>
+    <header>
+        <a href="../index.html" class="btn-regresar">⬅ Regresar al Inicio</a>
+    </header>
 
-	<div class="contenedor">
+    <div class="contenedor">
 
-    	<div class="sobre" id="sobre">
+        <div class="sobre" id="sobre">
 
-        	<div class="tapa"></div>
+            <div class="tapa"></div>
 
-        	<div class="carta">
+            <div class="carta">
 
-            	<h2>💖 Para Mahulysita 💖</h2>
+                <h2>💖 Para Mahulysita 💖</h2>
 
-            	<p id="mensaje"></p>
+                <p id="mensaje"></p>
 
-            	<div class="firma">
-                	Con cariño,<br>
-                	Thiago ❤️
-            	</div>
+                <div class="firma">
+                    Con cariño,<br>
+                    Thiago ❤️
+                </div>
 
-        	</div>
+            </div>
 
-    	</div>
-
-    		<button onclick="abrirCarta()">Abrir Carta 💌</button>
-
-		</div>
-        <div class="opciones" id="opciones">
-    		<p class="pregunta">¿Qué eliges? 🍦</p>
-    		<button class="op" onclick="responder('Helado de chocolate 🍫')">🍫 Chocolate</button>
-    		<button class="op" onclick="responder('Helado de fresa 🍓')">🍓 Fresa</button>
-    		<button class="op" onclick="responder('Helado de vainilla 🍦')">🍦 Vainilla</button>
-    		<button class="op" onclick="responder('Mejor una sorpresa 🎁')">🎁 Sorpréndeme</button>
         </div>
 
-         <p id="respuesta" class="respuesta"></p>
+        <button onclick="abrirCarta()">Abrir Carta 💌</button>
+
+        <div class="opciones" id="opciones">
+            <p class="pregunta">¿Qué eliges? 🍦</p>
+            <button class="op" onclick="responder('Helado de chocolate 🍫')">🍫 Chocolate</button>
+            <button class="op" onclick="responder('Helado de fresa 🍓')">🍓 Fresa</button>
+            <button class="op" onclick="responder('Helado de vainilla 🍦')">🍦 Vainilla</button>
+            <button class="op" onclick="responder('Mejor una sorpresa 🎁')">🎁 Sorpréndeme</button>
+        </div>
+
+        <p id="respuesta" class="respuesta"></p>
+
+    </div>
+
+    <script src="../js/carta.js"></script>
+
+</body>
+</html>
 		<script src="../js/carta.js"></script>
 
 	</body>
