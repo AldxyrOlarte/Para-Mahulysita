@@ -2,7 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#ff4d98">
     <title>Para Mahulysita ❤️</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,36 +14,50 @@
 <body>
 
     <header>
-        <h1>Bienvenida, Chikysbaby 💗</h1>
+        <div class="latido" aria-hidden="true">💗</div>
+        <p class="saludo">Hola, mi amor</p>
+        <h1>Bienvenida, Chikysbaby</h1>
 
-        <nav>
+        <nav aria-label="Menú principal">
             <ul>
-                <li><a href="pag/pqtm.html">Por qué te amo</a></li>
-                <li><a href="pag/carta.html">Carta</a></li>
-                <li><a href="pag/minijuego.html">Minijuego</a></li>
-                <li><a href="pag/galeria.html">Galería</a></li>
+                <li><a href="pag/pqtm.html"><span class="icono">💌</span>Por qué te amo</a></li>
+                <li><a href="pag/carta.html"><span class="icono">✉️</span>Carta</a></li>
+                <li><a href="pag/minijuego.html"><span class="icono">🎮</span>Minijuego</a></li>
+                <li><a href="pag/galeria.html"><span class="icono">📸</span>Galería</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
 
-        <section class="hero">
+        <section class="hero revelar">
             <h2>Esta página fue hecha especialmente para ti</h2>
             <p>
                 Cada línea de código tiene un poquito de cariño,
                 porque eres una persona muy importante para mí.
             </p>
 
-            <img src="img/juntos.jpg" alt="Foto juntos" class="foto-principal">
+            <figure class="polaroid">
+                <img src="img/juntos.jpg" alt="Foto juntos" class="foto-principal">
+                <figcaption>Nosotros 💞</figcaption>
+            </figure>
         </section>
 
-        <section class="contador">
+        <section class="contador revelar">
             <h2>Tiempo que llevamos juntos</h2>
 
             <div id="tiempo">
                 Cargando...
             </div>
+
+            <p id="detalle" class="detalle"></p>
+            <p id="mesversario" class="mesversario"></p>
+        </section>
+
+        <section class="frases revelar">
+            <h2>Algo para ti</h2>
+            <p id="frase" class="frase">Eres lo mejor que me ha pasado 💕</p>
+            <p class="pista">Toca la pantalla para llenarla de corazones ✨</p>
         </section>
 
     </main>
