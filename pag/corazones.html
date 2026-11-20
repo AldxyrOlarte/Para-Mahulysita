@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#ff6b81">
+    <title>Atrapa los corazones 💘</title>
+    <link rel="stylesheet" href="../css/corazones.css">
+</head>
+<body>
+
+<div id="game">
+
+    <a href="minijuego.html" class="btn-regresar">← Juegos</a>
+
+    <div id="controls">
+        <button id="musicBtn" type="button" aria-label="Música" aria-pressed="false">🔇</button>
+        <button id="menuBtn" type="button" aria-label="Pausa">☰</button>
+    </div>
+
+    <div id="hud">
+        <div id="score"></div>
+        <div id="lives"></div>
+        <div id="best"></div>
+        <div id="status"></div>
+    </div>
+
+    <div id="message"></div>
+
+    <div id="basket"><img src="../img/juntos.jpg" alt="Cesta"></div>
+
+    <div id="overlay">
+        <h2 id="overlayTitle"></h2>
+        <p id="overlayText"></p>
+
+        <div id="volumeBox">
+            <button id="volMute" type="button" aria-label="Silenciar">🔇</button>
+            <button id="volDown" type="button" aria-label="Bajar volumen">−</button>
+            <input id="volSlider" type="range" min="0" max="100" step="5" aria-label="Volumen">
+            <button id="volUp" type="button" aria-label="Subir volumen">+</button>
+            <span id="volValue"></span>
+        </div>
+
+        <div class="botones">
+            <button id="btnContinue" type="button"></button>
+            <button id="btnRestart" type="button"></button>
+            <a class="btn-menu" href="minijuego.html">Menú de juegos</a>
+        </div>
+    </div>
+
+    <!-- Cambia la ruta si tu canción tiene otro nombre o carpeta -->
+    <audio id="musica" loop preload="auto" src="../audio/musica.mp3"></audio>
+
+</div>
+
+<script src="../js/corazones.js"></script>
+</body>
+</html>
