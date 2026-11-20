@@ -1,29 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Por que Te amo?</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="theme-color" content="#ff4d98">
+	<title>¿Por qué te amo? 💌</title>
 
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="../css/pqtm.css">
 </head>
 <body>
 	<header>
-		<a href="../index.html" class="btn-regresar">Regresar al Inicio</a>
+		<a href="../index.html" class="btn-regresar">← Regresar al inicio</a>
 	</header>
+
 	<section class="love-section">
-    	<h1>¿Por qué te amo?</h1>
+		<h1>¿Por qué te amo?</h1>
+		<p class="subtitulo">Toca el corazón y descúbrelo 💕</p>
 
-   		<div class="heart-btn" onclick="abrirCarta()">
-        ❤️
-    	</div>
+		<button type="button" class="heart-btn" onclick="abrirCarta()" aria-label="Mostrar una razón por la que te amo">
+			❤️
+		</button>
 
-    	<div id="carta" class="carta">
-        	<h2>Para Ti 💌</h2>
-        	<p id="mensaje">
-            Haz clic en el corazón ❤️
-        	</p>
-    	</div>
+		<div id="carta" class="carta" aria-live="polite">
+			<h2>Para ti 💌</h2>
+			<p id="mensaje">Haz clic en el corazón ❤️</p>
+			<p id="contador-razones" class="contador-razones"></p>
+		</div>
+
+		<button type="button" id="btn-otra" class="btn-otra" onclick="abrirCarta()">Otra razón 💖</button>
 	</section>
 
 	<script src="../js/pqtm.js"></script>
