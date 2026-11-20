@@ -1,114 +1,110 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="theme-color" content="#ff4d98">
-    <title>Para Mahulysita ❤️</title>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+		<meta name="theme-color" content="#ff4d98">
+		<title>Para Mahulysita ❤️</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="css/style.css">
 
-    <!-- Control de la pantalla de bienvenida (va aquí para que funcione aunque otro script falle) -->
-    <script>
-    (function () {
-        var h = document.documentElement;
-        h.classList.add("js");
+		<script>
+			(function () {
+				var h = document.documentElement;
+				h.classList.add("js");
 
-        var vista = false;
-        try { vista = sessionStorage.getItem("introVista") === "1"; } catch (e) {}
+				var vista = false;
+				try { vista = sessionStorage.getItem("introVista") === "1"; } catch (e) {}
 
-        // Si ya la vio en esta visita, no se repite. Para verla de nuevo: index.html?intro
-        if (vista && location.search.indexOf("intro") === -1) {
-            h.classList.add("sin-intro", "abierto");
-        }
+				if (vista && location.search.indexOf("intro") === -1) {
+					h.classList.add("sin-intro", "abierto");
+				}
 
-        window.abrirIntro = function () {
-            var intro = document.getElementById("intro");
-            if (intro) { intro.classList.add("saliendo"); }
-            try { sessionStorage.setItem("introVista", "1"); } catch (e) {}
-            setTimeout(function () { h.classList.add("abierto"); }, 500);
-            setTimeout(function () { if (intro) { intro.style.display = "none"; } }, 1100);
-            if (window.lluviaCorazones) { window.lluviaCorazones(); }
-        };
-    })();
-    </script>
-</head>
-<body>
+				window.abrirIntro = function () {
+					var intro = document.getElementById("intro");
+					if (intro) { intro.classList.add("saliendo"); }
+					try { sessionStorage.setItem("introVista", "1"); } catch (e) {}
+					setTimeout(function () { h.classList.add("abierto"); }, 500);
+					setTimeout(function () { if (intro) { intro.style.display = "none"; } }, 1100);
+					if (window.lluviaCorazones) { window.lluviaCorazones(); }
+				};
+			})();
+		</script>
+	</head>
+	<body>
 
-    <!-- Pantalla de bienvenida -->
-    <div id="intro" class="intro">
-        <div class="intro-corazon" aria-hidden="true">💗</div>
-        <p class="intro-texto">Mi amor, esta página<br>tiene algo nuevo para ti…</p>
-        <button type="button" class="intro-btn" onclick="abrirIntro()">Descúbrelo ✨</button>
-    </div>
+		<div id="intro" class="intro">
+			<div class="intro-corazon" aria-hidden="true">💗</div>
+			<p class="intro-texto">Mi amor, esta página<br>tiene algo nuevo para ti…</p>
+			<button type="button" class="intro-btn" onclick="abrirIntro()">Descúbrelo ✨</button>
+		</div>
 
-    <!-- Fondo con luces suaves en movimiento -->
-    <div class="fondo" aria-hidden="true">
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
+		<div class="fondo" aria-hidden="true">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
 
-    <header>
-        <div class="latido animar" style="--d:.1s" aria-hidden="true">💗</div>
-        <p class="saludo animar" style="--d:.25s">Hola, mi amor</p>
-        <h1 class="animar" style="--d:.4s"><span class="titulo-brillo">Bienvenida, Chikysbaby</span></h1>
+		<header>
+			<div class="latido animar" style="--d:.1s" aria-hidden="true">💗</div>
+			<p class="saludo animar" style="--d:.25s">Hola, mi amor</p>
+			<h1 class="animar" style="--d:.4s"><span class="titulo-brillo">Bienvenida, Chikysbaby</span></h1>
 
-        <nav aria-label="Menú principal">
-            <ul>
-                <li class="animar" style="--d:.55s"><a href="pag/pqtm.html"><span class="icono">💌</span>Por qué te amo</a></li>
-                <li class="animar" style="--d:.7s"><a href="pag/carta.html"><span class="icono">✉️</span>Carta</a></li>
-                <li class="animar" style="--d:.85s"><a href="pag/minijuego.html"><span class="icono">🎮</span>Minijuego</a></li>
-                <li class="animar" style="--d:1s"><a href="pag/galeria.html"><span class="icono">📸</span>Galería</a></li>
-            </ul>
-        </nav>
-    </header>
+			<nav aria-label="Menú principal">
+				<ul>
+					<li class="animar" style="--d:.55s"><a href="pag/pqtm.html"><span class="icono">💌</span>Por qué te amo</a></li>
+					<li class="animar" style="--d:.7s"><a href="pag/carta.html"><span class="icono">✉️</span>Carta</a></li>
+					<li class="animar" style="--d:.85s"><a href="pag/minijuego.html"><span class="icono">🎮</span>Minijuego</a></li>
+					<li class="animar" style="--d:1s"><a href="pag/galeria.html"><span class="icono">📸</span>Galería</a></li>
+				</ul>
+			</nav>
+		</header>
 
-    <main>
+		<main>
 
-        <section class="hero revelar">
-            <h2>Esta página fue hecha especialmente para ti</h2>
-            <p>
-                Cada línea de código tiene un poquito de cariño,
-                porque eres una persona muy importante para mí.
-            </p>
+			<section class="hero revelar">
+				<h2>Esta página fue hecha especialmente para ti</h2>
+				<p>
+					Cada línea de código tiene un poquito de cariño,
+					porque eres una persona muy importante para mí.
+				</p>
 
-            <figure class="polaroid">
-                <img src="img/juntos.jpg" alt="Foto juntos" class="foto-principal">
-                <figcaption>Nosotros 💞</figcaption>
-            </figure>
-        </section>
+				<figure class="polaroid">
+					<img src="img/juntos.jpg" alt="Foto juntos" class="foto-principal">
+					<figcaption>Nosotros 💞</figcaption>
+				</figure>
+			</section>
 
-        <section class="contador revelar">
-            <h2>Tiempo que llevamos juntos</h2>
+			<section class="contador revelar">
+				<h2>Tiempo que llevamos juntos</h2>
 
-            <div id="tiempo">
-                Cargando...
-            </div>
+				<div id="tiempo">
+					Cargando...
+				</div>
 
-            <p id="detalle" class="detalle"></p>
+				<p id="detalle" class="detalle"></p>
 
-            <div class="barra" aria-hidden="true">
-                <div id="barra-relleno" class="barra-relleno"></div>
-            </div>
-            <p id="mesversario" class="mesversario"></p>
-        </section>
+				<div class="barra" aria-hidden="true">
+					<div id="barra-relleno" class="barra-relleno"></div>
+				</div>
+				<p id="mesversario" class="mesversario"></p>
+			</section>
 
-        <section class="frases revelar">
-            <h2>Algo para ti</h2>
-            <p id="frase" class="frase">Eres lo mejor que me ha pasado 💕</p>
-            <p class="pista">Toca la pantalla para llenarla de corazones ✨</p>
-        </section>
+			<section class="frases revelar">
+				<h2>Algo para ti</h2>
+				<p id="frase" class="frase">Eres lo mejor que me ha pasado 💕</p>
+				<p class="pista">Toca la pantalla para llenarla de corazones ✨</p>
+			</section>
 
-    </main>
+		</main>
 
-    <footer>
-        <p>💖 Hecho con mucho amor para Mahulysita 💖</p>
-    </footer>
+		<footer>
+			<p>💖 Hecho con mucho amor para Mahulysita 💖</p>
+		</footer>
 
-    <script src="js/contador.js"></script>
-</body>
+		<script src="js/contador.js"></script>
+	</body>
 </html>
