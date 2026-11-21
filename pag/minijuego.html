@@ -1,41 +1,48 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#4a1738">
-    <title>Nuestros juegos 💘</title>
-    <link rel="stylesheet" href="../css/mini.css">
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+        <meta name="theme-color" content="#4a1738" />
+        <title>Nuestros juegos 💘</title>
+        <link rel="stylesheet" href="../css/minijuego.css" />
+    </head>
+    <body>
+        <a href="../index.html" class="btn-regresar">← Inicio</a>
 
-<a href="../index.html" class="btn-regresar">← Inicio</a>
+        <main class="menu">
+            <h1>Nuestros juegos 💘</h1>
+            <p class="sub">Elige uno, mi amor</p>
 
-<main class="menu">
-    <h1>Nuestros juegos 💘</h1>
-    <p class="sub">Elige uno, mi amor</p>
+            <section class="tarjetas">
+                <a class="tarjeta" href="corazones.html">
+                    <span class="icono">🧺</span>
+                    <h2>Atrapa los corazones</h2>
+                    <p>Mueve la cesta, esquiva los 💔, consigue escudos 🛡️ y haz combos.</p>
+                    <span class="record" id="recCorazones">Aún sin récord</span>
+                    <span class="jugar">Jugar ▶</span>
+                </a>
 
-    <section class="tarjetas">
+                <a class="tarjeta morada" href="memorama.html">
+                    <span class="icono">📸</span>
+                    <h2>Memorama del amor</h2>
+                    <p>Encuentra las parejas de nuestras fotos y desbloquea mensajes para ti.</p>
+                    <span class="record" id="recMemorama">Aún sin récord</span>
+                    <span class="jugar">Jugar ▶</span>
+                </a>
 
-        <a class="tarjeta" href="corazones.html">
-            <span class="icono">🧺</span>
-            <h2>Atrapa los corazones</h2>
-            <p>Mueve la cesta, esquiva los 💔, consigue escudos 🛡️ y haz combos.</p>
-            <span class="record" id="recCorazones">Aún sin récord</span>
-            <span class="jugar">Jugar ▶</span>
-        </a>
+                <a class="tarjeta dorada" href="rescate.html">
+                    <span class="icono">🔒</span>
+                    <h2>¡Rescátame!</h2>
+                    <p>
+                        Cruza el jardín, la cueva y el castillo, consigue la llave 🔑 y libérame de la jaula.
+                    </p>
+                    <span class="record" id="recRescate">Aún sin empezar</span>
+                    <span class="jugar">Jugar ▶</span>
+                </a>
+            </section>
+        </main>
 
-        <a class="tarjeta morada" href="memorama.html">
-            <span class="icono">📸</span>
-            <h2>Memorama del amor</h2>
-            <p>Encuentra las parejas de nuestras fotos y desbloquea mensajes para ti.</p>
-            <span class="record" id="recMemorama">Aún sin récord</span>
-            <span class="jugar">Jugar ▶</span>
-        </a>
-
-    </section>
-</main>
-
-<script src="../js/minijuego.js"></script>
-</body>
+        <script src="../js/minijuego.js"></script>
+    </body>
 </html>
