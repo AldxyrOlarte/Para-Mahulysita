@@ -52,11 +52,11 @@ const DIFICULTADES = {
 
 const MENSAJES = {
     10: "¡Sigaaa asiii mi amorrr! ❤️",
-    30: "¡Amorrr la que persevera alcanzaa! 🥰",
-    40: "¡Amoorrr Le gusto el juego responda por WSP! 💘",
-    60: "¡Ya casi lo logras bby! 🥹",
-    75: "Amorrr Le debooo un heladitoo <3",
-    100: "Amorrr Dioss que viciosaaa mami ;33"
+    50: "¡Amorrr la que persevera alcanzaa! 🥰",
+    80: "¡Rizitosss noo mueraa! 💘",
+    90: "¡Ya casi lo logras bby! 🥹",
+    150: "Besoss negra <3",
+    250: "Amorrr Dioss que viciosaaa mami ;33"
 };
 
 const EMOJI_ITEM = {
