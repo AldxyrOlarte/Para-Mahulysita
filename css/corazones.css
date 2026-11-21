@@ -326,6 +326,67 @@ body{
     color:white;
 }
 
+/* Selector de dificultad */
+#dificultades{
+    display:none;
+    flex-direction:row;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+#dificultades button{
+    flex-direction:column;
+    min-width:118px;
+    padding:10px 14px;
+    font-size:18px;
+    line-height:1.2;
+}
+
+#dificultades button small,
+.botones button small{
+    display:block;
+    margin-top:3px;
+    font-size:12px;
+    font-weight:normal;
+    opacity:.8;
+}
+
+#dificultades button.actual{
+    box-shadow:0 0 0 4px rgba(255,255,255,.55);
+}
+
+#btnCambiar{
+    background:rgba(255,255,255,.2);
+    color:#fff;
+    border:1px solid rgba(255,255,255,.5);
+    font-size:16px;
+}
+
+#overlay{
+    overflow-y:auto;
+}
+
+/* Efectos de poderes activos */
+#game.fiebre{
+    box-shadow:inset 0 0 70px 10px rgba(255,230,120,.95);
+}
+
+#game.lento{
+    box-shadow:inset 0 0 70px 10px rgba(110,190,255,.85);
+}
+
+#game.fiebre.lento{
+    box-shadow:inset 0 0 70px 10px rgba(255,230,120,.95), inset 0 0 120px 30px rgba(110,190,255,.6);
+}
+
+#basket.iman img{
+    box-shadow:0 0 0 5px rgba(255,120,120,.8), 0 0 25px 8px rgba(255,90,90,.9);
+}
+
+#basket.escudo.iman img{
+    box-shadow:0 0 0 5px rgba(120,200,255,.8), 0 0 0 11px rgba(255,120,120,.7), 0 0 25px 8px rgba(255,255,255,.8);
+}
+
 /* Menú de volumen */
 #volumeBox{
     display:none;
