@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#1b1030">
+    <title>Rescátame 🔒💖</title>
+    <link rel="stylesheet" href="../css/rescate.css">
+</head>
+<body>
+
+<div id="app">
+
+    <div class="barra">
+        <a href="minijuego.html" class="btn-regresar">← Juegos</a>
+        <div id="info">
+            <span id="nivelTxt">Nivel 1</span>
+            <span id="corazonesTxt">❤️ 0/0</span>
+            <span id="caidasTxt">💔 0</span>
+            <span id="llaveTxt" hidden>🔑</span>
+        </div>
+        <div class="botonesBarra">
+            <button id="btnSonido" type="button" aria-label="Sonido">🔊</button>
+            <button id="btnPausa" type="button" aria-label="Pausa">⏸</button>
+        </div>
+    </div>
+
+    <div id="pantalla">
+        <canvas id="lienzo" width="640" height="360"></canvas>
+        <div id="aviso"></div>
+
+        <div id="overlay">
+            <h2 id="ovTitulo"></h2>
+            <p id="ovTexto"></p>
+            <div id="ovBotones"></div>
+        </div>
+    </div>
+
+    <div id="controles">
+        <div class="direcciones">
+            <button id="bIzq" class="ctl" type="button" aria-label="Izquierda">◀</button>
+            <button id="bDer" class="ctl" type="button" aria-label="Derecha">▶</button>
+        </div>
+        <button id="bSalto" class="ctl salto" type="button" aria-label="Saltar">⬆</button>
+    </div>
+
+</div>
+
+<script src="../js/rescate.js"></script>
+</body>
+</html>
