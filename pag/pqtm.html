@@ -18,20 +18,42 @@
 
 	<section class="love-section">
 		<h1>¿Por qué te amo?</h1>
-		<p class="subtitulo">Toca el corazón y descúbrelo 💕</p>
+		<p class="subtitulo">Toca el corazón y descubre las 10 razones 💕</p>
 
-		<button type="button" class="heart-btn" onclick="abrirCarta()" aria-label="Mostrar una razón por la que te amo">
-			❤️
-		</button>
-
-		<div id="carta" class="carta" aria-live="polite">
-			<h2>Para ti 💌</h2>
-			<p id="mensaje">Haz clic en el corazón ❤️</p>
-			<p id="contador-razones" class="contador-razones"></p>
+		<div class="heart-wrap">
+			<span class="onda"></span>
+			<span class="onda o2"></span>
+			<button type="button" id="heart-btn" class="heart-btn" aria-label="Mostrar una razón por la que te amo">❤️</button>
 		</div>
 
-		<button type="button" id="btn-otra" class="btn-otra" onclick="abrirCarta()">Otra razón 💖</button>
+		<div class="medidor">
+			<div class="barra" role="progressbar" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" id="barra">
+				<div class="relleno" id="relleno"></div>
+			</div>
+			<p id="contador-razones" class="contador-razones">0 de 10 descubiertas</p>
+		</div>
+
+		<div id="carta" class="carta" aria-live="polite">
+			<div class="carta-emoji" id="carta-emoji">💌</div>
+			<h2>Para ti</h2>
+			<p id="mensaje">Haz clic en el corazón ❤️</p>
+		</div>
+
+		<button type="button" id="btn-otra" class="btn-otra">Otra razón 💖</button>
+
+		<p class="coleccion-titulo">Tu colección de razones</p>
+		<div id="coleccion" class="coleccion"></div>
 	</section>
+
+	<!-- Sorpresa final -->
+	<div id="sorpresa" class="sorpresa" hidden>
+		<div class="sorpresa-tarjeta" role="dialog" aria-modal="true" aria-labelledby="sorpresa-titulo">
+			<div class="sorpresa-emoji">🎉</div>
+			<h2 id="sorpresa-titulo">¡Las descubriste todas!</h2>
+			<p>Pero la razón número 11 es la más grande: todas las que todavía no sé que tengo para amarte. Cada día aparece una nueva. 💖</p>
+			<button type="button" id="cerrar-sorpresa" class="btn-otra visible">Seguir leyendo 💕</button>
+		</div>
+	</div>
 
 	<script src="../js/pqtm.js"></script>
 </body>
