@@ -3,8 +3,11 @@
 /* ---------- Récords guardados ---------- */
 
 function leer(clave) {
-    try { return parseInt(localStorage.getItem(clave), 10) || 0; }
-    catch (e) { return 0; }
+    try {
+        return parseInt(localStorage.getItem(clave), 10) || 0;
+    } catch (e) {
+        return 0;
+    }
 }
 
 const recCorazones = leer("amorBest");
@@ -16,6 +19,14 @@ if (recCorazones) {
 
 if (recMemorama) {
     document.getElementById("recMemorama").textContent = `🏆 Mejor: ${recMemorama} movimientos`;
+}
+
+const progresoRescate = leer("rescateProgreso");
+
+if (leer("rescateFin")) {
+    document.getElementById("recRescate").textContent = "🏆 ¡Rescate completado!";
+} else if (progresoRescate) {
+    document.getElementById("recRescate").textContent = `🚩 Vas en el nivel ${progresoRescate + 1} de 3`;
 }
 
 /* ---------- Corazones flotando de fondo ---------- */
