@@ -281,6 +281,11 @@ nav ul li a{
     transition:transform 0.25s, background 0.25s, color 0.25s, box-shadow 0.25s;
 }
 
+/* Con un número impar de tarjetas, la última ocupa todo el ancho en celular */
+nav ul li:last-child:nth-child(odd){
+    grid-column:1 / -1;
+}
+
 /* Destello que cruza la tarjeta */
 nav ul li a::after{
     content:"";
@@ -643,7 +648,12 @@ footer{
    ========================================================= */
 @media (min-width:700px){
     nav ul{
-        grid-template-columns:repeat(4, 1fr);
+        grid-template-columns:repeat(5, 1fr);
+        max-width:780px;
+    }
+
+    nav ul li:last-child:nth-child(odd){
+        grid-column:auto;
     }
 
     #tiempo{
