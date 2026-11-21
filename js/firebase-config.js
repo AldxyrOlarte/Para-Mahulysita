@@ -9,12 +9,12 @@
 // la dan la autenticación y las reglas de Firestore (archivo firestore.rules).
 
 export const firebaseConfig = {
-  apiKey: "PEGA_AQUI_apiKey",
-  authDomain: "PEGA_AQUI_authDomain",
-  projectId: "PEGA_AQUI_projectId",
-  storageBucket: "PEGA_AQUI_storageBucket",
-  messagingSenderId: "PEGA_AQUI_messagingSenderId",
-  appId: "PEGA_AQUI_appId"
+  apiKey: "AIzaSyDafgyBBaHOmbM2yhGApCXrpG2jjkcJwLA",
+  authDomain: "paginamahu-web.firebaseapp.com",
+  projectId: "paginamahu-web",
+  storageBucket: "56501253831",
+  messagingSenderId: "56501253831",
+  appId: "1:56501253831:web:8caa79eccab64033ca70e2"
 };
 
 // Correo de Google de ELLA → modo escritura (crear, editar y eliminar).
