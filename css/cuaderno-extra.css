@@ -1,0 +1,77 @@
+/* Se carga DESPUÉS de cuaderno.css: añade plantillas, papeles y pasar página */
+
+/* Colores de papel */
+.hoja-zona[data-tema="lila"]  { --papel: #f7f0ff; --linea: rgba(130, 90, 220, .18); }
+.hoja-zona[data-tema="menta"] { --papel: #effaf4; --linea: rgba(40, 150, 100, .18); }
+.hoja-zona[data-tema="crema"] { --papel: #fff8e8; --linea: rgba(190, 140, 40, .2); }
+
+.temas { display: flex; gap: 6px; }
+.tema-punto {
+  width: 22px; height: 22px; border-radius: 50%; cursor: pointer;
+  border: 2px solid #fff; box-shadow: 0 0 0 1.5px var(--rosa);
+}
+.tema-punto[aria-pressed="true"] { box-shadow: 0 0 0 3px var(--fucsia); }
+
+/* Navegación */
+.paginar { display: flex; align-items: center; gap: 6px; }
+.paginar-info { font-size: .82rem; font-weight: 600; color: var(--texto-suave); min-width: 70px; text-align: center; }
+.paginar .btn:disabled { opacity: .35; cursor: default; transform: none; }
+
+/* Pasar página con dirección */
+.hoja { transform-origin: left center; }
+.hoja.pasando-salida { animation: sale-sig .26s ease-in forwards; }
+.hoja.pasando-entrada { animation: entra-sig .38s ease-out both; }
+.hoja[data-dir="prev"].pasando-salida { animation-name: sale-prev; }
+.hoja[data-dir="prev"].pasando-entrada { animation-name: entra-prev; }
+@keyframes sale-sig  { to { opacity: 0; transform: perspective(1400px) rotateY(-24deg) translateX(-40px); } }
+@keyframes entra-sig { from { opacity: 0; transform: perspective(1400px) rotateY(16deg) translateX(40px); } to { opacity: 1; transform: none; } }
+@keyframes sale-prev  { to { opacity: 0; transform: perspective(1400px) rotateY(24deg) translateX(40px); } }
+@keyframes entra-prev { from { opacity: 0; transform: perspective(1400px) rotateY(-16deg) translateX(-40px); } to { opacity: 1; transform: none; } }
+
+/* Plantillas: bloques que solo aparecen en su tipo */
+.foto-bloque, .lista-tools { display: none; }
+.hoja[data-tipo="foto"] .foto-bloque { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 10px; }
+.hoja[data-tipo="lista"] .lista-tools { display: block; margin-bottom: 8px; }
+
+.polaroid {
+  margin: 0; background: #fff; padding: 10px 10px 30px; border-radius: 4px;
+  box-shadow: 0 8px 22px rgba(224, 25, 125, .22); transform: rotate(-2deg);
+  width: min(240px, 60%); aspect-ratio: 1; display: grid; place-items: center;
+}
+.polaroid img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.polaroid-vacia { font-size: 3rem; opacity: .5; }
+.hoja[data-tipo="foto"] .hoja-texto { height: 5.5rem; flex: none; }
+
+/* Carta */
+.hoja[data-tipo="carta"] .hoja-texto { font-family: var(--fuente-titulo); font-size: 1.45rem; line-height: 2rem; }
+.hoja[data-tipo="carta"] .hoja-titulo::before { content: "💌 "; }
+
+/* Frase */
+.hoja[data-tipo="cita"] .hoja-texto {
+  background-image: none; text-align: center; font-family: var(--fuente-titulo);
+  font-size: clamp(1.6rem, 4vw, 2.2rem); line-height: 1.5; padding-top: 8%; color: var(--fucsia);
+}
+
+/* Lista */
+.hoja[data-tipo="lista"] .hoja-texto { font-weight: 600; }
+
+/* Elegir plantilla */
+.modal-tipos { max-width: 460px; }
+.tipos-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 16px 0; }
+.tipo-card {
+  display: grid; gap: 2px; justify-items: center; padding: 14px 8px; cursor: pointer;
+  background: var(--rosa-pastel); border: 2px solid transparent; border-radius: 18px;
+  font-family: var(--fuente-texto); color: var(--texto); transition: transform .2s, border-color .2s;
+}
+.tipo-card:hover, .tipo-card:focus-visible { transform: translateY(-3px) rotate(-1deg); border-color: var(--fucsia); outline: none; }
+.tipo-card b { font-size: 1.8rem; font-weight: 400; }
+.tipo-card span { font-weight: 600; }
+.tipo-card small { color: var(--texto-suave); font-size: .78rem; }
+
+/* Icono de tipo en el índice */
+.pagina-tipo { font-size: .72rem; color: var(--texto-suave); }
+
+@media (max-width: 780px) {
+  .hoja-pie { gap: 8px; }
+  .polaroid { width: 150px; }
+}
