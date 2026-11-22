@@ -9,6 +9,6 @@ export const firebaseConfig = {
 
 // Escritura: crear, editar y eliminar (igual que en firestore.rules)
 export const ESCRITORES = ["mahulyr@gmail.com"];
-
+export const ESCRITORES = ["thiagoolartejimenez@gmail.com"];
 // Lectura: solo ver
-export const LECTORES = ["thiagoolartejimenez@gmail.com"];
+export const LECTORES = ["PEGA_AQUI_@gmail.com"];
