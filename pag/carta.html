@@ -41,26 +41,77 @@
 
                 	<div class="fondo dia"></div>
                 	<div class="fondo tarde"></div>
-                	<div class="fondo noche"></div>
                 	<div class="fondo alba"></div>
 
-                	<div class="estrellas" id="estrellas"></div>
-                	<div class="fugaz"></div>
-
                 	<div class="sol"></div>
-                	<div class="luna">🌙</div>
 
                 	<div class="nube n1">☁️</div>
                 	<div class="nube n2">☁️</div>
                 	<div class="nube n3">☁️</div>
 
+                	<div class="colegio">🏫</div>
+                	<div class="tiempo">📅 Pasaron unas semanas...</div>
+
                 	<div class="suelo"></div>
 
-                	<!-- ELLA: piel clarita y pelo rizado -->
-                	<div class="personaje chica">
+                	<!-- ROHYS: pelo afro mediano, piel clara, uniforme -->
+                	<div class="personaje rohys">
+                    	<span class="emo"></span>
+                    	<svg viewBox="0 0 100 170" xmlns="http://www.w3.org/2000/svg">
+                        	<!-- afro (atrás) -->
+                        	<g fill="#2a1a12">
+                            	<circle cx="50" cy="30" r="21"/>
+                            	<circle cx="30" cy="40" r="16"/>
+                            	<circle cx="70" cy="40" r="16"/>
+                            	<circle cx="25" cy="58" r="10"/>
+                            	<circle cx="75" cy="58" r="10"/>
+                            	<circle cx="38" cy="24" r="14"/>
+                            	<circle cx="62" cy="24" r="14"/>
+                        	</g>
+                        	<!-- piernas -->
+                        	<g class="pierna izq">
+                            	<rect x="38" y="125" width="10" height="33" rx="4" class="pantalon"/>
+                            	<ellipse cx="42" cy="160" rx="9" ry="4.5" fill="#2b2b2b"/>
+                        	</g>
+                        	<g class="pierna der">
+                            	<rect x="52" y="125" width="10" height="33" rx="4" class="pantalon"/>
+                            	<ellipse cx="58" cy="160" rx="9" ry="4.5" fill="#2b2b2b"/>
+                        	</g>
+                        	<!-- brazos -->
+                        	<rect x="20" y="84" width="10" height="34" rx="5" fill="#ffe0cc" transform="rotate(6 25 86)"/>
+                        	<rect x="70" y="84" width="10" height="34" rx="5" fill="#ffe0cc" transform="rotate(-6 75 86)"/>
+                        	<!-- camisa del uniforme -->
+                        	<rect x="30" y="82" width="40" height="50" rx="10" class="camisa"/>
+                        	<rect x="19" y="82" width="13" height="16" rx="6" class="camisa" transform="rotate(6 25 86)"/>
+                        	<rect x="68" y="82" width="13" height="16" rx="6" class="camisa" transform="rotate(-6 75 86)"/>
+                        	<path d="M42 82 L50 92 L58 82" class="cuello-uni"/>
+                        	<!-- cuello y cara -->
+                        	<rect x="45" y="72" width="10" height="12" fill="#ffe0cc"/>
+                        	<circle cx="50" cy="55" r="22" fill="#ffe0cc"/>
+                        	<!-- pelo de adelante -->
+                        	<g fill="#2a1a12">
+                            	<circle cx="38" cy="38" r="9"/>
+                            	<circle cx="50" cy="34" r="10"/>
+                            	<circle cx="62" cy="38" r="9"/>
+                            	<circle cx="30" cy="48" r="6"/>
+                            	<circle cx="70" cy="48" r="6"/>
+                        	</g>
+                        	<g class="ojos">
+                            	<circle cx="42" cy="56" r="2.8" fill="#1f130b"/>
+                            	<circle cx="58" cy="56" r="2.8" fill="#1f130b"/>
+                        	</g>
+                        	<circle cx="36" cy="64" r="4" fill="#ff9bb0" opacity=".45"/>
+                        	<circle cx="64" cy="64" r="4" fill="#ff9bb0" opacity=".45"/>
+                        	<path d="M43 64 Q50 70 57 64" stroke="#8a4a3a" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    	</svg>
+                	</div>
+
+                	<!-- MAHULY: pelo rizado dorado, piel clara, un poco baja, uniforme -->
+                	<div class="personaje mahuly">
+                    	<span class="emo"></span>
                     	<svg viewBox="0 0 100 170" xmlns="http://www.w3.org/2000/svg">
                         	<!-- pelo rizado de atrás -->
-                        	<g fill="#6a3b22">
+                        	<g fill="#e2ad1f">
                             	<circle cx="27" cy="48" r="14"/>
                             	<circle cx="73" cy="48" r="14"/>
                             	<circle cx="20" cy="68" r="12"/>
@@ -73,32 +124,32 @@
                         	</g>
                         	<!-- piernas -->
                         	<g class="pierna izq">
-                            	<rect x="38" y="128" width="9" height="30" rx="4" fill="#ffe3d3"/>
-                            	<ellipse cx="42" cy="160" rx="8" ry="4.5" fill="#d94f7a"/>
+                            	<rect x="39" y="128" width="9" height="30" rx="4" class="pantalon"/>
+                            	<ellipse cx="42" cy="160" rx="8" ry="4.5" fill="#2b2b2b"/>
                         	</g>
                         	<g class="pierna der">
-                            	<rect x="53" y="128" width="9" height="30" rx="4" fill="#ffe3d3"/>
-                            	<ellipse cx="58" cy="160" rx="8" ry="4.5" fill="#d94f7a"/>
+                            	<rect x="52" y="128" width="9" height="30" rx="4" class="pantalon"/>
+                            	<ellipse cx="58" cy="160" rx="8" ry="4.5" fill="#2b2b2b"/>
                         	</g>
-                        	<!-- vestido -->
-                        	<path d="M32 84 L68 84 L82 138 L18 138 Z" fill="#ff7ba9"/>
-                        	<path d="M40 100 Q50 108 60 100" stroke="#ff9bc0" stroke-width="3" fill="none" stroke-linecap="round"/>
                         	<!-- brazos -->
                         	<rect x="22" y="86" width="9" height="30" rx="4.5" fill="#ffe3d3" transform="rotate(8 26 88)"/>
                         	<rect x="69" y="86" width="9" height="30" rx="4.5" fill="#ffe3d3" transform="rotate(-8 74 88)"/>
-                        	<!-- cuello -->
+                        	<!-- camisa del uniforme -->
+                        	<rect x="32" y="84" width="36" height="48" rx="9" class="camisa"/>
+                        	<rect x="21" y="84" width="12" height="15" rx="6" class="camisa" transform="rotate(8 26 88)"/>
+                        	<rect x="67" y="84" width="12" height="15" rx="6" class="camisa" transform="rotate(-8 74 88)"/>
+                        	<path d="M43 84 L50 93 L57 84" class="cuello-uni"/>
+                        	<!-- cuello y cara -->
                         	<rect x="45" y="74" width="10" height="12" fill="#ffe3d3"/>
-                        	<!-- cara -->
                         	<circle cx="50" cy="55" r="24" fill="#ffe3d3"/>
                         	<!-- flequillo rizado -->
-                        	<g fill="#6a3b22">
+                        	<g fill="#e2ad1f">
                             	<circle cx="36" cy="38" r="9"/>
                             	<circle cx="48" cy="33" r="10"/>
                             	<circle cx="61" cy="35" r="9"/>
                             	<circle cx="70" cy="44" r="7"/>
                             	<circle cx="30" cy="47" r="7"/>
                         	</g>
-                        	<!-- ojos, mejillas, sonrisa -->
                         	<g class="ojos">
                             	<circle cx="42" cy="56" r="2.8" fill="#3b2415"/>
                             	<circle cx="58" cy="56" r="2.8" fill="#3b2415"/>
@@ -107,54 +158,50 @@
                         	<circle cx="64" cy="65" r="4" fill="#ff9bb0" opacity=".55"/>
                         	<path d="M43 65 Q50 72 57 65" stroke="#b3475f" stroke-width="2" fill="none" stroke-linecap="round"/>
                     	</svg>
-                    	<span class="helado">🍓</span>
                 	</div>
 
-                	<!-- ÉL: piel morenita y pelo lacio -->
-                	<div class="personaje chico">
+                	<!-- THIAGO: pelo casi ondulado, moreno claro, alto, uniforme -->
+                	<div class="personaje tiago">
+                    	<span class="emo"></span>
                     	<svg viewBox="0 0 100 170" xmlns="http://www.w3.org/2000/svg">
                         	<!-- piernas -->
                         	<g class="pierna izq">
-                            	<rect x="38" y="125" width="10" height="33" rx="4" fill="#33406e"/>
+                            	<rect x="38" y="125" width="10" height="33" rx="4" class="pantalon"/>
                             	<ellipse cx="42" cy="160" rx="9" ry="4.5" fill="#2b2b2b"/>
                         	</g>
                         	<g class="pierna der">
-                            	<rect x="52" y="125" width="10" height="33" rx="4" fill="#33406e"/>
+                            	<rect x="52" y="125" width="10" height="33" rx="4" class="pantalon"/>
                             	<ellipse cx="58" cy="160" rx="9" ry="4.5" fill="#2b2b2b"/>
                         	</g>
                         	<!-- brazos -->
-                        	<rect x="20" y="84" width="10" height="34" rx="5" fill="#c68b5f" transform="rotate(6 25 86)"/>
-                        	<rect x="70" y="84" width="10" height="34" rx="5" fill="#c68b5f" transform="rotate(-6 75 86)"/>
-                        	<!-- camiseta -->
-                        	<rect x="30" y="82" width="40" height="50" rx="10" fill="#4aa3df"/>
-                        	<rect x="19" y="82" width="13" height="16" rx="6" fill="#4aa3df" transform="rotate(6 25 86)"/>
-                        	<rect x="68" y="82" width="13" height="16" rx="6" fill="#4aa3df" transform="rotate(-6 75 86)"/>
-                        	<!-- cuello -->
-                        	<rect x="45" y="72" width="10" height="12" fill="#c68b5f"/>
-                        	<!-- cara -->
-                        	<circle cx="50" cy="54" r="23" fill="#c68b5f"/>
-                        	<!-- pelo lacio -->
-                        	<path d="M26 54 C24 26 40 20 52 21 C68 21 78 32 74 54 C70 44 66 38 50 38 C36 38 30 44 26 54 Z" fill="#1b130e"/>
-                        	<rect x="25" y="46" width="5" height="14" rx="2" fill="#1b130e"/>
-                        	<rect x="70" y="46" width="5" height="14" rx="2" fill="#1b130e"/>
-                        	<g stroke="#3d2c22" stroke-width="1.5" stroke-linecap="round">
-                            	<line x1="38" y1="25" x2="36" y2="40"/>
-                            	<line x1="48" y1="22" x2="47" y2="38"/>
-                            	<line x1="58" y1="23" x2="59" y2="38"/>
-                            	<line x1="67" y1="28" x2="68" y2="42"/>
+                        	<rect x="20" y="84" width="10" height="34" rx="5" fill="#d6a074" transform="rotate(6 25 86)"/>
+                        	<rect x="70" y="84" width="10" height="34" rx="5" fill="#d6a074" transform="rotate(-6 75 86)"/>
+                        	<!-- camisa del uniforme -->
+                        	<rect x="30" y="82" width="40" height="50" rx="10" class="camisa"/>
+                        	<rect x="19" y="82" width="13" height="16" rx="6" class="camisa" transform="rotate(6 25 86)"/>
+                        	<rect x="68" y="82" width="13" height="16" rx="6" class="camisa" transform="rotate(-6 75 86)"/>
+                        	<path d="M42 82 L50 92 L58 82" class="cuello-uni"/>
+                        	<!-- cuello y cara -->
+                        	<rect x="45" y="72" width="10" height="12" fill="#d6a074"/>
+                        	<circle cx="50" cy="54" r="23" fill="#d6a074"/>
+                        	<!-- pelo casi ondulado -->
+                        	<path d="M26 54 C22 26 38 18 52 19 C68 19 80 30 74 54 C70 44 66 38 50 38 C36 38 30 44 26 54 Z" fill="#241811"/>
+                        	<rect x="25" y="46" width="5" height="14" rx="2" fill="#241811"/>
+                        	<rect x="70" y="46" width="5" height="14" rx="2" fill="#241811"/>
+                        	<g stroke="#4a362a" stroke-width="1.6" fill="none" stroke-linecap="round">
+                            	<path d="M32 30 q4 -5 8 0 t8 0 t8 0 t8 0"/>
+                            	<path d="M36 38 q3 -4 6 0 t6 0 t6 0 t6 0"/>
                         	</g>
-                        	<!-- ojos, cejas, mejillas, sonrisa -->
                         	<g class="ojos">
                             	<circle cx="42" cy="55" r="2.8" fill="#1f130b"/>
                             	<circle cx="58" cy="55" r="2.8" fill="#1f130b"/>
                         	</g>
-                        	<path d="M38 48 L46 48" stroke="#1b130e" stroke-width="2" stroke-linecap="round"/>
-                        	<path d="M54 48 L62 48" stroke="#1b130e" stroke-width="2" stroke-linecap="round"/>
+                        	<path d="M38 48 L46 48" stroke="#241811" stroke-width="2" stroke-linecap="round"/>
+                        	<path d="M54 48 L62 48" stroke="#241811" stroke-width="2" stroke-linecap="round"/>
                         	<circle cx="36" cy="64" r="4" fill="#e58a7a" opacity=".5"/>
                         	<circle cx="64" cy="64" r="4" fill="#e58a7a" opacity=".5"/>
                         	<path d="M43 64 Q50 71 57 64" stroke="#7a3b2a" stroke-width="2" fill="none" stroke-linecap="round"/>
                     	</svg>
-                    	<span class="helado">🍦</span>
                 	</div>
 
                 	<div class="corazon-grande">💖</div>
@@ -176,65 +223,20 @@
                 	<button id="btnSig" class="btn-sig" onclick="siguiente()">Siguiente ▶</button>
             	</div>
 
-            	<!-- Opciones de helado -->
+            	<!-- Pregunta final -->
             	<div class="opciones" id="opciones">
-                	<p class="pregunta">¿Qué eliges? 🍦</p>
-                	<button class="op" onclick="responder('Helado de chocolate 🍫')">🍫 Chocolate</button>
-                	<button class="op" onclick="responder('Helado de fresa 🍓')">🍓 Fresa</button>
-                	<button class="op" onclick="responder('Helado de vainilla 🍦')">🍦 Vainilla</button>
-                	<button class="op" onclick="responder('Mejor una sorpresa 🎁')">🎁 Sorpréndeme</button>
+                	<p class="pregunta">¿Quieres seguir escribiendo esta historia conmigo? 💖</p>
+                	<button class="op" onclick="responder('Sí, siempre 💖')">💖 Sí, siempre</button>
+                	<button class="op" onclick="responder('Mil veces sí 💕')">💕 Mil veces sí</button>
+                	<button class="op" onclick="responder('Contigo hasta el final 🥰')">🥰 Contigo hasta el final</button>
             	</div>
 
             	<p id="respuesta" class="respuesta"></p>
 
-            	<!-- GALERÍA DE FOTOS -->
-            	<!-- Pon tus fotos en la carpeta img/ con estos nombres (o cambia los src) -->
-            	<section class="galeria" id="galeria">
-                	<h3>Nuestros momentos 📸</h3>
-
-                	<div class="fotos">
-
-                    	<figure class="polaroid" style="--giro:-5deg" onclick="verFoto(this)">
-                        	<div class="marco">
-                            	<img src="../img/foto1.jpg" alt="Foto 1" onerror="this.style.display='none'">
-                        	</div>
-                        	<figcaption>Nuestro primer día 💕</figcaption>
-                    	</figure>
-
-                    	<figure class="polaroid" style="--giro:4deg" onclick="verFoto(this)">
-                        	<div class="marco">
-                            	<img src="../img/foto2.jpg" alt="Foto 2" onerror="this.style.display='none'">
-                        	</div>
-                        	<figcaption>Mi sonrisa favorita 😊</figcaption>
-                    	</figure>
-
-                    	<figure class="polaroid" style="--giro:-3deg" onclick="verFoto(this)">
-                        	<div class="marco">
-                            	<img src="../img/foto3.jpg" alt="Foto 3" onerror="this.style.display='none'">
-                        	</div>
-                        	<figcaption>Un día increíble 🌸</figcaption>
-                    	</figure>
-
-                    	<figure class="polaroid" style="--giro:5deg" onclick="verFoto(this)">
-                        	<div class="marco">
-                            	<img src="../img/foto4.jpg" alt="Foto 4" onerror="this.style.display='none'">
-                        	</div>
-                        	<figcaption>Contigo siempre ❤️</figcaption>
-                    	</figure>
-
-                	</div>
-
-                	<p class="nota-final">Jazmín, eres lo mejor que me ha pasado 💖</p>
-            	</section>
+            	<p class="nota-final" id="notaFinal">Jazmín, eres lo mejor que me ha pasado 💖</p>
 
         	</div>
 
-    	</div>
-
-    	<!-- Visor para ver la foto en grande -->
-    	<div class="visor" id="visor" onclick="cerrarVisor()">
-        	<img id="visorImg" alt="">
-        	<p id="visorTexto"></p>
     	</div>
 
     	<script src="../js/carta.js"></script>
