@@ -8,9 +8,9 @@
 const NOTA = {
     titulo: "Para ti, mi amor 💛",
     mensaje:
-        "Quiero que recuerdes que eres una de las cosas más bonitas que me han pasado.\n\n" +
-        "Gracias por cada risa, por cada charla y por quedarte conmigo.\n\n" +
-        "Te quiero muchísimo, Mahulysita. 💕",
+        "Quiero que no te enojess amorr, pero no puedo de parar de demostrar cariño.😉\n\n" +
+        "Gracias por todooo mi niñaa de mi vidaa, te amoo mushotee mis rizitoss lindos.\n\n" +
+        "Te quiero muchísimo, Mahulysitaa 💕",
     firma: "Siempre tuyo, Thiago ❤️"
 };
 
