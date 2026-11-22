@@ -19,7 +19,8 @@ export const firebaseConfig = {
 
 // Correo de Google de ELLA → modo escritura (crear, editar y eliminar).
 // Debe ser EXACTAMENTE el mismo que pongas en firestore.rules.
-export const ESCRITORES = ["PEGA_AQUI_correo_de_ella@gmail.com"];
+export const ESCRITORES = ["mahulyr@gmail.com
+"];
 
 // Tu correo de Google → modo lectura (solo ver).
-export const LECTORES = ["PEGA_AQUI_tu_correo@gmail.com"];
+export const LECTORES = ["thiagoolartejimenez@gmail.com"];
