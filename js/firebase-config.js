@@ -7,8 +7,11 @@ export const firebaseConfig = {
   appId: "1:56501253831:web:8caa79eccab64033ca70e2"
 };
 
-// Escritura: crear, editar y eliminar (igual que en firestore.rules)
-export const ESCRITORES = ["mahulyr@gmail.com"];
-export const ESCRITORES = ["thiagoolartejimenez@gmail.com"];
-// Lectura: solo ver
-export const LECTORES = ["PEGA_AQUI_@gmail.com"];
+// Escritura: crear, editar y eliminar
+export const ESCRITORES = [
+  "mahulyr@gmail.com",
+  "thiagoolartejimenez@gmail.com"
+];
+
+// Lectura: solo ver (puede quedar vacía)
+export const LECTORES = [];
