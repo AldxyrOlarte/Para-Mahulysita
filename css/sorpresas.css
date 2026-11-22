@@ -1,0 +1,85 @@
+/* =========================================================
+   Página "Sorpresas de Mahuly"  ->  css/sorpresas.css
+   (se carga después de style.css y extras.css)
+   ========================================================= */
+
+[hidden]{ display:none !important; }
+
+main section{ margin-top:30px; }
+
+.sor-sub{
+    margin-top:2px;
+    font-size:0.95rem;
+    opacity:0.95;
+}
+
+.volver{
+    display:inline-block;
+    margin-top:16px;
+    padding:8px 18px;
+    color:white;
+    text-decoration:none;
+    font-size:0.85rem;
+    font-weight:600;
+    background:rgba(255,255,255,0.22);
+    border:1px solid rgba(255,255,255,0.45);
+    border-radius:20px;
+}
+
+/* Caja de inicio de sesión */
+.acceso-caja{
+    max-width:380px;
+    margin-left:auto;
+    margin-right:auto;
+    padding:24px 18px;
+    background:rgba(255,255,255,0.9);
+    color:#5a3a4a;
+    border-radius:26px;
+    box-shadow:0 8px 24px rgba(255,77,152,0.25);
+    text-align:left;
+}
+.acceso-caja h2{ text-align:center; }
+.acceso-caja label{
+    display:block;
+    margin-top:10px;
+    font-size:0.82rem;
+    font-weight:600;
+}
+.acceso-caja input{
+    display:block;
+    width:100%;
+    margin-top:4px;
+    padding:10px 12px;
+    font-family:inherit;
+    font-size:1rem;
+    color:#5a3a4a;
+    background:#fff7fa;
+    border:1px solid #ffb3d1;
+    border-radius:12px;
+}
+.acceso-caja .btn-extra{
+    display:block;
+    margin:14px auto 0;
+}
+
+.modal-caja select{
+    display:block;
+    width:100%;
+    margin-top:4px;
+    padding:10px 12px;
+    font-family:inherit;
+    font-size:1rem;
+    color:#5a3a4a;
+    background:#fff7fa;
+    border:1px solid #ffb3d1;
+    border-radius:12px;
+}
+
+.cap-nota{
+    margin-top:10px;
+    font-size:0.8rem;
+    opacity:0.85;
+}
+
+#lista{ margin-bottom:18px; }
+.solo-admin .btn-extra{ margin-top:8px; }
