@@ -367,4 +367,10 @@ html[data-momento="noche"] .estrellas{ display:block; }
 
 @media (min-width:700px){
     .cap-cuenta div{ font-size:1.6rem; }
+
+    /* Seis botones en el menú (con "Sorpresas") */
+    nav ul{
+        grid-template-columns:repeat(6, 1fr);
+        max-width:900px;
+    }
 }
