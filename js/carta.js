@@ -1,37 +1,86 @@
 const FORMSPREE_URL = "https://formspree.io/f/TU_CODIGO_AQUI";
 
-/* ---------- LA HISTORIA (edita los textos aquí) ---------- */
+/* ---------- LA HISTORIA (edita los textos aquí) ----------
+   clase:   e1 ... e8 (cambia fondo y posición de los personajes)
+   camina:  quién camina al empezar la escena ("tiago", "mahuly", "rohys")
+   eventos: cosas que pasan a los X milisegundos de empezar la escena
+            { ms, emo: ["tiago", "😳"] }  -> globito con emoji
+            { ms, clase: "huye", camina: ["mahuly"] }  -> clase extra y caminata
+            { ms, lluvia: 10 }  -> lluvia de corazones
+*/
 
 const escenas = [
     {
         clase: "e1",
-        camina: false,
-        texto: `Había una vez una chica de rizos preciosos y una sonrisa de esas que iluminan todo... 🌸
+        camina: [],
+        eventos: [
+            { ms: 3500, emo: ["mahuly", "✨"] }
+        ],
+        texto: `Eran las 6:20 de la tarde y el atardecer pintaba el cielo. 🌇
 
-Y también un chico de pelo lacio, tranquilo y soñador, que aún no sabía lo que le esperaba. ✨`
+Yo salía del colegio con Rohys, mi amigo, sin imaginar que ese día algo iba a cambiar... Y a lo lejos, estabas tú.`
     },
     {
         clase: "e2",
-        camina: true,
-        corazones: 2400,
-        texto: `Un día, sus caminos se cruzaron. Se miraron y, sin saber por qué, el corazón les empezó a latir más fuerte. 💓`
+        camina: ["tiago"],
+        eventos: [
+            { ms: 3000, emo: ["mahuly", "😳"] },
+            { ms: 5500, clase: "huye", camina: ["mahuly"] }
+        ],
+        texto: `Me acerqué a ti y te pregunté si eras compañera de Rohys. Me dijiste que sí... y te fuiste rapidito, toda nerviosa. 😳`
     },
     {
         clase: "e3",
-        camina: false,
-        texto: `Desde ese día todo fue más bonito: risas, charlas y paseos... y claro, siempre había tiempo para un heladito juntos. 🍦`
+        camina: ["tiago", "mahuly"],
+        eventos: [
+            { ms: 3800, emo: ["tiago", "⏰"] }
+        ],
+        texto: `Al día siguiente, en la hora del recreo, fui a hablarte. Con toda mi valentía te pregunté la hora... ⏰`
     },
     {
         clase: "e4",
-        camina: true,
-        texto: `Y una noche, bajo las estrellas, el chico entendió que lo mejor que le pudo pasar fue encontrarla a ella. 🌙⭐`
+        camina: ["tiago", "mahuly"],
+        eventos: [
+            { ms: 3000, emo: ["tiago", "💭"] },
+            { ms: 4800, emo: ["mahuly", "😊"] }
+        ],
+        texto: `Y sin pensarlo mucho te dije que las cosas se me olvidaban cuando estaba cerca de ti. 🙈`
     },
     {
         clase: "e5",
-        camina: true,
-        texto: `Hola mi amortitooooo lindoooo
+        camina: [],
+        eventos: [
+            { ms: 2500, emo: ["tiago", "💗"] },
+            { ms: 3500, emo: ["mahuly", "💗"] }
+        ],
+        texto: `Pasaron unas semanas, y cada día me gustabas un poquito más... 💗`
+    },
+    {
+        clase: "e6",
+        camina: [],
+        eventos: [
+            { ms: 3200, emo: ["tiago", "😳"] }
+        ],
+        texto: `Hasta que un día me armé de valor y te dije que me gustabas. 😳💘`
+    },
+    {
+        clase: "e7",
+        camina: [],
+        eventos: [
+            { ms: 2400, emo: ["mahuly", "💖"] },
+            { ms: 2400, lluvia: 10 }
+        ],
+        texto: `Y tú... me respondiste que sí. 🥹
 
-Amortitooo te quieroo decir muchas graciass por todoo, y de verdadd te merecess un heladitooo, perooo usted elige la opcionnn 🍦`
+Mi corazón no cabía de tanta felicidad.`
+    },
+    {
+        clase: "e8",
+        camina: ["tiago", "mahuly"],
+        eventos: [],
+        texto: `Y desde ese día nos hicimos novios. 💖
+
+Gracias por cada risa y cada momento. Eres lo mejor que me ha pasado.`
     }
 ];
 
@@ -40,6 +89,7 @@ let escribiendo = false;
 let timer = null;
 let textoActual = "";
 let alTerminar = null;
+let timersEscena = [];
 
 /* ---------- CORAZONES DE FONDO ---------- */
 
@@ -57,19 +107,6 @@ function crearCorazon() {
 }
 
 setInterval(crearCorazon, 700);
-
-/* ---------- ESTRELLAS DE LA ESCENA DE NOCHE ---------- */
-
-(function crearEstrellas() {
-    const cont = document.getElementById("estrellas");
-    for (let k = 0; k < 28; k++) {
-        const s = document.createElement("span");
-        s.style.left = Math.random() * 100 + "%";
-        s.style.top = Math.random() * 65 + "%";
-        s.style.animationDelay = Math.random() * 2 + "s";
-        cont.appendChild(s);
-    }
-})();
 
 /* ---------- PUNTOS DE PROGRESO ---------- */
 
@@ -93,6 +130,23 @@ function lluvia(cantidad) {
             setTimeout(function () { h.remove(); }, 2700);
         }, k * 120);
     }
+}
+
+/* ---------- GLOBITOS Y CAMINATA ---------- */
+
+function ponerEmo(quien, icono) {
+    const e = document.querySelector("." + quien + " .emo");
+    if (!e) { return; }
+    e.textContent = icono;
+    e.classList.add("ver");
+    setTimeout(function () { e.classList.remove("ver"); }, 2500);
+}
+
+function caminar(esc, quienes) {
+    quienes.forEach(function (q) {
+        esc.classList.add("cam-" + q);
+        setTimeout(function () { esc.classList.remove("cam-" + q); }, 2700);
+    });
 }
 
 /* ---------- ABRIR EL SOBRE ---------- */
@@ -159,16 +213,23 @@ function irEscena(n) {
     const e = escenas[n];
     escenaActual = n;
 
+    // limpiar lo pendiente de la escena anterior
+    timersEscena.forEach(clearTimeout);
+    timersEscena = [];
+    document.querySelectorAll(".emo").forEach(function (x) { x.classList.remove("ver"); });
+
     esc.className = "escenario " + e.clase;
 
-    if (e.camina) {
-        esc.classList.add("caminando");
-        setTimeout(function () { esc.classList.remove("caminando"); }, 2700);
-    }
+    caminar(esc, e.camina || []);
 
-    if (e.corazones) {
-        setTimeout(function () { lluvia(10); }, e.corazones);
-    }
+    (e.eventos || []).forEach(function (ev) {
+        timersEscena.push(setTimeout(function () {
+            if (ev.clase) { esc.classList.add(ev.clase); }
+            if (ev.camina) { caminar(esc, ev.camina); }
+            if (ev.emo) { ponerEmo(ev.emo[0], ev.emo[1]); }
+            if (ev.lluvia) { lluvia(ev.lluvia); }
+        }, ev.ms));
+    });
 
     const puntos = document.getElementById("puntos").children;
     for (let k = 0; k < puntos.length; k++) {
@@ -198,7 +259,6 @@ function siguiente() {
 function finalDeLaHistoria() {
     document.getElementById("firma").classList.add("visible");
     document.getElementById("opciones").classList.add("visible");
-    document.getElementById("galeria").classList.add("visible");
     lluvia(12);
     setTimeout(function () {
         document.getElementById("opciones").scrollIntoView({ behavior: "smooth", block: "center" });
@@ -223,6 +283,7 @@ function responder(opcion) {
         if (r.ok) {
             respuesta.textContent = "Listo, elegiste: " + opcion;
             document.getElementById("opciones").style.display = "none";
+            document.getElementById("notaFinal").classList.add("visible");
             lluvia(25);
             for (let k = 0; k < 15; k++) {
                 setTimeout(crearCorazon, k * 80);
@@ -234,21 +295,4 @@ function responder(opcion) {
     .catch(function () {
         respuesta.textContent = "Ups, no hay conexión. Intenta de nuevo";
     });
-}
-
-/* ---------- VISOR DE FOTOS ---------- */
-
-function verFoto(figura) {
-    const img = figura.querySelector("img");
-    if (!img || img.style.display === "none") {
-        return; // todavía no hay foto cargada
-    }
-    document.getElementById("visorImg").src = img.src;
-    document.getElementById("visorTexto").textContent =
-        figura.querySelector("figcaption").textContent;
-    document.getElementById("visor").classList.add("activo");
-}
-
-function cerrarVisor() {
-    document.getElementById("visor").classList.remove("activo");
 }
