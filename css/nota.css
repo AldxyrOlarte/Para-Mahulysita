@@ -1,0 +1,100 @@
+/* =========================================================
+   Nota adhesiva digital (se carga después de style.css)
+   ========================================================= */
+
+.nota-seccion{
+    margin-top:28px;
+    padding:6px 0 4px;
+}
+
+.nota{
+    position:relative;
+    max-width:340px;
+    margin:0 auto;
+    padding:34px 22px 22px;
+    text-align:left;
+    color:#5a3a4a;
+    background:linear-gradient(165deg,#fff9a8 0%,#fff176 100%);
+    border-radius:4px 4px 4px 26px;
+    box-shadow:0 14px 26px rgba(120,80,0,0.22), 0 2px 4px rgba(120,80,0,0.15);
+    transform:rotate(-2deg);
+    cursor:pointer;
+    -webkit-user-select:none;
+    user-select:none;
+}
+
+/* Cinta pegada arriba */
+.nota::before{
+    content:"";
+    position:absolute;
+    top:-13px;
+    left:50%;
+    width:96px;
+    height:26px;
+    margin-left:-48px;
+    background:rgba(255,126,182,0.6);
+    border-left:2px dotted rgba(255,255,255,0.7);
+    border-right:2px dotted rgba(255,255,255,0.7);
+    transform:rotate(2deg);
+    box-shadow:0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Esquina doblada abajo a la izquierda */
+.nota::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:0;
+    width:26px;
+    height:26px;
+    background:linear-gradient(45deg,#e8d94f 50%,transparent 50%);
+    border-bottom-left-radius:26px;
+    box-shadow:2px -2px 4px rgba(0,0,0,0.12);
+}
+
+.nota-titulo{
+    font-family:'Dancing Script', cursive;
+    font-size:1.9rem;
+    line-height:1.15;
+    color:var(--rosa-oscuro, #e0307c);
+    margin-bottom:10px;
+    text-align:center;
+}
+
+.nota-mensaje{
+    font-family:'Dancing Script', cursive;
+    font-size:1.4rem;
+    font-weight:600;
+    line-height:1.4;
+    white-space:pre-line;
+}
+
+.nota-firma{
+    margin-top:14px;
+    padding-left:26px;
+    font-family:'Dancing Script', cursive;
+    font-size:1.5rem;
+    font-weight:700;
+    text-align:right;
+    color:var(--rosa-oscuro, #e0307c);
+}
+
+.nota.mueve{
+    animation:nota-mueve 0.7s ease;
+}
+
+@keyframes nota-mueve{
+    0%,100%{ transform:rotate(-2deg); }
+    25%{ transform:rotate(2deg) scale(1.03); }
+    50%{ transform:rotate(-4deg); }
+    75%{ transform:rotate(1deg); }
+}
+
+@media (min-width:700px){
+    .nota{
+        max-width:380px;
+    }
+    .nota-mensaje{
+        font-size:1.55rem;
+    }
+}
