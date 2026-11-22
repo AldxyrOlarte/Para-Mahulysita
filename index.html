@@ -10,6 +10,7 @@
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/extras.css">
 
 		<script>
 			(function () {
@@ -66,6 +67,17 @@
 
 		<main>
 
+			<!-- Mensaje secreto: el texto se edita desde la página (botón 🔑 del pie) -->
+			<section class="extra revelar" id="secreto-sec" aria-label="Mensaje secreto">
+				<h2>Un secretito 🤫</h2>
+				<p class="extra-sub">Es solo para ti, toca el botón</p>
+				<button type="button" id="btn-secreto" class="btn-extra">Tócame 💗</button>
+				<div id="secreto-caja" class="secreto-caja">
+					<p id="secreto-texto" class="secreto-texto"></p>
+				</div>
+				<div>
+					<button type="button" id="btn-editar-secreto" class="btn-mini solo-admin">✏️ Editar textos</button>
+				</div>
 			</section>
 
 			<section class="hero revelar">
@@ -96,6 +108,26 @@
 				<p id="mesversario" class="mesversario"></p>
 			</section>
 
+			<!-- Abrazo: le llega un aviso a Thiago -->
+			<section class="extra revelar" id="abrazo-sec" aria-label="Abrazo">
+				<h2>¿Necesitas un abrazo?</h2>
+				<p class="extra-sub">Tócalo y a mí me llega el aviso al instante</p>
+				<button type="button" id="btn-abrazo" class="btn-abrazo"><span>🤗</span>Mándame un abrazo</button>
+				<p id="abrazo-estado" class="extra-estado" aria-live="polite"></p>
+				<p id="abrazo-admin" class="extra-estado solo-admin"></p>
+			</section>
+
+			<!-- Cápsula del tiempo: mensajes con candado y cuenta regresiva -->
+			<section class="extra revelar" id="capsula-sec" aria-label="Cápsula del tiempo">
+				<h2>Cápsula del tiempo</h2>
+				<p class="extra-sub">Mensajes que se abren en nuestras fechas especiales ⏳</p>
+				<div id="capsulas"></div>
+				<div class="solo-admin">
+					<button type="button" id="btn-nueva-capsula" class="btn-mini">➕ Nueva cápsula</button>
+					<button type="button" id="btn-seed" class="btn-mini">✨ Crear 6 meses y 1 año</button>
+				</div>
+			</section>
+
 			<section class="frases revelar">
 				<h2>Algo para ti</h2>
 				<p id="frase" class="frase">Eres lo mejor que me ha pasado 💕</p>
@@ -106,9 +138,10 @@
 
 		<footer>
 			<p>💖 Hecho con mucho amor para Mahulysita 💖</p>
+			<button type="button" id="btn-admin" class="admin-btn" aria-label="Acceso de Thiago">🔑</button>
 		</footer>
 
 		<script src="js/contador.js"></script>
-		<script src="js/nota.js"></script>
+		<script type="module" src="js/extras.js"></script>
 	</body>
 </html>
