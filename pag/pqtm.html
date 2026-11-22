@@ -18,43 +18,61 @@
 
 	<section class="love-section">
 		<h1>¿Por qué te amo?</h1>
-		<p class="subtitulo">Toca el corazón y descubre las 10 razones 💕</p>
+		<p class="subtitulo">Una razón nueva cada día · colecciona las <span class="n-total">200</span> 💕</p>
 
-		<div class="heart-wrap">
+		<!-- Estadísticas -->
+		<div class="stats">
+			<div class="stat"><b id="st-total">0</b><span>coleccionadas</span></div>
+			<div class="stat"><b id="st-racha">0</b><span>🔥 días seguidos</span></div>
+			<div class="stat"><b id="st-leg">0</b><span>👑 legendarias</span></div>
+		</div>
+
+		<div class="barra" role="progressbar" aria-valuemin="0" aria-valuemax="200" aria-valuenow="0" id="barra">
+			<div class="relleno" id="relleno"></div>
+		</div>
+		<p id="contador-razones" class="contador-razones"></p>
+
+		<!-- Razón de hoy -->
+		<div class="heart-wrap" id="heart-wrap">
 			<span class="onda"></span>
 			<span class="onda o2"></span>
-			<button type="button" id="heart-btn" class="heart-btn" aria-label="Mostrar una razón por la que te amo">❤️</button>
+			<button type="button" id="heart-btn" class="heart-btn" aria-label="Abrir mi razón de hoy">❤️</button>
 		</div>
+		<p id="hoy-estado" class="hoy-estado"></p>
+		<p id="cuenta" class="cuenta"></p>
 
-		<div class="medidor">
-			<div class="barra" role="progressbar" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" id="barra">
-				<div class="relleno" id="relleno"></div>
-			</div>
-			<p id="contador-razones" class="contador-razones">0 de 10 descubiertas</p>
-		</div>
+		<div id="carta" class="tarjeta" aria-live="polite"></div>
 
-		<div id="carta" class="carta" aria-live="polite">
-			<div class="carta-emoji" id="carta-emoji">💌</div>
-			<h2>Para ti</h2>
-			<p id="mensaje">Haz clic en el corazón ❤️</p>
-		</div>
-
-		<button type="button" id="btn-otra" class="btn-otra">Otra razón 💖</button>
-
-		<p class="coleccion-titulo">Tu colección de razones</p>
-		<div id="coleccion" class="coleccion"></div>
+		<!-- Álbum -->
+		<h2 class="album-titulo">Tu álbum de razones</h2>
+		<div id="filtros" class="filtros"></div>
+		<div id="album" class="album"></div>
+		<p class="leyenda">
+			<span>💗 Común</span> <span>💎 Rara</span> <span>🔮 Épica</span> <span>👑 Legendaria</span>
+		</p>
 	</section>
 
-	<!-- Sorpresa final -->
-	<div id="sorpresa" class="sorpresa" hidden>
-		<div class="sorpresa-tarjeta" role="dialog" aria-modal="true" aria-labelledby="sorpresa-titulo">
-			<div class="sorpresa-emoji">🎉</div>
-			<h2 id="sorpresa-titulo">¡Las descubriste todas!</h2>
-			<p>Pero la razón número 11 es la más grande: todas las que todavía no sé que tengo para amarte. Cada día aparece una nueva. 💖</p>
-			<button type="button" id="cerrar-sorpresa" class="btn-otra visible">Seguir leyendo 💕</button>
+	<!-- Ver una razón del álbum -->
+	<div id="visor" class="modal" hidden>
+		<div class="modal-caja">
+			<div id="visor-tarjeta" class="tarjeta"></div>
+			<button type="button" id="cerrar-visor" class="btn-cerrar">Cerrar</button>
 		</div>
 	</div>
 
+	<!-- Colección completa -->
+	<div id="sorpresa" class="modal" hidden>
+		<div class="sorpresa-tarjeta" role="dialog" aria-modal="true" aria-labelledby="sorpresa-titulo">
+			<div class="sorpresa-emoji">🏆</div>
+			<h2 id="sorpresa-titulo">¡Completaste la colección!</h2>
+			<p>Descubriste las <span class="n-total">200</span> razones, una por una, día tras día. Pero te cuento un secreto: nunca van a ser suficientes, porque cada día me enamoro de ti por una razón nueva. 💖</p>
+			<button type="button" id="cerrar-sorpresa" class="btn-cerrar">Seguir leyendo 💕</button>
+		</div>
+	</div>
+
+	<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+	<script src="../js/razones.js"></script>
 	<script src="../js/pqtm.js"></script>
 </body>
 </html>
