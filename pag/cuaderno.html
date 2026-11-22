@@ -4,41 +4,31 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Nuestro pequeño universo</title>
-
-  <!-- Tipografías: cursiva para títulos, redondeada y legible para el contenido -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
-
   <link rel="stylesheet" href="../css/cuaderno.css">
+  <link rel="stylesheet" href="../css/cuaderno-extra.css">
 </head>
 <body data-modo="lectura">
-
-  <!-- Corazones decorativos de fondo (los genera cuaderno.js) -->
   <div class="corazones-fondo" id="corazonesFondo" aria-hidden="true"></div>
-
   <a class="volver" href="../index.html">← Inicio</a>
 
-  <!-- ===================== VISTA 1: ACCESO ===================== -->
+  <!-- ACCESO -->
   <main id="vistaLogin" class="vista">
     <section class="tarjeta-login">
       <div class="login-corazon" aria-hidden="true">💗</div>
       <h1 class="titulo-cursivo">Nuestro pequeño universo</h1>
       <p class="login-texto">Para abrir el cuaderno, entra con tu cuenta de Google.</p>
-
-      <button id="btnEntrar" class="btn btn-primario" type="button">
-        Entrar con Google
-      </button>
-
+      <button id="btnEntrar" class="btn btn-primario" type="button">Entrar con Google</button>
       <p id="loginAviso" class="login-aviso" role="alert" hidden></p>
     </section>
   </main>
 
-  <!-- ===================== VISTA 2: CUADERNO ===================== -->
+  <!-- CUADERNO -->
   <main id="vistaCuaderno" class="vista oculto">
     <div class="libro" id="libro">
 
-      <!-- Portada -->
       <section class="portada" id="portada">
         <div class="portada-marco">
           <span class="portada-corazon" aria-hidden="true">💗</span>
@@ -48,60 +38,65 @@
         </div>
       </section>
 
-      <!-- Interior -->
       <section class="interior" id="interior">
-
-        <!-- Lista lateral de páginas -->
         <aside class="lateral" id="lateral">
           <div class="lateral-cabecera">
-            <h2 class="titulo-cursivo lateral-titulo">Mis páginas</h2>
+            <h2 class="titulo-cursivo lateral-titulo">Índice</h2>
             <p class="contador" id="contador">0 páginas escritas</p>
-            <button id="btnNueva" class="btn btn-primario btn-ancho solo-escritura" type="button">
-              ＋ Nueva página
-            </button>
+            <button id="btnNueva" class="btn btn-primario btn-ancho solo-escritura" type="button">＋ Nueva página</button>
           </div>
-
           <ul class="lista-paginas" id="listaPaginas"></ul>
-
           <div class="lateral-pie">
             <span class="insignia" id="insigniaModo"></span>
             <button id="btnSalir" class="btn btn-suave btn-chico" type="button">Cerrar sesión</button>
           </div>
         </aside>
-
-        <!-- Fondo oscuro para el menú lateral en celular -->
         <div class="telon" id="telon"></div>
 
-        <!-- Hoja -->
-        <div class="hoja-zona">
-          <button id="btnMenu" class="btn btn-suave btn-chico btn-menu" type="button">☰ Páginas</button>
+        <div class="hoja-zona" id="hojaZona">
+          <button id="btnMenu" class="btn btn-suave btn-chico btn-menu" type="button">☰ Índice</button>
 
-          <!-- Estado vacío -->
           <div class="hoja-vacia" id="hojaVacia">
             <span class="vacia-corazon" aria-hidden="true">💗</span>
             <p class="vacia-mensaje" id="vaciaMensaje"></p>
           </div>
 
-          <!-- Editor -->
-          <article class="hoja" id="hoja" hidden>
+          <article class="hoja" id="hoja" hidden data-tipo="texto">
             <header class="hoja-cabecera">
               <div class="emoji-wrap">
                 <button id="btnEmoji" class="btn-emoji" type="button" aria-label="Elegir emoji">📝</button>
                 <div class="emoji-panel" id="emojiPanel" hidden></div>
               </div>
-              <input id="inputTitulo" class="hoja-titulo" type="text" maxlength="80"
-                     placeholder="Título de la página" autocomplete="off">
+              <input id="inputTitulo" class="hoja-titulo" type="text" maxlength="80" placeholder="Título de la página" autocomplete="off">
             </header>
 
             <p class="hoja-meta" id="hojaMeta"></p>
 
-            <textarea id="areaTexto" class="hoja-texto" maxlength="20000"
-                      placeholder="Escribe aquí lo que quieras…" spellcheck="true"></textarea>
+            <!-- Plantilla "recuerdo con foto" -->
+            <div class="foto-bloque" id="fotoBloque">
+              <figure class="polaroid">
+                <img id="fotoImg" alt="Foto de la página" hidden>
+                <span class="polaroid-vacia" id="fotoVacia">📸</span>
+              </figure>
+              <button id="btnFoto" class="btn btn-suave btn-chico solo-escritura" type="button">Elegir foto</button>
+              <input id="inputFoto" type="file" accept="image/*" hidden>
+            </div>
+
+            <!-- Plantilla "lista" -->
+            <div class="lista-tools solo-escritura">
+              <button id="btnMarcar" class="btn btn-suave btn-chico" type="button">☑ Marcar o desmarcar línea</button>
+            </div>
+
+            <textarea id="areaTexto" class="hoja-texto" maxlength="20000" placeholder="Escribe aquí lo que quieras…" spellcheck="true"></textarea>
 
             <footer class="hoja-pie">
-              <div class="estado-wrap">
-                <span class="estado" id="estado">Todo guardado</span>
-              </div>
+              <span class="estado" id="estado">Todo guardado</span>
+              <div class="temas solo-escritura" id="temas" aria-label="Color del papel"></div>
+              <nav class="paginar">
+                <button id="btnPrev" class="btn btn-suave btn-chico" type="button" aria-label="Página anterior">‹</button>
+                <span class="paginar-info" id="paginarInfo"></span>
+                <button id="btnNext" class="btn btn-suave btn-chico" type="button" aria-label="Página siguiente">›</button>
+              </nav>
               <div class="hoja-acciones">
                 <button id="btnEliminar" class="btn btn-peligro btn-chico solo-escritura" type="button">Eliminar</button>
                 <button id="btnGuardar" class="btn btn-primario btn-chico solo-escritura" type="button">Guardar</button>
@@ -109,12 +104,20 @@
             </footer>
           </article>
         </div>
-
       </section>
     </div>
   </main>
 
-  <!-- Ventana de confirmación para eliminar -->
+  <!-- Elegir plantilla -->
+  <div class="modal" id="modalTipos" hidden>
+    <div class="modal-caja modal-tipos" role="dialog" aria-modal="true" aria-labelledby="tiposTitulo">
+      <h3 id="tiposTitulo" class="titulo-cursivo">¿Qué página quieres añadir?</h3>
+      <div class="tipos-grid" id="tiposGrid"></div>
+      <button id="tiposCancelar" class="btn btn-suave btn-chico" type="button">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- Confirmar eliminar -->
   <div class="modal" id="modal" hidden>
     <div class="modal-caja" role="dialog" aria-modal="true" aria-labelledby="modalTitulo">
       <h3 id="modalTitulo" class="titulo-cursivo">¿Eliminar esta página?</h3>
@@ -126,7 +129,6 @@
     </div>
   </div>
 
-  <!-- JavaScript (módulo ES; importa Firebase desde la CDN oficial) -->
   <script type="module" src="../js/cuaderno.js"></script>
 </body>
 </html>
