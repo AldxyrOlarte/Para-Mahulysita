@@ -10,6 +10,7 @@
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/nota.css">
 
 		<script>
 			(function () {
@@ -66,6 +67,15 @@
 
 		<main>
 
+			<!-- Nota adhesiva: el texto se edita en js/nota.js -->
+			<section class="nota-seccion revelar" aria-label="Nota para ti">
+				<div class="nota" id="nota">
+					<h2 class="nota-titulo" id="nota-titulo"></h2>
+					<p class="nota-mensaje" id="nota-mensaje"></p>
+					<p class="nota-firma" id="nota-firma"></p>
+				</div>
+			</section>
+
 			<section class="hero revelar">
 				<h2>Esta página fue hecha especialmente para ti</h2>
 				<p>
@@ -107,5 +117,6 @@
 		</footer>
 
 		<script src="js/contador.js"></script>
+		<script src="js/nota.js"></script>
 	</body>
 </html>
