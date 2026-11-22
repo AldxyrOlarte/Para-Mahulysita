@@ -3,7 +3,9 @@
    Archivo: js/extras.js  (se carga con type="module")
    ========================================================= */
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+// Usa tu archivo de configuración existente (cambia la ruta si está en otro lugar)
+import * as cfg from "./firebase-config.js";
 import {
     getFirestore, doc, getDoc, setDoc, addDoc, collection, onSnapshot,
     query, orderBy, serverTimestamp, Timestamp, writeBatch
@@ -16,15 +18,10 @@ import {
    CONFIGURACIÓN: edita solo este bloque
    ========================================================= */
 
-// Pega aquí la misma configuración de Firebase que usa tu cuaderno
-const FIREBASE_CONFIG = {
-    apiKey: "PEGA_AQUI",
-    authDomain: "PEGA_AQUI",
-    projectId: "PEGA_AQUI",
-    storageBucket: "PEGA_AQUI",
-    messagingSenderId: "PEGA_AQUI",
-    appId: "PEGA_AQUI"
-};
+// La configuración de Firebase se toma de firebase-config.js (ver el import de arriba).
+// Funciona si ese archivo exporta { db, auth }, { app } o el objeto de configuración
+// con el nombre firebaseConfig (o config / export default).
+const configExistente = cfg.firebaseConfig || cfg.config || cfg.default;
 
 // Tu correo (el usuario que creaste en Firebase Authentication para ti)
 const ADMIN_EMAIL = "tucorreo@gmail.com";
@@ -47,7 +44,7 @@ const SECRETO_BASE = "Si estás leyendo esto es porque quería decirte, en secre
    No hace falta tocar nada de aquí para abajo
    ========================================================= */
 
-const configurado = !String(FIREBASE_CONFIG.apiKey).startsWith("PEGA");
+const configurado = !!(cfg.db || cfg.app || (configExistente && configExistente.apiKey));
 const reducir = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const $ = (id) => document.getElementById(id);
 
@@ -236,7 +233,7 @@ const secCapsula = $("capsula-sec");
 const btnAdmin = $("btn-admin");
 
 if (!configurado) {
-    console.info("extras.js: falta pegar la configuración de Firebase. El fondo y el secreto funcionan; el abrazo y la cápsula se ocultan.");
+    console.info("extras.js: no se encontró la configuración en firebase-config.js. El fondo y el secreto funcionan; el abrazo y la cápsula se ocultan.");
     if (secAbrazo) secAbrazo.hidden = true;
     if (secCapsula) secCapsula.hidden = true;
     if (btnAdmin) btnAdmin.hidden = true;
@@ -245,9 +242,11 @@ if (!configurado) {
 }
 
 function iniciarFirebase() {
-    const app = initializeApp(FIREBASE_CONFIG);
-    const db = getFirestore(app);
-    const auth = getAuth(app);
+    // Reutiliza lo que exporte firebase-config.js; si no exporta db/auth, los crea
+    let appCache;
+    const obtenerApp = () => (appCache = appCache || cfg.app || getApps()[0] || initializeApp(configExistente));
+    const db = cfg.db || getFirestore(obtenerApp());
+    const auth = cfg.auth || getAuth(obtenerApp());
     let esAdmin = false;
 
     /* ----- Sesión de Thiago ----- */
