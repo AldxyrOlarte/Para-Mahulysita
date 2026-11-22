@@ -8,6 +8,8 @@ import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager
   collection, doc, addDoc, updateDoc, deleteDoc, onSnapshot, query, orderBy, serverTimestamp }
   from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 import { firebaseConfig, ESCRITORES, LECTORES } from "./firebase-config.js";
+import { initializeAppCheck, ReCaptchaEnterpriseProvider }
+  from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app-check.js";
 
 /* ---------- Constantes ---------- */
 const MENSAJE_BIENVENIDA = "Este es tu pequeño espacio, puedes escribir todo lo que quieras";
@@ -62,6 +64,10 @@ const configurado = !Object.values(firebaseConfig).some((v) => String(v).startsW
 let auth = null, db = null, coleccion = null;
 if (configurado) {
   const app = initializeApp(firebaseConfig);
+  initializeAppCheck(app, {
+  provider: new ReCaptchaEnterpriseProvider("6LdHQywuAAAAAN_2F9twpaXHwu4W5jHQqka1o3ms"),
+  isTokenAutoRefreshEnabled: true
+});
   auth = getAuth(app);
   db = initializeFirestore(app, { localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }) });
   coleccion = collection(db, "cuaderno");
