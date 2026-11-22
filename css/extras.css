@@ -1,0 +1,370 @@
+/* =========================================================
+   Extras: fondo por hora, secreto, abrazo, cápsula del tiempo
+   (se carga después de style.css)  ->  css/extras.css
+   ========================================================= */
+
+/* ---------- Fondo según la hora (data-momento lo pone extras.js) ---------- */
+
+/* Amanecer: 5:00 - 8:59 */
+html[data-momento="amanecer"] body{
+    background:linear-gradient(160deg,#ffe9d6,#ffd9e4 45%,#ffc2dc);
+    background-attachment:fixed;
+}
+html[data-momento="amanecer"] header{
+    background-image:linear-gradient(120deg,#ff9a8b,#ff7eb6,#ffb199,#ff7eb6);
+}
+html[data-momento="amanecer"] .fondo span:nth-child(1){ background:#ffd2a8; }
+html[data-momento="amanecer"] .fondo span:nth-child(2){ background:#ffa8c5; }
+html[data-momento="amanecer"] .fondo span:nth-child(3){ background:#ffe3b3; }
+
+/* Día: 9:00 - 16:59 -> se queda con el rosa original */
+
+/* Tarde: 17:00 - 19:59 */
+html[data-momento="tarde"] body{
+    background:linear-gradient(160deg,#ffd9c0,#ffc2cf 45%,#e9b0e6);
+    background-attachment:fixed;
+}
+html[data-momento="tarde"] header{
+    background-image:linear-gradient(120deg,#ff6f61,#ff4d98,#c04dd0,#ff6f61);
+}
+html[data-momento="tarde"] .fondo span:nth-child(1){ background:#ffb38a; }
+html[data-momento="tarde"] .fondo span:nth-child(2){ background:#ff7eb6; }
+html[data-momento="tarde"] .fondo span:nth-child(3){ background:#d9a0ff; }
+
+/* Noche: 20:00 - 4:59 */
+html[data-momento="noche"]{
+    --texto:#f6e4f2;
+    --rosa:#ff7eb6;
+    --rosa-oscuro:#ff9cc9;
+}
+html[data-momento="noche"] body{
+    background:linear-gradient(160deg,#241238,#3b1d5a 45%,#52245f);
+    background-attachment:fixed;
+}
+html[data-momento="noche"] header{
+    background-image:linear-gradient(120deg,#5b2a86,#a23b86,#d6408f,#5b2a86);
+}
+html[data-momento="noche"] .fondo span{ opacity:0.4; }
+html[data-momento="noche"] .fondo span:nth-child(1){ background:#7a3fb5; }
+html[data-momento="noche"] .fondo span:nth-child(2){ background:#d6408f; }
+html[data-momento="noche"] .fondo span:nth-child(3){ background:#3d2a8f; }
+html[data-momento="noche"] .contador{
+    background:rgba(255,255,255,0.1);
+    box-shadow:0 8px 24px rgba(0,0,0,0.3);
+}
+html[data-momento="noche"] .caja-tiempo{ color:#e0307c; }
+html[data-momento="noche"] .caja-tiempo small{ color:#5a3a4a; }
+html[data-momento="noche"] .detalle{ color:#ffb3d6; }
+
+/* Estrellitas (solo de noche) */
+.estrellas{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    display:none;
+}
+html[data-momento="noche"] .estrellas{ display:block; }
+.estrellas span{
+    position:absolute;
+    width:3px;
+    height:3px;
+    border-radius:50%;
+    background:#fff;
+    opacity:0;
+    animation:estrella 3s ease-in-out infinite;
+}
+@keyframes estrella{
+    0%,100%{ opacity:0.1; transform:scale(0.6); }
+    50%{ opacity:0.95; transform:scale(1.4); }
+}
+
+/* ---------- Piezas comunes ---------- */
+
+.extra{
+    padding:0 4px;
+}
+.extra-sub{
+    font-size:0.95rem;
+    font-weight:300;
+    margin:-4px auto 16px;
+    max-width:460px;
+}
+.extra-estado{
+    margin-top:12px;
+    font-size:0.9rem;
+    min-height:1.3em;
+}
+
+.btn-extra,
+.btn-abrazo{
+    padding:15px 30px;
+    font-family:inherit;
+    font-size:1.05rem;
+    font-weight:600;
+    color:white;
+    background:linear-gradient(145deg,#ff4d98,#ff7eb6);
+    border:none;
+    border-radius:32px;
+    box-shadow:0 10px 24px rgba(255,77,152,0.35);
+    cursor:pointer;
+    transition:transform 0.2s;
+}
+.btn-extra:active,
+.btn-abrazo:active{ transform:scale(0.94); }
+
+.btn-abrazo span{
+    display:inline-block;
+    font-size:1.5rem;
+    vertical-align:middle;
+    margin-right:6px;
+}
+.btn-abrazo:hover span{ animation:latido 0.9s ease-in-out infinite; }
+
+.btn-mini{
+    margin:8px 4px 0;
+    padding:8px 14px;
+    font-family:inherit;
+    font-size:0.85rem;
+    font-weight:600;
+    color:#e0307c;
+    background:white;
+    border:1px solid #ffb3d1;
+    border-radius:20px;
+    cursor:pointer;
+}
+
+/* Lo que solo ve Thiago (cuando inicia sesión) */
+.solo-admin{ display:none !important; }
+.es-admin .solo-admin{ display:inline-block !important; }
+
+/* ---------- Mensaje secreto ---------- */
+
+.secreto-caja{
+    max-width:420px;
+    margin:0 auto;
+    max-height:0;
+    opacity:0;
+    overflow:hidden;
+    transition:max-height 0.9s ease, opacity 0.9s ease, margin 0.9s ease;
+}
+.secreto-caja.mostrar{
+    max-height:600px;
+    opacity:1;
+    margin-top:18px;
+}
+.secreto-texto{
+    padding:22px 20px;
+    background:rgba(255,255,255,0.9);
+    color:#5a3a4a;
+    border-radius:24px;
+    box-shadow:0 8px 24px rgba(255,77,152,0.25);
+    font-family:'Dancing Script', cursive;
+    font-size:1.55rem;
+    font-weight:600;
+    line-height:1.4;
+    white-space:pre-line;
+}
+
+/* ---------- Cápsula del tiempo ---------- */
+
+.cap{
+    max-width:460px;
+    margin:14px auto 0;
+    padding:20px 16px;
+    background:rgba(255,255,255,0.9);
+    color:#5a3a4a;
+    border-radius:26px;
+    box-shadow:0 8px 24px rgba(255,77,152,0.25);
+}
+.cap-icono{
+    font-size:2.4rem;
+    line-height:1;
+}
+.cap.bloqueada .cap-icono{
+    animation:cap-candado 3s ease-in-out infinite;
+}
+@keyframes cap-candado{
+    0%,80%,100%{ transform:rotate(0); }
+    85%{ transform:rotate(-12deg); }
+    90%{ transform:rotate(12deg); }
+    95%{ transform:rotate(-8deg); }
+}
+.cap-titulo{
+    font-family:'Dancing Script', cursive;
+    font-size:1.8rem;
+    color:#e0307c;
+    margin:6px 0 2px;
+    line-height:1.2;
+}
+.cap-fecha{
+    font-size:0.82rem;
+    opacity:0.85;
+}
+.cap-cuenta{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:8px;
+    margin-top:14px;
+}
+.cap-cuenta div{
+    padding:10px 2px 8px;
+    background:#ffe6f0;
+    border-radius:14px;
+    color:#e0307c;
+    font-size:1.4rem;
+    font-weight:600;
+    line-height:1;
+    font-variant-numeric:tabular-nums;
+}
+.cap-cuenta small{
+    display:block;
+    margin-top:6px;
+    font-size:0.6rem;
+    font-weight:400;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color:#5a3a4a;
+}
+.cap-texto{
+    margin-top:14px;
+    font-family:'Dancing Script', cursive;
+    font-size:1.5rem;
+    font-weight:600;
+    line-height:1.4;
+    text-align:left;
+    white-space:pre-line;
+}
+.cap-texto:empty{ display:none; }
+.cap .btn-extra{
+    margin-top:14px;
+    padding:12px 24px;
+    font-size:0.95rem;
+}
+.cap-admin{ margin-top:8px; }
+
+/* ---------- Ventana de edición / inicio de sesión ---------- */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:20000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:16px;
+    background:rgba(60,20,50,0.55);
+}
+.modal.visible{ display:flex; }
+.modal-caja{
+    width:100%;
+    max-width:420px;
+    max-height:90dvh;
+    overflow:auto;
+    padding:22px 18px;
+    background:white;
+    color:#5a3a4a;
+    border-radius:24px;
+    text-align:left;
+    box-shadow:0 20px 50px rgba(0,0,0,0.35);
+}
+.modal-caja h3{
+    font-family:'Dancing Script', cursive;
+    font-size:1.9rem;
+    color:#e0307c;
+    margin-bottom:10px;
+}
+.modal-caja label{
+    display:block;
+    margin-top:10px;
+    font-size:0.82rem;
+    font-weight:600;
+}
+.modal-caja input,
+.modal-caja textarea{
+    display:block;
+    width:100%;
+    margin-top:4px;
+    padding:10px 12px;
+    font-family:inherit;
+    font-size:1rem;
+    color:#5a3a4a;
+    background:#fff7fa;
+    border:1px solid #ffb3d1;
+    border-radius:12px;
+}
+.modal-caja textarea{ resize:vertical; }
+.m-error{
+    min-height:1.2em;
+    margin-top:10px;
+    font-size:0.85rem;
+    color:#c0143c;
+}
+.m-botones{
+    display:flex;
+    gap:10px;
+    margin-top:8px;
+}
+.m-botones button{
+    flex:1;
+    padding:12px;
+    font-family:inherit;
+    font-size:0.95rem;
+    font-weight:600;
+    border-radius:16px;
+    cursor:pointer;
+}
+.m-ok{
+    color:white;
+    background:linear-gradient(145deg,#ff4d98,#ff7eb6);
+    border:none;
+}
+.m-cancelar{
+    color:#e0307c;
+    background:white;
+    border:1px solid #ffb3d1;
+}
+.m-botones button:disabled{ opacity:0.6; }
+
+/* ---------- Aviso flotante ---------- */
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:calc(24px + env(safe-area-inset-bottom));
+    z-index:21000;
+    max-width:90vw;
+    padding:14px 22px;
+    color:white;
+    font-weight:600;
+    text-align:center;
+    background:linear-gradient(145deg,#ff4d98,#ff7eb6);
+    border-radius:24px;
+    box-shadow:0 10px 26px rgba(0,0,0,0.3);
+    opacity:0;
+    transform:translate(-50%,30px);
+    transition:opacity 0.4s, transform 0.4s;
+    pointer-events:none;
+}
+.toast.visible{
+    opacity:1;
+    transform:translate(-50%,0);
+}
+
+/* ---------- Botón de acceso de Thiago (en el pie) ---------- */
+
+.admin-btn{
+    margin-top:8px;
+    padding:6px 10px;
+    font-size:1rem;
+    color:white;
+    background:none;
+    border:none;
+    opacity:0.35;
+    cursor:pointer;
+}
+.admin-btn:hover{ opacity:0.9; }
+
+@media (min-width:700px){
+    .cap-cuenta div{ font-size:1.6rem; }
+}
