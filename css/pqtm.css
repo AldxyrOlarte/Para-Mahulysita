@@ -1,5 +1,5 @@
 /* =========================================================
-   ¿Por qué te amo? - estilos (mobile first)
+   ¿Por qué te amo? - colección diaria (mobile first)
    ========================================================= */
 
 *{
@@ -14,6 +14,7 @@
     --rosa-suave:#ff7eb6;
     --rosa-oscuro:#e0307c;
     --texto:#5a3a4a;
+    --gris:#b08a9c;
 }
 
 body{
@@ -68,7 +69,7 @@ header{
 /* ---------- Sección principal ---------- */
 .love-section{
     text-align:center;
-    padding:20px 18px 50px;
+    padding:20px 18px 60px;
     max-width:520px;
     margin:0 auto;
     position:relative;
@@ -99,12 +100,67 @@ h1{
     font-weight:300;
 }
 
-/* ---------- Corazón ---------- */
+/* ---------- Estadísticas ---------- */
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:10px;
+    margin:20px auto 14px;
+}
+
+.stat{
+    background:rgba(255,255,255,0.85);
+    border-radius:18px;
+    padding:10px 4px;
+    box-shadow:0 6px 16px rgba(255,77,152,0.18);
+}
+
+.stat b{
+    display:block;
+    font-size:1.5rem;
+    color:var(--rosa);
+    line-height:1.1;
+}
+
+.stat span{
+    font-size:0.68rem;
+    letter-spacing:0.5px;
+    color:var(--gris);
+}
+
+.barra{
+    height:12px;
+    border-radius:20px;
+    background:rgba(255,255,255,0.75);
+    box-shadow:inset 0 2px 4px rgba(255,77,152,0.2);
+    overflow:hidden;
+}
+
+.relleno{
+    height:100%;
+    width:0%;
+    border-radius:20px;
+    background:linear-gradient(90deg,var(--rosa),#c44dff,var(--rosa-suave));
+    background-size:200% 100%;
+    animation:brillo 3s linear infinite;
+    transition:width 0.8s cubic-bezier(.2,1.4,.4,1);
+}
+
+.contador-razones{
+    margin-top:8px;
+    font-size:0.72rem;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:var(--rosa-oscuro);
+    opacity:0.85;
+}
+
+/* ---------- Corazón del día ---------- */
 .heart-wrap{
     position:relative;
     width:160px;
     height:160px;
-    margin:22px auto 8px;
+    margin:18px auto 6px;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -141,7 +197,7 @@ h1{
     cursor:pointer;
     box-shadow:0 12px 30px rgba(255,77,152,0.4);
     animation:latido 1.4s ease-in-out infinite;
-    transition:box-shadow 0.3s;
+    transition:box-shadow 0.3s, filter 0.4s, opacity 0.4s;
 }
 
 .heart-btn:hover{
@@ -165,161 +221,263 @@ h1{
     70%{ transform:scale(1.07); }
 }
 
-/* ---------- Medidor ---------- */
-.medidor{
-    margin:10px auto 0;
-    max-width:300px;
+/* Ya abrió la de hoy: el corazón duerme */
+.dormido .heart-btn{
+    animation:none;
+    filter:grayscale(0.7);
+    opacity:0.75;
+    box-shadow:0 8px 20px rgba(176,138,156,0.35);
 }
 
-.barra{
-    height:12px;
-    border-radius:20px;
-    background:rgba(255,255,255,0.75);
-    box-shadow:inset 0 2px 4px rgba(255,77,152,0.2);
-    overflow:hidden;
+.dormido .heart-btn::after{
+    content:"💤";
+    position:absolute;
+    right:4px;
+    top:4px;
+    font-size:1.8rem;
 }
 
-.relleno{
-    height:100%;
-    width:0%;
-    border-radius:20px;
-    background:linear-gradient(90deg,var(--rosa),#c44dff,var(--rosa-suave));
-    background-size:200% 100%;
-    animation:brillo 3s linear infinite;
-    transition:width 0.6s cubic-bezier(.2,1.4,.4,1);
+.dormido .onda{
+    display:none;
 }
 
-.contador-razones{
-    margin-top:8px;
-    font-size:0.75rem;
-    letter-spacing:1.5px;
-    text-transform:uppercase;
+.heart-btn.sacude{
+    animation:sacude 0.5s;
+}
+
+@keyframes sacude{
+    0%,100%{ transform:translateX(0); }
+    20%{ transform:translateX(-9px) rotate(-4deg); }
+    40%{ transform:translateX(9px) rotate(4deg); }
+    60%{ transform:translateX(-6px); }
+    80%{ transform:translateX(6px); }
+}
+
+.hoy-estado{
+    font-weight:600;
+    font-size:0.95rem;
     color:var(--rosa-oscuro);
-    opacity:0.85;
 }
 
-/* ---------- Tarjeta ---------- */
-.carta{
+.cuenta{
+    margin-top:4px;
+    min-height:1.2em;
+    font-size:0.82rem;
+    color:var(--gris);
+    font-variant-numeric:tabular-nums;
+}
+
+/* ---------- Tarjeta de razón ---------- */
+.tarjeta{
     --acento:var(--rosa-suave);
     position:relative;
-    margin:22px auto 16px;
+    margin:18px auto 10px;
     background:white;
-    padding:34px 22px 22px;
+    padding:44px 22px 20px;
     border-radius:26px;
     box-shadow:0 10px 30px rgba(255,77,152,0.25);
-    min-height:210px;
+    min-height:240px;
     display:flex;
     flex-direction:column;
+    align-items:center;
     justify-content:center;
+    text-align:center;
     border-top:6px solid var(--acento);
-    transition:border-color 0.4s;
 }
 
-.carta-emoji{
+.t-top{
     position:absolute;
-    top:-26px;
-    left:50%;
-    transform:translateX(-50%);
-    width:52px;
-    height:52px;
+    top:14px;
+    left:16px;
+    right:16px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:0.72rem;
+    font-weight:600;
+}
+
+.t-num{
+    color:var(--gris);
+    letter-spacing:1px;
+}
+
+.t-rareza{
+    padding:3px 10px;
+    border-radius:20px;
+    background:#ffe4ec;
+    color:var(--rosa-oscuro);
+}
+
+.t-emoji{
+    width:58px;
+    height:58px;
     border-radius:50%;
-    background:white;
     border:3px solid var(--acento);
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:1.6rem;
-    box-shadow:0 6px 14px rgba(0,0,0,0.12);
-    transition:border-color 0.4s;
+    font-size:1.8rem;
+    margin:4px 0 6px;
 }
 
-.carta h2{
+.t-cat{
     font-family:'Dancing Script', cursive;
-    font-size:2rem;
+    font-size:1.5rem;
     color:var(--acento);
-    margin-bottom:10px;
     user-select:none;
-    transition:color 0.4s;
 }
 
-#mensaje{
+.t-texto{
+    margin-top:6px;
     font-size:1.1rem;
     line-height:1.6;
     min-height:5.2em;
 }
 
-/* ---------- Botón otra razón ---------- */
-.btn-otra{
-    display:none;
-    margin:0 auto;
-    padding:14px 30px;
-    font-family:inherit;
-    font-size:1rem;
-    font-weight:600;
-    color:white;
-    background:linear-gradient(145deg,var(--rosa),var(--rosa-suave));
-    border:none;
-    border-radius:30px;
-    cursor:pointer;
-    box-shadow:0 8px 20px rgba(255,77,152,0.4);
-    transition:transform 0.25s;
-}
-
-.btn-otra.visible{
-    display:block;
-}
-
-.btn-otra:active{
-    transform:scale(0.95);
-}
-
-/* ---------- Colección ---------- */
-.coleccion-titulo{
-    margin-top:30px;
-    font-size:0.8rem;
-    letter-spacing:1.5px;
-    text-transform:uppercase;
-    color:var(--rosa-oscuro);
-    font-weight:600;
-}
-
-.coleccion{
+.t-fecha{
     margin-top:12px;
-    display:grid;
-    grid-template-columns:repeat(5, 1fr);
-    gap:10px;
-    max-width:340px;
-    margin-left:auto;
-    margin-right:auto;
+    font-size:0.72rem;
+    color:var(--gris);
 }
 
-.sello{
-    aspect-ratio:1;
-    border:none;
-    border-radius:50%;
-    font-size:1.5rem;
+/* Rarezas */
+.tarjeta[data-rareza="rara"]{
+    box-shadow:0 10px 30px rgba(63,180,240,0.35), 0 0 0 3px rgba(63,180,240,0.55);
+}
+.tarjeta[data-rareza="rara"] .t-rareza{ background:#dff3ff; color:#1b82bd; }
+
+.tarjeta[data-rareza="epica"]{
+    background:linear-gradient(160deg,#ffffff,#f6ecff);
+    box-shadow:0 10px 34px rgba(155,93,229,0.4), 0 0 0 3px rgba(155,93,229,0.6);
+}
+.tarjeta[data-rareza="epica"] .t-rareza{ background:#f0e1ff; color:#7b3fc2; }
+
+.tarjeta[data-rareza="legendaria"]{
+    border:4px solid transparent;
+    background:
+        linear-gradient(#fffdf5,#fffdf5) padding-box,
+        linear-gradient(120deg,#f5b400,#fff3b0,#ff4d98,#f5b400) border-box;
+    background-size:100% 100%, 300% 100%;
+    box-shadow:0 12px 40px rgba(245,180,0,0.5);
+    animation:oro 4s linear infinite;
+}
+.tarjeta[data-rareza="legendaria"] .t-rareza{
+    background:linear-gradient(90deg,#f5b400,#ffdd66);
+    color:#6b4a00;
+}
+
+@keyframes oro{
+    from{ background-position:0 0, 0% 0; }
+    to{ background-position:0 0, 300% 0; }
+}
+
+/* ---------- Álbum ---------- */
+.album-titulo{
+    margin-top:34px;
+    font-family:'Dancing Script', cursive;
+    font-size:2rem;
+    color:var(--rosa);
+}
+
+.filtros{
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    padding:10px 2px 12px;
+    margin-top:4px;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+}
+
+.filtros::-webkit-scrollbar{
+    display:none;
+}
+
+.chip{
+    flex:0 0 auto;
+    padding:8px 14px;
+    border-radius:20px;
+    border:2px solid var(--rosa-suave);
+    background:rgba(255,255,255,0.8);
+    color:var(--rosa-oscuro);
     font-family:inherit;
+    font-size:0.78rem;
     font-weight:600;
-    color:var(--rosa-suave);
-    background:rgba(255,255,255,0.55);
+    cursor:pointer;
+    white-space:nowrap;
+}
+
+.chip.activo{
+    background:linear-gradient(145deg,var(--rosa),var(--rosa-suave));
+    border-color:transparent;
+    color:white;
+}
+
+.album{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(54px, 1fr));
+    gap:8px;
+}
+
+.mini{
+    aspect-ratio:1;
+    border-radius:16px;
     border:2px dashed var(--rosa-suave);
+    background:rgba(255,255,255,0.5);
+    color:var(--rosa-suave);
+    font-family:inherit;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:1px;
     cursor:default;
     transition:transform 0.2s;
 }
 
-.sello.activo{
+.mini[hidden]{
+    display:none;
+}
+
+.m-num{
+    font-size:0.6rem;
+    font-weight:600;
+    letter-spacing:0.5px;
+    opacity:0.8;
+}
+
+.m-ico{
+    font-size:1.4rem;
+    line-height:1.1;
+    font-weight:600;
+}
+
+.mini.abierta{
     background:white;
-    border:2px solid var(--acento, var(--rosa));
+    border-style:solid;
+    border-color:var(--rosa-suave);
+    color:var(--gris);
     cursor:pointer;
-    box-shadow:0 6px 14px rgba(255,77,152,0.3);
-    animation:aparece 0.6s cubic-bezier(.2,1.6,.4,1);
+    box-shadow:0 4px 10px rgba(255,77,152,0.2);
 }
 
-.sello.activo:active{
-    transform:scale(0.9);
+.mini.abierta:active{ transform:scale(0.92); }
+
+.mini.r-rara{ border-color:#3fb4f0; box-shadow:0 4px 12px rgba(63,180,240,0.4); }
+.mini.r-epica{ border-color:#9b5de5; background:#f9f2ff; box-shadow:0 4px 12px rgba(155,93,229,0.45); }
+.mini.r-legendaria{
+    border-color:#f5b400;
+    background:#fffbea;
+    box-shadow:0 0 14px rgba(245,180,0,0.65);
 }
 
-.sello:focus-visible{
+.mini.nueva{
+    animation:aparece 0.7s cubic-bezier(.2,1.6,.4,1);
+}
+
+.mini:focus-visible,
+.chip:focus-visible{
     outline:3px solid var(--rosa);
     outline-offset:2px;
 }
@@ -329,8 +487,18 @@ h1{
     to{ transform:scale(1) rotate(0); }
 }
 
-/* ---------- Sorpresa final ---------- */
-.sorpresa{
+.leyenda{
+    margin-top:14px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:6px 14px;
+    font-size:0.72rem;
+    color:var(--gris);
+}
+
+/* ---------- Ventanas ---------- */
+.modal{
     position:fixed;
     inset:0;
     z-index:10000;
@@ -343,8 +511,18 @@ h1{
     backdrop-filter:blur(4px);
 }
 
-.sorpresa[hidden]{
+.modal[hidden]{
     display:none;
+}
+
+.modal-caja{
+    width:100%;
+    max-width:380px;
+    animation:entra 0.5s cubic-bezier(.2,1.5,.4,1);
+}
+
+.modal-caja .tarjeta{
+    margin:0 0 16px;
 }
 
 .sorpresa-tarjeta{
@@ -375,9 +553,54 @@ h1{
     animation:latido 1.2s ease-in-out infinite;
 }
 
+.btn-cerrar{
+    display:block;
+    margin:0 auto;
+    padding:13px 30px;
+    font-family:inherit;
+    font-size:1rem;
+    font-weight:600;
+    color:white;
+    background:linear-gradient(145deg,var(--rosa),var(--rosa-suave));
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+    box-shadow:0 8px 20px rgba(255,77,152,0.4);
+}
+
+.btn-cerrar:active{
+    transform:scale(0.95);
+}
+
 @keyframes entra{
     from{ transform:scale(0.5); opacity:0; }
     to{ transform:scale(1); opacity:1; }
+}
+
+/* ---------- Aviso ---------- */
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:calc(24px + env(safe-area-inset-bottom));
+    transform:translate(-50%, 30px);
+    max-width:88vw;
+    padding:12px 20px;
+    border-radius:26px;
+    background:var(--texto);
+    color:white;
+    font-size:0.88rem;
+    font-weight:600;
+    text-align:center;
+    box-shadow:0 10px 24px rgba(0,0,0,0.25);
+    opacity:0;
+    pointer-events:none;
+    z-index:10002;
+    transition:opacity 0.35s, transform 0.35s;
+}
+
+.toast.visible{
+    opacity:1;
+    transform:translate(-50%, 0);
 }
 
 /* ---------- Efectos ---------- */
@@ -458,7 +681,7 @@ h1{
         font-size:6.2rem;
     }
 
-    #mensaje{
+    .t-texto{
         font-size:1.2rem;
     }
 }
