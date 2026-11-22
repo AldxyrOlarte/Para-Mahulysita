@@ -194,16 +194,16 @@ button:disabled{
 }
 
 .fondo.dia{ background:linear-gradient(#7ec8ff,#d9f2ff); }
-.fondo.tarde{ background:linear-gradient(#ff9966,#ffd9a8); }
-.fondo.noche{ background:linear-gradient(#0b1030,#2b2f6b); }
+.fondo.tarde{ background:linear-gradient(#ff7e5f,#feb47b 60%,#ffd9a8); }
 .fondo.alba{ background:linear-gradient(#ff8fbd,#ffe3ee); }
 
-.e1 .dia, .e2 .dia{ opacity:1; }
-.e3 .tarde{ opacity:1; }
-.e4 .noche{ opacity:1; }
-.e5 .alba{ opacity:1; }
+/* Escenas 1 y 2: 6:20 pm, atardecer / 3, 4 y 5: recreo de día
+   6 y 7: atardecer / 8: final rosado */
+.e1 .tarde, .e2 .tarde, .e6 .tarde, .e7 .tarde{ opacity:1; }
+.e3 .dia, .e4 .dia, .e5 .dia{ opacity:1; }
+.e8 .alba{ opacity:1; }
 
-/* sol y luna */
+/* sol */
 
 .sol{
     position:absolute;
@@ -217,33 +217,18 @@ button:disabled{
     transition:all 2.5s;
 }
 
-.e3 .sol{
-    top:130px;
+.e1 .sol, .e2 .sol, .e6 .sol, .e7 .sol{
+    top:120px;
     background:#ff7b3a;
     box-shadow:0 0 35px #ff7b3a;
 }
 
-.e4 .sol{
-    top:320px;
-}
-
-.e5 .sol{
+.e8 .sol{
     top:20px;
     right:40%;
     background:#fff3b0;
     box-shadow:0 0 40px #fff3b0;
 }
-
-.luna{
-    position:absolute;
-    top:24px;
-    right:30px;
-    font-size:42px;
-    opacity:0;
-    transition:opacity 2s;
-}
-
-.e4 .luna{ opacity:1; }
 
 /* nubes */
 
@@ -252,63 +237,56 @@ button:disabled{
     font-size:44px;
     opacity:.9;
     animation:deriva linear infinite;
-    transition:opacity 2s;
 }
 
 .n1{ top:18px; left:-60px; animation-duration:45s; }
 .n2{ top:70px; left:-60px; animation-duration:60s; animation-delay:-20s; font-size:34px; }
 .n3{ top:40px; left:-60px; animation-duration:75s; animation-delay:-40s; font-size:28px; }
 
-.e4 .nube{ opacity:.12; }
-
 @keyframes deriva{
     from{ transform:translateX(0); }
     to{ transform:translateX(520px); }
 }
 
-/* estrellas */
+/* colegio de fondo (escenas 1 a 5) */
 
-.estrellas{
+.colegio{
     position:absolute;
-    inset:0;
+    left:50%;
+    margin-left:-40px;
+    bottom:28px;
+    font-size:80px;
+    line-height:1;
     opacity:0;
-    transition:opacity 2s;
+    transition:opacity 1.5s;
 }
 
-.e4 .estrellas{ opacity:1; }
+.e1 .colegio, .e2 .colegio, .e3 .colegio, .e4 .colegio, .e5 .colegio{
+    opacity:.9;
+}
 
-.estrellas span{
+/* cartel "pasaron unas semanas" (escena 5) */
+
+.tiempo{
     position:absolute;
-    width:3px;
-    height:3px;
-    background:white;
-    border-radius:50%;
-    animation:titila 2s infinite alternate;
-}
-
-@keyframes titila{
-    from{ opacity:.2; }
-    to{ opacity:1; }
-}
-
-.fugaz{
-    position:absolute;
-    top:30px;
-    left:-40px;
-    width:60px;
-    height:2px;
-    background:linear-gradient(90deg,transparent,white);
+    top:14px;
+    left:50%;
+    transform:translateX(-50%) scale(.8);
+    background:rgba(255,255,255,.9);
+    color:#ff4d6d;
+    font-weight:bold;
+    font-size:14px;
+    padding:6px 14px;
+    border-radius:20px;
+    white-space:nowrap;
     opacity:0;
+    transition:opacity .8s, transform .8s;
+    z-index:6;
 }
 
-.e4 .fugaz{
-    animation:fugaz 3s 1.5s infinite;
-}
-
-@keyframes fugaz{
-    0%{ opacity:1; transform:translate(0,0) rotate(25deg); }
-    60%{ opacity:0; transform:translate(340px,160px) rotate(25deg); }
-    100%{ opacity:0; }
+.e5 .tiempo{
+    opacity:1;
+    transform:translateX(-50%) scale(1);
 }
 
 /* suelo */
@@ -323,18 +301,21 @@ button:disabled{
     transition:background 2s;
 }
 
-.e3 .suelo{ background:#9bb347; }
-.e4 .suelo{ background:#2f6b4a; }
-.e5 .suelo{ background:#8fd68a; }
+.e1 .suelo, .e2 .suelo, .e6 .suelo, .e7 .suelo{ background:#9bb347; }
+.e8 .suelo{ background:#8fd68a; }
 
 /* ---------- PERSONAJES ---------- */
 
 .personaje{
     position:absolute;
     bottom:26px;
-    width:25%;
-    transition:left 2.6s ease-in-out;
+    transition:left 2.6s ease-in-out, opacity 1s;
 }
+
+/* Thiago es el más alto; Mahuly y Rohys miden lo mismo */
+.tiago{ width:27%; z-index:4; }
+.mahuly{ width:22%; z-index:3; }
+.rohys{ width:22%; z-index:3; opacity:0; }
 
 .personaje svg{
     display:block;
@@ -348,17 +329,33 @@ button:disabled{
     50%{ transform:scaleY(1.02); }
 }
 
-.chica{ left:2%; }
-.chico{ left:71%; }
+/* uniforme del colegio (igual para los tres): cambia los colores aquí */
+.camisa{ fill:#8fd0f5; stroke:#5fb2e0; stroke-width:1; }
+.pantalon{ fill:#2f3e73; }
+.cuello-uni{ fill:none; stroke:#2f3e73; stroke-width:3; stroke-linejoin:round; stroke-linecap:round; }
 
-.e2 .chica, .e3 .chica{ left:23%; }
-.e2 .chico, .e3 .chico{ left:50%; }
+/* posiciones en cada escena */
 
-.e4 .chica{ left:27%; }
-.e4 .chico{ left:47%; }
+.e1 .tiago{ left:4%; }
+.e1 .rohys{ left:30%; opacity:1; }
+.e1 .mahuly{ left:74%; }
 
-.e5 .chica{ left:24%; }
-.e5 .chico{ left:51%; }
+.e2 .tiago{ left:42%; }
+.e2 .rohys{ left:18%; opacity:1; }
+.e2 .mahuly{ left:72%; }
+.e2.huye .mahuly{ left:115%; }
+
+.e3 .tiago{ left:18%; }
+.e3 .mahuly{ left:56%; }
+.e3 .rohys{ left:6%; }
+
+.e4 .tiago, .e5 .tiago, .e6 .tiago, .e7 .tiago{ left:26%; }
+.e4 .mahuly, .e5 .mahuly, .e6 .mahuly, .e7 .mahuly{ left:52%; }
+.e4 .rohys, .e5 .rohys, .e6 .rohys, .e7 .rohys{ left:6%; }
+
+.e8 .tiago{ left:28%; }
+.e8 .mahuly{ left:50%; }
+.e8 .rohys{ left:6%; }
 
 /* caminar */
 
@@ -367,15 +364,21 @@ button:disabled{
     transform-origin:50% 0;
 }
 
-.caminando .personaje svg{
+.cam-tiago .tiago svg,
+.cam-mahuly .mahuly svg,
+.cam-rohys .rohys svg{
     animation:bob .35s ease-in-out infinite alternate;
 }
 
-.caminando .pierna.izq{
+.cam-tiago .tiago .pierna.izq,
+.cam-mahuly .mahuly .pierna.izq,
+.cam-rohys .rohys .pierna.izq{
     animation:paso .35s ease-in-out infinite alternate;
 }
 
-.caminando .pierna.der{
+.cam-tiago .tiago .pierna.der,
+.cam-mahuly .mahuly .pierna.der,
+.cam-rohys .rohys .pierna.der{
     animation:paso .35s ease-in-out infinite alternate-reverse;
 }
 
@@ -401,23 +404,20 @@ button:disabled{
     97%{ transform:scaleY(.1); }
 }
 
-/* helados */
+/* globito con emoji sobre la cabeza */
 
-.helado{
+.emo{
     position:absolute;
-    top:50%;
-    font-size:28px;
-    opacity:0;
-    transform:scale(0);
-    transition:opacity .6s, transform .6s;
+    top:-8px;
+    left:50%;
+    font-size:26px;
+    transform:translateX(-50%) scale(0);
+    transition:transform .3s;
+    z-index:6;
 }
 
-.chica .helado{ left:-14px; }
-.chico .helado{ right:-14px; }
-
-.e3 .helado, .e4 .helado, .e5 .helado{
-    opacity:1;
-    transform:scale(1);
+.emo.ver{
+    transform:translateX(-50%) scale(1);
 }
 
 /* corazón grande y latidos */
@@ -433,7 +433,7 @@ button:disabled{
     transition:opacity .8s, transform .8s;
 }
 
-.e5 .corazon-grande{
+.e8 .corazon-grande{
     opacity:1;
     transform:scale(1);
     animation:latir 1.2s 1s infinite;
@@ -576,133 +576,17 @@ button:disabled{
     text-shadow:0 2px 6px rgba(0,0,0,.2);
 }
 
-/* ---------- GALERÍA POLAROID ---------- */
-
-.galeria{
-    display:none;
-    margin-top:40px;
-    width:100%;
-    text-align:center;
-}
-
-.galeria.visible{
-    display:block;
-}
-
-.galeria h3{
-    color:white;
-    font-size:22px;
-    margin-bottom:25px;
-    text-shadow:0 2px 6px rgba(0,0,0,.2);
-}
-
-.fotos{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:22px;
-}
-
-.polaroid{
-    width:150px;
-    background:white;
-    padding:10px 10px 8px;
-    border-radius:4px;
-    box-shadow:0 8px 20px rgba(0,0,0,.25);
-    transform:rotate(var(--giro));
-    cursor:pointer;
-    opacity:0;
-    transition:transform .3s;
-}
-
-.galeria.visible .polaroid{
-    animation:caer .8s forwards;
-}
-
-.galeria.visible .polaroid:nth-child(1){ animation-delay:.1s; }
-.galeria.visible .polaroid:nth-child(2){ animation-delay:.5s; }
-.galeria.visible .polaroid:nth-child(3){ animation-delay:.9s; }
-.galeria.visible .polaroid:nth-child(4){ animation-delay:1.3s; }
-
-@keyframes caer{
-    from{ opacity:0; transform:translateY(-40px) rotate(0deg) scale(.8); }
-    to{ opacity:1; transform:translateY(0) rotate(var(--giro)) scale(1); }
-}
-
-.polaroid:hover{
-    transform:rotate(0deg) scale(1.08);
-    z-index:5;
-}
-
-.marco{
-    width:100%;
-    height:130px;
-    background:linear-gradient(135deg,#ffd1dc,#ff9aa2);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    overflow:hidden;
-    position:relative;
-}
-
-/* Si no hay foto todavía, se ve un corazón */
-.marco::before{
-    content:"💗";
-    font-size:36px;
-    position:absolute;
-}
-
-.marco img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    position:relative;
-    z-index:1;
-}
-
-.polaroid figcaption{
-    margin-top:8px;
-    font-size:13px;
-    color:#ff4d6d;
-    font-weight:bold;
-}
-
 .nota-final{
-    margin-top:35px;
+    display:none;
+    margin-top:25px;
+    text-align:center;
     color:white;
     font-size:18px;
     font-weight:bold;
     text-shadow:0 2px 6px rgba(0,0,0,.2);
 }
 
-/* ---------- VISOR DE FOTO GRANDE ---------- */
-
-.visor{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.85);
-    z-index:10;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-}
-
-.visor.activo{
-    display:flex;
-}
-
-.visor img{
-    max-width:100%;
-    max-height:75vh;
-    border:8px solid white;
-    border-radius:6px;
-}
-
-.visor p{
-    color:white;
-    margin-top:15px;
-    font-size:18px;
-    font-weight:bold;
+.nota-final.visible{
+    display:block;
+    animation:aparecer 1s;
 }
