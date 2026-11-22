@@ -24,7 +24,7 @@ import {
 const configExistente = cfg.firebaseConfig || cfg.config || cfg.default;
 
 // Tu correo (el usuario que creaste en Firebase Authentication para ti)
-const ADMIN_EMAIL = "tucorreo@gmail.com";
+const ADMIN_EMAIL = "thiagoolartejimenez@gmail.com";
 
 // Tema de ntfy.sh para recibir el aviso del abrazo en tu celular, aunque
 // tengas la página cerrada. Pon un nombre largo y difícil de adivinar,
