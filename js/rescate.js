@@ -8,9 +8,9 @@
 
 /* ---------- Personaliza aquí ---------- */
 
-const ICONO_ELLA = "👩";   // cámbialo por el emoji que más se parezca a ella (👧 👸 💃 ...)
-const ICONO_EL = "🧑";     // y el tuyo (👦 🧔 🤴 ...)
-const MENSAJE_FINAL = "Sabía que llegarías hasta mí, mi amor. Eres mi heroína y te amo infinito ❤️";
+const ICONO_ELLA = "👱🏻‍♀️";   // cámbialo por el emoji que más se parezca a ella (👧 👸 💃 ...)
+const ICONO_EL = "🧑🏽";     // y el tuyo (👦 🧔 🤴 ...)
+const MENSAJE_FINAL = "Sabía que llegarías hasta mí, mi amor. mis rizitoss de oroo de estuve esperandoo";
 
 /* ---------- Constantes del juego ---------- */
 
@@ -121,7 +121,7 @@ const NIVELES = [
             { x: 48, w: 2 }, { x: 69, w: 2 }, { x: 77, w: 1 }
         ],
         enemigos: [
-            { x: 52, min: 50.5, max: 55, e: "👻" },
+            { x: 52, min: 50.5, max: 55, e: "🧟" },
             { x: 73, min: 72, max: 75.5, e: "👻" }
         ],
         murcielagos: [
