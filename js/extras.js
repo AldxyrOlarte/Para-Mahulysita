@@ -75,6 +75,83 @@ function momentoActual() {
 }
 
 function aplicarMomento() {
+    const m = momentoActual();/* =========================================================
+   Extras: fondo por hora, mensaje secreto, abrazo y cápsula del tiempo
+   Archivo: js/extras.js  (se carga con type="module")
+   ========================================================= */
+
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+// Usa tu archivo de configuración existente (cambia la ruta si está en otro lugar)
+import * as cfg from "./firebase-config.js";
+import {
+    getFirestore, doc, getDoc, setDoc, addDoc, collection, onSnapshot,
+    query, orderBy, serverTimestamp, Timestamp, writeBatch
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import {
+    getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+
+/* =========================================================
+   CONFIGURACIÓN: edita solo este bloque
+   ========================================================= */
+
+// La configuración de Firebase se toma de firebase-config.js (ver el import de arriba).
+// Funciona si ese archivo exporta { db, auth }, { app } o el objeto de configuración
+// con el nombre firebaseConfig (o config / export default).
+const configExistente = cfg.firebaseConfig || cfg.config || cfg.default;
+
+// Tu correo (el usuario que creaste en Firebase Authentication para ti)
+const ADMIN_EMAIL = "thiagoolartejimenez@gmail.com";
+
+// Tema de ntfy.sh para recibir el aviso del abrazo en tu celular, aunque
+// tengas la página cerrada. Pon un nombre largo y difícil de adivinar,
+// por ejemplo "abrazos-thiago-k29xq7". Déjalo vacío ("") si no lo quieres.
+const NTFY_TOPIC = "";
+
+// Textos por defecto (los puedes cambiar después desde la propia página)
+const SALUDOS_BASE = {
+    amanecer: "Buenos días, mi amor ☀️",
+    dia: "Hola, mi amor",
+    tarde: "Buenas tardes, mi amor 🌅",
+    noche: "Buenas noches, mi amor 🌙"
+};
+const SECRETO_BASE = "Si estás leyendo esto es porque quería decirte, en secreto, que te quiero muchísimo 💗";
+
+/* =========================================================
+   No hace falta tocar nada de aquí para abajo
+   ========================================================= */
+
+const configurado = !!(cfg.db || cfg.app || (configExistente && configExistente.apiKey));
+const reducir = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const $ = (id) => document.getElementById(id);
+
+function el(tag, clase, texto) {
+    const e = document.createElement(tag);
+    if (clase) e.className = clase;
+    if (texto !== undefined) e.textContent = texto;
+    return e;
+}
+
+/* ---------- Fondo según la hora ---------- */
+
+let saludos = { ...SALUDOS_BASE };
+let textoSecreto = SECRETO_BASE;
+
+const COLOR_TEMA = { amanecer: "#ff9a8b", dia: "#ff4d98", tarde: "#ff6f61", noche: "#3b1d5a" };
+
+function momentoActual() {
+    // Para probar: agrega ?momento=noche (o amanecer, dia, tarde) a la dirección
+    const forzado = new URLSearchParams(location.search).get("momento");
+    if (forzado && COLOR_TEMA[forzado]) return forzado;
+
+    const h = new Date().getHours();
+    if (h >= 5 && h < 9) return "amanecer";
+    if (h >= 9 && h < 17) return "dia";
+    if (h >= 17 && h < 20) return "tarde";
+    return "noche";
+}
+
+function aplicarMomento() {
     const m = momentoActual();
     document.documentElement.dataset.momento = m;
 
@@ -86,6 +163,7 @@ function aplicarMomento() {
 }
 
 (function crearEstrellas() {
+    if (document.querySelector(".estrellas")) return; // ya las creó fondo.js
     const cont = el("div", "estrellas");
     cont.setAttribute("aria-hidden", "true");
     const total = window.matchMedia("(max-width: 699px)").matches ? 30 : 55;
