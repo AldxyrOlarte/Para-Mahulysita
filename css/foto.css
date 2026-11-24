@@ -218,3 +218,21 @@
 @media (min-width:700px){
     .foto-flotante{ width:110px; }
 }
+
+/* ---------- Globito de aviso en el botón Sorpresas del menú ---------- */
+.menu-aviso{
+    position:absolute;
+    top:6px;
+    right:8px;
+    min-width:20px;
+    padding:2px 6px;
+    font-size:0.7rem;
+    font-weight:600;
+    line-height:1.2;
+    color:white;
+    background:#e0307c;
+    border:2px solid white;
+    border-radius:12px;
+    box-shadow:0 3px 8px rgba(0,0,0,0.25);
+    animation:latido 1.4s ease-in-out infinite;
+}
