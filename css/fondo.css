@@ -1,61 +1,78 @@
 /* =========================================================
-   Fondo según la hora  ->  css/fondo.css
-   (se carga después de style.css; no depende de Firebase)
-   El script js/fondo.js pone data-momento en <html>.
+   Fondo según la hora + pie de página  ->  css/fondo.css
+   Solo la usa la página principal (no depende de Firebase).
+   js/fondo.js pone data-momento en <html>.
+   Regla: el encabezado, el centro y el pie siempre son colores distintos.
    ========================================================= */
 
-/* Amanecer: 5:00 - 8:59 */
+/* ---------- Amanecer: 5:00 - 8:59 ---------- */
 html[data-momento="amanecer"] body{
-    background:linear-gradient(160deg,#ffe9d6,#ffd9e4 45%,#ffc2dc);
+    background:linear-gradient(160deg,#fff0e0,#ffe3dd 45%,#ffd3e3);
     background-attachment:fixed;
 }
 html[data-momento="amanecer"] header{
     background-image:linear-gradient(120deg,#ff9a8b,#ff7eb6,#ffb199,#ff7eb6);
 }
-html[data-momento="amanecer"] .fondo span:nth-child(1){ background:#ffd2a8; }
-html[data-momento="amanecer"] .fondo span:nth-child(2){ background:#ffa8c5; }
-html[data-momento="amanecer"] .fondo span:nth-child(3){ background:#ffe3b3; }
+html[data-momento="amanecer"] .fondo span:nth-child(1){ background:#ffd9a8; }
+html[data-momento="amanecer"] .fondo span:nth-child(2){ background:#ffb8c9; }
+html[data-momento="amanecer"] .fondo span:nth-child(3){ background:#fff0b8; }
+html[data-momento="amanecer"] footer{
+    background:linear-gradient(160deg,#b5476b,#d96a85 55%,#c4577a);
+}
 
-/* Día: 9:00 - 16:59 -> se queda con el rosa original */
+/* ---------- Día: 9:00 - 16:59 (rosa original) ---------- */
+html[data-momento="dia"] footer{
+    background:linear-gradient(160deg,#8e2b8f,#c2418f 55%,#a8348f);
+}
 
-/* Tarde: 17:00 - 19:59 */
+/* ---------- Tarde: 17:00 - 19:59 ---------- */
 html[data-momento="tarde"] body{
-    background:linear-gradient(160deg,#ffd9c0,#ffc2cf 45%,#e9b0e6);
+    background:linear-gradient(160deg,#ffe3cc,#ffd0d6 45%,#ecc0f0);
     background-attachment:fixed;
 }
 html[data-momento="tarde"] header{
     background-image:linear-gradient(120deg,#ff6f61,#ff4d98,#c04dd0,#ff6f61);
 }
 html[data-momento="tarde"] .fondo span:nth-child(1){ background:#ffb38a; }
-html[data-momento="tarde"] .fondo span:nth-child(2){ background:#ff7eb6; }
+html[data-momento="tarde"] .fondo span:nth-child(2){ background:#ff9ec0; }
 html[data-momento="tarde"] .fondo span:nth-child(3){ background:#d9a0ff; }
+html[data-momento="tarde"] footer{
+    background:linear-gradient(160deg,#7a1f5c,#a9306f 55%,#8e2a66);
+}
 
-/* Noche: 20:00 - 4:59 */
+/* ---------- Noche: 20:00 - 4:59 ---------- */
 html[data-momento="noche"]{
-    --texto:#f6e4f2;
+    --texto:#eef0ff;
     --rosa:#ff7eb6;
     --rosa-oscuro:#ff9cc9;
 }
+/* Centro: azul medianoche */
 html[data-momento="noche"] body{
-    background:linear-gradient(160deg,#241238,#3b1d5a 45%,#52245f);
+    background:linear-gradient(160deg,#0d1030,#1a1b4b 45%,#241d5a);
     background-attachment:fixed;
 }
+/* Encabezado: rosa magenta, para que resalte contra el azul */
 html[data-momento="noche"] header{
-    background-image:linear-gradient(120deg,#5b2a86,#a23b86,#d6408f,#5b2a86);
+    background-image:linear-gradient(120deg,#c2367f,#ff4d98,#d6408f,#c2367f);
 }
-html[data-momento="noche"] .fondo span{ opacity:0.4; }
-html[data-momento="noche"] .fondo span:nth-child(1){ background:#7a3fb5; }
-html[data-momento="noche"] .fondo span:nth-child(2){ background:#d6408f; }
-html[data-momento="noche"] .fondo span:nth-child(3){ background:#3d2a8f; }
+html[data-momento="noche"] .fondo span{ opacity:0.38; }
+html[data-momento="noche"] .fondo span:nth-child(1){ background:#3a4fb8; }
+html[data-momento="noche"] .fondo span:nth-child(2){ background:#8a3fb5; }
+html[data-momento="noche"] .fondo span:nth-child(3){ background:#2a5fa8; }
 html[data-momento="noche"] .contador{
-    background:rgba(255,255,255,0.1);
-    box-shadow:0 8px 24px rgba(0,0,0,0.3);
+    background:rgba(255,255,255,0.09);
+    box-shadow:0 8px 24px rgba(0,0,0,0.35);
 }
 html[data-momento="noche"] .caja-tiempo{ color:#e0307c; }
 html[data-momento="noche"] .caja-tiempo small{ color:#5a3a4a; }
 html[data-momento="noche"] .detalle{ color:#ffb3d6; }
+/* Pie: violeta profundo */
+html[data-momento="noche"] footer{
+    background:linear-gradient(160deg,#2b1055,#5b2a86 55%,#43206f);
+    box-shadow:0 -10px 30px rgba(0,0,0,0.35);
+}
 
-/* Estrellitas y lunita (solo de noche) */
+/* ---------- Estrellitas y lunita (solo de noche) ---------- */
 .estrellas{
     position:fixed;
     inset:0;
@@ -88,4 +105,62 @@ html[data-momento="noche"] .estrellas{ display:block; }
 @keyframes estrella{
     0%,100%{ opacity:0.1; transform:scale(0.6); }
     50%{ opacity:0.95; transform:scale(1.4); }
+}
+
+/* =========================================================
+   Pie de página nuevo
+   ========================================================= */
+footer{
+    margin-top:56px;
+    padding:36px 18px calc(22px + env(safe-area-inset-bottom));
+    background:linear-gradient(160deg,#8e2b8f,#c2418f 55%,#a8348f);
+    border-radius:44px 44px 0 0;
+    box-shadow:0 -10px 30px rgba(142,43,143,0.25);
+    overflow:hidden;
+}
+
+/* Brillos suaves dentro del pie */
+footer::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        radial-gradient(circle at 15% 0%, rgba(255,255,255,0.22), transparent 45%),
+        radial-gradient(circle at 90% 100%, rgba(255,255,255,0.14), transparent 50%);
+    pointer-events:none;
+}
+
+footer > *{
+    position:relative;
+}
+
+.pie-corazon{
+    display:inline-block;
+    font-size:2.1rem;
+    line-height:1;
+    animation:latido 1.6s ease-in-out infinite;
+    filter:drop-shadow(0 4px 8px rgba(0,0,0,0.25));
+}
+
+.pie-titulo{
+    margin-top:6px;
+    font-family:'Dancing Script', cursive;
+    font-size:2.2rem;
+    font-weight:700;
+    line-height:1.1;
+    text-shadow:0 2px 8px rgba(0,0,0,0.2);
+}
+
+.pie-texto{
+    margin-top:4px;
+    font-size:0.95rem;
+    font-weight:300;
+}
+
+.pie-mini{
+    margin-top:14px;
+    font-size:0.72rem;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    opacity:0.7;
 }
