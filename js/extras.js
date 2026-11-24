@@ -264,17 +264,17 @@ function iniciarFirebase() {
         esAdmin = !!u && u.email === ADMIN_EMAIL;
         document.body.classList.toggle("es-admin", esAdmin);
         if (btnAdmin) {
-            btnAdmin.textContent = esAdmin ? "🚪" : "🔑";
-            btnAdmin.title = esAdmin ? "Cerrar sesión" : "Acceso de Thiago";
+            btnAdmin.textContent = u ? "🚪" : "🔑";
+            btnAdmin.title = u ? "Cerrar sesión" : "Entrar";
         }
         if (esAdmin) escucharAbrazos(); else dejarDeEscucharAbrazos();
     });
 
     if (btnAdmin) {
         btnAdmin.addEventListener("click", () => {
-            if (esAdmin) { signOut(auth); avisar("Sesión cerrada 💗"); return; }
+            if (auth.currentUser) { signOut(auth); avisar("Sesión cerrada 💗"); return; }
             abrirModal({
-                titulo: "Hola, Thiago 💗",
+                titulo: "Entra, mi amor 💗",
                 textoBoton: "Entrar",
                 campos: [
                     { nombre: "correo", label: "Correo", tipo: "email" },
