@@ -48,13 +48,6 @@ function el(tag, clase, texto) {
     return e;
 }
 
-// Fondo según la hora (mismo que la página principal)
-(function () {
-    const h = new Date().getHours();
-    const m = h >= 5 && h < 9 ? "amanecer" : h >= 9 && h < 17 ? "dia" : h >= 17 && h < 20 ? "tarde" : "noche";
-    document.documentElement.dataset.momento = m;
-})();
-
 const toast = el("div", "toast");
 document.body.appendChild(toast);
 let toastTimer;
