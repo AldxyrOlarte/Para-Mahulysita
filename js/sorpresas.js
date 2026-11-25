@@ -47,6 +47,11 @@ const TIPOS = {
     raspar:     { nombre: "✨ Tarjeta para rascar",   icono: ["🔒", "✨"] },
     flores:     { nombre: "💐 Ramo de flores",        icono: ["🔒", "💐"] },
     pistas:     { nombre: "🗺️ Cacería de pistas",     icono: ["🔒", "🗺️"] },
+    voz:        { nombre: "🎙️ Nota de voz",            icono: ["🔒", "🎙️"] },
+    quiz:       { nombre: "🧠 ¿Cuánto me conoces?",   icono: ["🔒", "🧠"] },
+    ruleta:     { nombre: "🎡 Ruleta de citas",       icono: ["🔒", "🎡"] },
+    collage:    { nombre: "🖼️ Collage de fotos",      icono: ["🔒", "🖼️"] },
+    sobres:     { nombre: "💌 Ábrelas cuando…",       icono: ["🔒", "💌"] },
     sorpresa:   { nombre: "🎁 Sorpresa",              icono: ["🔒", "🎉"] },
     capsula:    { nombre: "⏳ Cápsula del tiempo",    icono: ["🔒", "💌"] },
     secreto:    { nombre: "🤫 Mensaje secreto",       icono: ["🤫", "💗"] }
@@ -141,6 +146,34 @@ function imagenSegura(s) {
     return typeof s === "string" && s.startsWith("data:image/") ? s : "";
 }
 
+function audioSeguro(s) {
+    return typeof s === "string" && s.startsWith("data:audio/") ? s : "";
+}
+
+// Preguntas del quiz. Formato: cada pregunta separada por una línea en blanco;
+// primera línea = pregunta, siguientes = opciones; la correcta empieza con *
+function parseQuiz(texto) {
+    return String(texto || "").split(/\n\s*\n/).map((b) => b.trim()).filter(Boolean).map((b) => {
+        const l = b.split("\n").map((x) => x.trim()).filter(Boolean);
+        const p = l.shift();
+        let c = -1;
+        const o = l.map((x, i) => {
+            if (x.startsWith("*")) { c = i; return x.slice(1).trim(); }
+            return x;
+        });
+        return { p, o, c };
+    }).filter((q) => q.p && q.o.length >= 2 && q.c >= 0);
+}
+
+// Sobres. Formato: cada sobre separado por una línea con ---;
+// primera línea = "Cuando…", el resto = mensaje
+function parseSobres(texto) {
+    return String(texto || "").split(/\n\s*---+\s*\n/).map((b) => b.trim()).filter(Boolean).map((b) => {
+        const l = b.split("\n");
+        return { t: l.shift().trim(), m: l.join("\n").trim() };
+    }).filter((x) => x.t && x.m);
+}
+
 function leerLS(clave, defecto) {
     try { const v = JSON.parse(localStorage.getItem(clave)); return v == null ? defecto : v; } catch (e) { return defecto; }
 }
@@ -164,9 +197,10 @@ function cargarImagen(f) {
 }
 
 // Reduce la foto para que quepa en Firestore (menos de ~650 KB)
-async function comprimir(f) {
+async function comprimir(f, tope, dimension) {
+    tope = tope || 650000;
     const img = await cargarImagen(f);
-    let max = 900;
+    let max = dimension || 900;
     let calidad = 0.82;
     for (let i = 0; i < 5; i++) {
         const esc = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
@@ -175,7 +209,7 @@ async function comprimir(f) {
         c.height = Math.max(1, Math.round(img.naturalHeight * esc));
         c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
         const data = c.toDataURL("image/jpeg", calidad);
-        if (data.length < 650000) return data;
+        if (data.length < tope) return data;
         max *= 0.8;
         calidad -= 0.08;
     }
@@ -268,6 +302,107 @@ function abrirModal({ titulo, campos, onSubmit }) {
                 }
             });
             lab.append(boton, miniatura, archivo, entrada);
+        } else if (c.tipo === "imagenes") {
+            // Varias fotos (collage): se guardan como lista JSON en un campo oculto
+            entrada = document.createElement("input");
+            entrada.type = "hidden";
+            entrada.name = c.nombre;
+            entrada.value = c.valor || "[]";
+            const rejilla = el("div", "m-minis");
+            const pintarMinis = () => {
+                rejilla.innerHTML = "";
+                let lista = [];
+                try { lista = JSON.parse(entrada.value) || []; } catch (e) {}
+                lista.forEach((src) => { const im = el("img"); im.src = src; im.alt = ""; rejilla.appendChild(im); });
+            };
+            pintarMinis();
+            const archivo = document.createElement("input");
+            archivo.type = "file";
+            archivo.accept = "image/*";
+            archivo.multiple = true;
+            archivo.hidden = true;
+            const boton = el("button", "btn-mini", "📷 Elegir fotos (hasta 4)");
+            boton.type = "button";
+            boton.addEventListener("click", () => archivo.click());
+            archivo.addEventListener("change", async () => {
+                const fs = Array.from(archivo.files || []).slice(0, 4);
+                archivo.value = "";
+                if (!fs.length) return;
+                boton.textContent = "Preparando…";
+                error.textContent = "";
+                try {
+                    const lista = [];
+                    for (const f of fs) lista.push(await comprimir(f, Math.floor(780000 / fs.length), 700));
+                    entrada.value = JSON.stringify(lista);
+                    pintarMinis();
+                } catch (er) {
+                    error.textContent = er.message || "No pude preparar las fotos.";
+                }
+                boton.textContent = "📷 Cambiar fotos";
+            });
+            lab.append(boton, rejilla, archivo, entrada);
+        } else if (c.tipo === "audio") {
+            entrada = document.createElement("input");
+            entrada.type = "hidden";
+            entrada.name = c.nombre;
+            entrada.value = c.valor || "";
+            const reproductor = document.createElement("audio");
+            reproductor.controls = true;
+            reproductor.className = "m-audio";
+            reproductor.hidden = !entrada.value;
+            if (entrada.value) reproductor.src = entrada.value;
+            const estado = el("p", "m-nota", entrada.value ? "Ya hay una nota guardada. Puedes grabar otra." : "Hasta 30 segundos.");
+            const boton = el("button", "btn-mini", "🎙️ Grabar");
+            boton.type = "button";
+            let grabador = null;
+            let trozos = [];
+            let segs = 0;
+            let reloj = null;
+            const detener = () => { if (grabador && grabador.state !== "inactive") grabador.stop(); };
+            boton.addEventListener("click", async () => {
+                if (grabador && grabador.state === "recording") { detener(); return; }
+                if (!navigator.mediaDevices || !window.MediaRecorder) {
+                    error.textContent = "Este navegador no puede grabar audio.";
+                    return;
+                }
+                error.textContent = "";
+                try {
+                    const flujo = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    const tipos = ["audio/webm;codecs=opus", "audio/webm", "audio/mp4"];
+                    const mime = tipos.find((t) => MediaRecorder.isTypeSupported(t)) || "";
+                    grabador = new MediaRecorder(flujo, mime ? { mimeType: mime, audioBitsPerSecond: 32000 } : { audioBitsPerSecond: 32000 });
+                    trozos = [];
+                    segs = 0;
+                    grabador.ondataavailable = (e) => { if (e.data && e.data.size) trozos.push(e.data); };
+                    grabador.onstop = () => {
+                        clearInterval(reloj);
+                        flujo.getTracks().forEach((t) => t.stop());
+                        boton.textContent = "🎙️ Grabar otra vez";
+                        const blob = new Blob(trozos, { type: grabador.mimeType || mime || "audio/webm" });
+                        const lector = new FileReader();
+                        lector.onload = () => {
+                            const data = String(lector.result);
+                            if (data.length > 700000) { error.textContent = "La nota quedó muy pesada, graba una más corta."; return; }
+                            entrada.value = data;
+                            reproductor.src = data;
+                            reproductor.hidden = false;
+                            estado.textContent = "Lista (" + segs + " s). Escúchala y guarda 💗";
+                        };
+                        lector.readAsDataURL(blob);
+                    };
+                    grabador.start();
+                    boton.textContent = "⏹️ Detener";
+                    estado.textContent = "Grabando… 0 s";
+                    reloj = setInterval(() => {
+                        segs++;
+                        estado.textContent = "Grabando… " + segs + " s";
+                        if (segs >= 30) detener();
+                    }, 1000);
+                } catch (er) {
+                    error.textContent = "No pude usar el micrófono (revisa el permiso del navegador).";
+                }
+            });
+            lab.append(boton, estado, reproductor, entrada);
         } else {
             entrada = document.createElement("input");
             entrada.type = c.tipo || "text";
@@ -463,6 +598,9 @@ function llenarResp(zona, id) {
     const quien = rol === "ella" ? "Thiago" : "Tú";
     const cuando = r.fecha && r.fecha.toDate ? " el " + formatoFecha(r.fecha.toDate()) : "";
     if (r.canjeado) zona.appendChild(el("p", "", "🎟️ " + quien + (rol === "ella" ? " canjeó" : " canjeaste") + " el vale" + cuando));
+    if (typeof r.puntaje === "number") zona.appendChild(el("p", "", "🧠 " + quien + (rol === "ella" ? " sacó " : " sacaste ") + r.puntaje + " de " + (r.total || "?") + " en el quiz"));
+    if (r.resultado) zona.appendChild(el("p", "", "🎡 En la ruleta " + (rol === "ella" ? "salió: " : "te salió: ") + r.resultado));
+    if (typeof r.abiertos === "number") zona.appendChild(el("p", "", "💌 " + quien + (rol === "ella" ? " abrió " : " abriste ") + r.abiertos + " de " + (r.total || "?") + " sobres"));
     if (r.reaccion) zona.appendChild(el("p", "", (rol === "ella" ? "Thiago reaccionó: " : "Tu reacción: ") + r.reaccion));
     if (r.nota) zona.appendChild(el("p", "resp-nota", "«" + r.nota + "»"));
     zona.hidden = !zona.children.length;
@@ -530,6 +668,11 @@ function pintarContenido(zona, v, m, modo) {
     if (tipo === "raspar") return cRaspar(zona, v, m, modo);
     if (tipo === "flores") return cFlores(zona, v);
     if (tipo === "pistas") return cPistas(zona, v, m, modo);
+    if (tipo === "voz") return cVoz(zona, v);
+    if (tipo === "quiz") return cQuiz(zona, v, m, modo);
+    if (tipo === "ruleta") return cRuleta(zona, v, m, modo);
+    if (tipo === "collage") return cCollage(zona, v);
+    if (tipo === "sobres") return cSobres(zona, v, m, modo);
     zona.appendChild(mensaje(v.texto));
 }
 
@@ -771,6 +914,212 @@ function cPistas(zona, v, m, modo) {
     pintar();
 }
 
+
+function cVoz(zona, v) {
+    const src = audioSeguro(v.audio);
+    zona.appendChild(el("div", "voz-icono", "🎙️"));
+    if (src) {
+        const a = document.createElement("audio");
+        a.controls = true;
+        a.className = "voz-audio";
+        a.src = src;
+        zona.appendChild(a);
+    }
+    zona.appendChild(mensaje(v.texto));
+}
+
+function cCollage(zona, v) {
+    const fotos = (Array.isArray(v.imagenes) ? v.imagenes : []).filter((s) => imagenSegura(s)).slice(0, 4);
+    if (fotos.length) {
+        const rej = el("div", "collage c" + fotos.length);
+        fotos.forEach((src, i) => {
+            const marco = el("div", "collage-foto");
+            marco.style.animationDelay = i * 0.18 + "s";
+            marco.style.setProperty("--giro", [-3, 2.5, -2, 3][i] + "deg");
+            const img = el("img");
+            img.src = src;
+            img.alt = "Foto " + (i + 1);
+            marco.appendChild(img);
+            rej.appendChild(marco);
+        });
+        zona.appendChild(rej);
+    }
+    zona.appendChild(mensaje(v.texto));
+}
+
+function cQuiz(zona, v, m, modo) {
+    const persistir = modo === "el";
+    const preguntas = parseQuiz(v.texto);
+    if (!preguntas.length) { zona.appendChild(mensaje("(Este quiz no tiene preguntas válidas)")); return; }
+
+    let est = (persistir && progreso.get(m.id)) || { i: 0, aciertos: 0, fin: false };
+    if (persistir) progreso.set(m.id, est);
+    const caja = el("div", "quiz");
+    zona.appendChild(caja);
+
+    function pintar() {
+        caja.innerHTML = "";
+        if (est.fin) {
+            const total = preguntas.length;
+            const pct = est.aciertos / total;
+            const frase = pct === 1 ? "¡Me conoces perfecto! 🥹💖" : pct >= 0.6 ? "¡Me conoces muy bien! 💕" : pct > 0 ? "Aún me tienes que conocer más 😏💗" : "¡Cero! Hay que pasar más tiempo juntos 😂";
+            caja.append(el("p", "quiz-puntaje", est.aciertos + " / " + total), el("p", "quiz-frase", frase));
+            return;
+        }
+        caja.appendChild(el("p", "quiz-progreso", "Pregunta " + (est.i + 1) + " de " + preguntas.length));
+        const q = preguntas[est.i];
+        caja.appendChild(el("p", "quiz-pregunta", q.p));
+        const ops = el("div", "quiz-ops");
+        let respondida = false;
+        q.o.forEach((txt, k) => {
+            const b = el("button", "quiz-op", txt);
+            b.type = "button";
+            b.addEventListener("click", () => {
+                if (respondida) return;
+                respondida = true;
+                const bien = k === q.c;
+                if (bien) est.aciertos++;
+                b.classList.add(bien ? "quiz-bien" : "quiz-mal");
+                if (!bien) ops.children[q.c].classList.add("quiz-bien");
+                if (bien) { const [x, y] = centroDe(b); rafaga(x, y, ["💖", "✨", "🎉"]); }
+                const sig = el("button", "btn-extra", est.i < preguntas.length - 1 ? "Siguiente ➜" : "Ver mi resultado 🎉");
+                sig.type = "button";
+                sig.addEventListener("click", async () => {
+                    if (est.i < preguntas.length - 1) { est.i++; pintar(); return; }
+                    est.fin = true;
+                    pintar();
+                    const [x, y] = centroDe(caja);
+                    rafaga(x, y, ["🎉", "💖", "✨", "🧠"]);
+                    if (persistir) await enviarResp(m.id, { puntaje: est.aciertos, total: preguntas.length });
+                });
+                caja.appendChild(sig);
+            });
+            ops.appendChild(b);
+        });
+        caja.appendChild(ops);
+    }
+    pintar();
+}
+
+function cRuleta(zona, v, m, modo) {
+    const persistir = modo === "el";
+    const ideas = String(v.texto || "").split("\n").map((x) => x.trim()).filter(Boolean).slice(0, 12);
+    if (ideas.length < 2) { zona.appendChild(mensaje("(La ruleta necesita al menos 2 ideas)")); return; }
+
+    const colores = ["#ff7eb6", "#ffb3d1", "#d9a0ff", "#ffc2a8", "#ff9ec0", "#c9b6ff"];
+    const T = 300;
+    const caja = el("div", "ruleta");
+    const puntero = el("div", "ruleta-puntero", "▼");
+    const rueda = document.createElement("canvas");
+    rueda.width = T * 2;
+    rueda.height = T * 2;
+    rueda.className = "ruleta-rueda";
+    const g = rueda.getContext("2d");
+    g.scale(2, 2);
+    const seg = (Math.PI * 2) / ideas.length;
+    ideas.forEach((txt, i) => {
+        g.beginPath();
+        g.moveTo(T / 2, T / 2);
+        g.arc(T / 2, T / 2, T / 2 - 4, -Math.PI / 2 + i * seg, -Math.PI / 2 + (i + 1) * seg);
+        g.closePath();
+        g.fillStyle = colores[i % colores.length];
+        g.fill();
+        g.strokeStyle = "#fff";
+        g.lineWidth = 3;
+        g.stroke();
+        g.save();
+        g.translate(T / 2, T / 2);
+        g.rotate(-Math.PI / 2 + (i + 0.5) * seg);
+        g.fillStyle = "#5a3a4a";
+        g.font = "600 " + (ideas.length > 8 ? 12 : 15) + "px Poppins, sans-serif";
+        g.textAlign = "right";
+        g.textBaseline = "middle";
+        const t = txt.length > 16 ? txt.slice(0, 15) + "…" : txt;
+        g.fillText(t, T / 2 - 16, 0);
+        g.restore();
+    });
+    const centro = el("div", "ruleta-centro", "💗");
+    const marco = el("div", "ruleta-marco");
+    marco.append(rueda, centro);
+    const resultado = el("p", "ruleta-resultado");
+    const boton = el("button", "btn-extra", "¡Girar! 🎡");
+    boton.type = "button";
+
+    let giro = 0;
+    const previo = persistir ? progreso.get(m.id) : null;
+    if (previo) { resultado.textContent = "¡Toca: " + previo + "! 💗"; boton.textContent = "Girar otra vez 🎡"; }
+    boton.addEventListener("click", () => {
+        boton.disabled = true;
+        resultado.textContent = "";
+        const elegido = Math.floor(Math.random() * ideas.length);
+        const centroSeg = (elegido + 0.5) * (360 / ideas.length);
+        const jitter = (Math.random() - 0.5) * (360 / ideas.length) * 0.6;
+        giro = Math.ceil(giro / 360) * 360 + 360 * 5 + (360 - centroSeg) + jitter;
+        rueda.style.transition = reducir ? "none" : "transform 4.2s cubic-bezier(.12,.7,.1,1)";
+        rueda.style.transform = "rotate(" + giro + "deg)";
+        const fin = async () => {
+            const [x, y] = centroDe(marco);
+            rafaga(x, y, ["🎉", "💖", "✨", "🎡"]);
+            resultado.textContent = "¡Toca: " + ideas[elegido] + "! 💗";
+            if (persistir) progreso.set(m.id, ideas[elegido]);
+            boton.disabled = false;
+            boton.textContent = "Girar otra vez 🎡";
+            if (persistir) await enviarResp(m.id, { resultado: ideas[elegido].slice(0, 60) });
+        };
+        if (reducir) fin(); else setTimeout(fin, 4300);
+    });
+
+    caja.append(puntero, marco, resultado, boton);
+    zona.appendChild(caja);
+}
+
+function cSobres(zona, v, m, modo) {
+    const persistir = modo === "el";
+    const lista = parseSobres(v.texto);
+    if (!lista.length) { zona.appendChild(mensaje("(No hay sobres válidos)")); return; }
+    const abiertos = (persistir && progreso.get(m.id)) || new Set();
+    if (persistir) progreso.set(m.id, abiertos);
+
+    zona.appendChild(el("p", "cap-nota", "Abre el que necesites, cuando lo necesites 💗"));
+    const rej = el("div", "sobres");
+    const lectura = el("div", "sobre-lectura");
+    lectura.hidden = true;
+
+    function mostrarLectura(i) {
+        const s = lista[i];
+        abiertos.ultimo = i;
+        lectura.hidden = false;
+        lectura.innerHTML = "";
+        lectura.append(el("h4", "", s.t), el("p", "cap-texto", s.m));
+        lectura.classList.remove("sobre-entra");
+        void lectura.offsetWidth;
+        lectura.classList.add("sobre-entra");
+    }
+
+    function pintarSobres() {
+        rej.innerHTML = "";
+        lista.forEach((s, i) => {
+            const b = el("button", "sobre" + (abiertos.has(i) ? " sobre-abierto" : ""));
+            b.type = "button";
+            b.append(el("span", "sobre-icono", abiertos.has(i) ? "💌" : "✉️"), el("span", "sobre-titulo", s.t));
+            b.addEventListener("click", async () => {
+                const nuevo = !abiertos.has(i);
+                abiertos.add(i);
+                mostrarLectura(i);
+                const [x, y] = centroDe(b);
+                rafaga(x, y, ["💌", "💖", "✨"]);
+                pintarSobres();
+                lectura.scrollIntoView({ behavior: reducir ? "auto" : "smooth", block: "nearest" });
+                if (persistir && nuevo) await enviarResp(m.id, { abiertos: abiertos.size, total: lista.length });
+            });
+            rej.appendChild(b);
+        });
+    }
+    pintarSobres();
+    zona.append(rej, lectura);
+    if (typeof abiertos.ultimo === "number" && lista[abiertos.ultimo]) mostrarLectura(abiertos.ultimo);
+}
+
 /* ---------- Abrir (Thiago) y vista previa (Mahuly) ---------- */
 
 async function abrirSorpresa(m, tarjeta, boton, titulo, zona, silencioso) {
@@ -821,7 +1170,17 @@ function resumenDe(real) {
         img.alt = "";
         caja.appendChild(img);
     }
+    if (Array.isArray(real.imagenes) && real.imagenes[0] && imagenSegura(real.imagenes[0])) {
+        const img = el("img", "sor-mini");
+        img.src = real.imagenes[0];
+        img.alt = "";
+        caja.appendChild(img);
+    }
     let texto = real.texto || "";
+    if (real.tipo === "voz") texto = "🎙️ Nota de voz" + (texto ? " · " + texto : "");
+    if (real.tipo === "quiz") texto = "🧠 Quiz de " + parseQuiz(texto).length + " preguntas";
+    if (real.tipo === "ruleta") texto = "🎡 " + texto.split("\n").filter(Boolean).slice(0, 12).join(" · ");
+    if (real.tipo === "sobres") texto = "💌 " + parseSobres(texto).length + " sobres: " + parseSobres(texto).map((x) => x.t).join(" · ");
     if (real.tipo === "adivinanza") texto = "❓ " + (real.pregunta || "");
     if (real.tipo === "cancion" && !texto) texto = "🔗 " + (real.enlace || "");
     texto = texto.replace(/\s+/g, " ").trim();
@@ -922,7 +1281,7 @@ setInterval(() => {
 
 /* ---------- Crear, editar y borrar (solo ella) ---------- */
 
-const EXIGE_TEXTO = ["carta", "vale", "adivinanza", "raspar", "flores", "pistas", "sorpresa", "capsula", "secreto"];
+const EXIGE_TEXTO = ["carta", "vale", "adivinanza", "raspar", "flores", "pistas", "sorpresa", "capsula", "secreto", "quiz", "ruleta", "sobres"];
 
 async function guardar(id, d) {
     const fecha = new Date(d.fecha);
@@ -952,6 +1311,27 @@ async function guardar(id, d) {
         contenido.pregunta = d.pregunta.trim();
         contenido.respuesta = d.respuesta.trim();
         contenido.pista = d.pista.trim();
+    }
+
+    if (tipo === "voz") {
+        if (!audioSeguro(d.audio)) throw new Error("Graba tu nota de voz.");
+        contenido.audio = d.audio;
+    }
+    if (tipo === "collage") {
+        let fotos = [];
+        try { fotos = JSON.parse(d.imagenes || "[]"); } catch (e) {}
+        fotos = fotos.filter((s) => imagenSegura(s)).slice(0, 4);
+        if (fotos.length < 2) throw new Error("Elige al menos 2 fotos para el collage.");
+        contenido.imagenes = fotos;
+    }
+    if (tipo === "quiz" && parseQuiz(texto).length < 1) {
+        throw new Error("Escribe al menos una pregunta con opciones y marca la correcta con * al inicio.");
+    }
+    if (tipo === "ruleta" && texto.split("\n").filter((x) => x.trim()).length < 2) {
+        throw new Error("Escribe al menos 2 ideas, una por línea.");
+    }
+    if (tipo === "sobres" && parseSobres(texto).length < 1) {
+        throw new Error("Escribe al menos un sobre: una línea \"Cuando…\", el mensaje debajo y --- para separar.");
     }
 
     const lote = writeBatch(db);
@@ -993,6 +1373,8 @@ function campos(v) {
         { nombre: "pista", label: "Pista (aparece tras 2 intentos fallidos)", valor: v.pista || "", solo: ["adivinanza"] },
         { nombre: "imagen", label: "Foto", tipo: "imagen", valor: v.imagen || "", solo: ["foto"] },
         { nombre: "enlace", label: "Enlace de la canción (YouTube, Spotify…)", tipo: "url", valor: v.enlace || "", solo: ["cancion"] },
+        { nombre: "audio", label: "Tu nota de voz", tipo: "audio", valor: v.audio || "", solo: ["voz"] },
+        { nombre: "imagenes", label: "Fotos del collage", tipo: "imagenes", valor: JSON.stringify(v.imagenes || []), solo: ["collage"] },
         { nombre: "texto", label: "Mensaje", tipo: "textarea", filas: 8, valor: v.texto || "",
           etiquetas: {
               _: "Mensaje",
@@ -1002,7 +1384,12 @@ function campos(v) {
               adivinanza: "Mensaje que se revela al acertar",
               raspar: "Mensaje escondido bajo la tarjeta",
               flores: "Mensaje que acompaña el ramo",
-              pistas: "Pistas (separa cada una con una línea en blanco; la última es el premio)"
+              pistas: "Pistas (separa cada una con una línea en blanco; la última es el premio)",
+              voz: "Mensaje escrito (opcional)",
+              collage: "Dedicatoria del collage",
+              quiz: "Preguntas: una por bloque (separa con una línea en blanco). Primera línea = pregunta, debajo las opciones, y la correcta empieza con *. Ej:\n¿Mi comida favorita?\n*Pizza\nTacos\nSushi",
+              ruleta: "Ideas para la ruleta (una por línea, de 2 a 12). Ej:\nCine\nHelado\nCaminata",
+              sobres: "Sobres: cada uno empieza con \"Cuando…\" y debajo el mensaje; separa los sobres con una línea que diga ---"
           } }
     ];
 }
