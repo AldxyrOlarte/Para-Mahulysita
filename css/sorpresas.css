@@ -412,3 +412,205 @@ main section{ margin-top:30px; }
 @media (prefers-reduced-motion: reduce){
     .petalo, .ramo-flor, .sor-polaroid, .pista-item{ animation:none; opacity:1; }
 }
+
+/* =========================================================
+   Voz, collage, quiz, ruleta y sobres
+   ========================================================= */
+
+.m-label{ white-space:pre-line; }
+.m-nota{ margin-top:6px; font-size:0.8rem; opacity:0.85; }
+.m-audio{ display:block; width:100%; margin-top:8px; }
+.m-audio[hidden]{ display:none !important; }
+.m-minis{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:6px;
+    margin-top:8px;
+}
+.m-minis img{
+    width:100%;
+    aspect-ratio:1 / 1;
+    object-fit:cover;
+    border-radius:8px;
+}
+
+/* ---------- Nota de voz ---------- */
+
+.voz-icono{
+    font-size:3rem;
+    line-height:1;
+    animation:latido 1.6s ease-in-out infinite;
+}
+.voz-audio{
+    display:block;
+    width:100%;
+    max-width:320px;
+    margin:10px auto 0;
+}
+
+/* ---------- Collage ---------- */
+
+.collage{
+    display:grid;
+    gap:10px;
+    max-width:360px;
+    margin:0 auto;
+}
+.collage.c2, .collage.c4{ grid-template-columns:repeat(2, 1fr); }
+.collage.c3{ grid-template-columns:repeat(2, 1fr); }
+.collage.c3 .collage-foto:first-child{ grid-column:1 / -1; }
+.collage-foto{
+    padding:5px 5px 14px;
+    background:white;
+    border-radius:5px;
+    box-shadow:0 8px 18px rgba(255,77,152,0.28);
+    transform:rotate(var(--giro, 0deg));
+    animation:sor-cae 0.8s cubic-bezier(.2,1.2,.3,1) both;
+}
+.collage-foto img{
+    display:block;
+    width:100%;
+    aspect-ratio:1 / 1;
+    object-fit:cover;
+    border-radius:3px;
+}
+.collage.c3 .collage-foto:first-child img{ aspect-ratio:16 / 10; }
+
+/* ---------- Quiz ---------- */
+
+.quiz{ text-align:center; }
+.quiz-progreso{
+    font-size:0.75rem;
+    font-weight:600;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:#e0307c;
+}
+.quiz-pregunta{
+    margin-top:6px;
+    font-family:'Dancing Script', cursive;
+    font-size:1.6rem;
+    font-weight:700;
+    line-height:1.25;
+}
+.quiz-ops{
+    display:grid;
+    gap:8px;
+    margin-top:12px;
+}
+.quiz-op{
+    padding:12px 14px;
+    font-family:inherit;
+    font-size:1rem;
+    color:#5a3a4a;
+    background:white;
+    border:2px solid #ffb3d1;
+    border-radius:16px;
+    cursor:pointer;
+    transition:transform 0.15s, background 0.3s, border-color 0.3s;
+}
+.quiz-op:active{ transform:scale(0.97); }
+.quiz-bien{ background:#d9f7e4; border-color:#41c27a; }
+.quiz-mal{ background:#ffe0e6; border-color:#e5486b; }
+.quiz-puntaje{
+    font-family:'Dancing Script', cursive;
+    font-size:3.6rem;
+    font-weight:700;
+    color:#e0307c;
+    line-height:1.1;
+}
+.quiz-frase{ font-size:1rem; font-weight:600; }
+
+/* ---------- Ruleta ---------- */
+
+.ruleta{ text-align:center; }
+.ruleta-marco{
+    position:relative;
+    width:min(300px, 80vw);
+    aspect-ratio:1 / 1;
+    margin:0 auto;
+    border-radius:50%;
+    box-shadow:0 10px 26px rgba(255,77,152,0.4), 0 0 0 6px #fff;
+}
+.ruleta-rueda{
+    width:100%;
+    height:100%;
+    border-radius:50%;
+}
+.ruleta-puntero{
+    margin-bottom:-14px;
+    position:relative;
+    z-index:2;
+    font-size:2rem;
+    line-height:1;
+    color:#e0307c;
+    text-shadow:0 2px 4px rgba(0,0,0,0.25);
+}
+.ruleta-centro{
+    position:absolute;
+    top:50%;
+    left:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:46px;
+    height:46px;
+    font-size:1.4rem;
+    background:white;
+    border-radius:50%;
+    box-shadow:0 3px 8px rgba(0,0,0,0.25);
+    transform:translate(-50%,-50%);
+}
+.ruleta-resultado{
+    min-height:1.6em;
+    margin-top:14px;
+    font-family:'Dancing Script', cursive;
+    font-size:1.8rem;
+    font-weight:700;
+    color:#e0307c;
+}
+
+/* ---------- Sobres "ábrelas cuando" ---------- */
+
+.sobres{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:10px;
+    margin-top:10px;
+}
+.sobre{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+    padding:14px 8px;
+    font-family:inherit;
+    color:#5a3a4a;
+    background:linear-gradient(145deg,#fff4d6,#ffe1ee);
+    border:2px solid #ffb3d1;
+    border-radius:16px;
+    cursor:pointer;
+    transition:transform 0.2s;
+}
+.sobre:active{ transform:scale(0.96); }
+.sobre-abierto{ opacity:0.75; border-style:dashed; }
+.sobre-icono{ font-size:2rem; line-height:1; }
+.sobre-titulo{
+    font-size:0.85rem;
+    font-weight:600;
+    line-height:1.25;
+}
+.sobre-lectura{
+    margin-top:14px;
+    padding:14px;
+    text-align:left;
+    background:#fff0f6;
+    border-radius:16px;
+}
+.sobre-lectura h4{
+    font-family:'Dancing Script', cursive;
+    font-size:1.5rem;
+    color:#e0307c;
+}
+.sobre-lectura .cap-texto{ margin-top:6px; }
+.sobre-entra{ animation:sor-cae 0.7s cubic-bezier(.2,1.2,.3,1) both; }
