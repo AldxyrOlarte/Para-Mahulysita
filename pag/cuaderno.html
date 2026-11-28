@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/cuaderno.css">
   <link rel="stylesheet" href="../css/cuaderno-extra.css">
+  <link rel="stylesheet" href="../css/cuaderno-romantico.css">
 </head>
 <body data-modo="lectura">
   <div class="corazones-fondo" id="corazonesFondo" aria-hidden="true"></div>
@@ -34,6 +35,11 @@
           <span class="portada-corazon" aria-hidden="true">💗</span>
           <h1 class="titulo-cursivo portada-titulo">Nuestro pequeño universo</h1>
           <p class="portada-mensaje" id="portadaMensaje"></p>
+          <div class="portada-extra" id="portadaExtra" hidden>
+            <p id="portadaDias"></p>
+            <p id="portadaFrase" class="portada-frase"></p>
+            <p id="portadaRacha" class="portada-racha"></p>
+          </div>
           <button id="btnAbrir" class="btn btn-blanco" type="button">Abrir cuaderno</button>
         </div>
       </section>
@@ -72,6 +78,34 @@
 
             <p class="hoja-meta" id="hojaMeta"></p>
 
+            <!-- Herramientas románticas -->
+            <div class="herr-texto solo-escritura">
+              <div class="pegatinas-wrap">
+                <button id="btnPegatinas" class="btn btn-suave btn-chico" type="button">✨ Pegatinas</button>
+                <div class="pegatinas-panel" id="pegatinasPanel" hidden></div>
+              </div>
+              <button id="btnIdea" class="btn btn-suave btn-chico" type="button">🎲 Idea para escribir</button>
+            </div>
+            <p class="idea-burbuja" id="ideaBurbuja" hidden></p>
+
+            <!-- Plantilla "dibujo" -->
+            <div class="dibujo-bloque" id="dibujoBloque">
+              <div class="dibujo-tools solo-escritura">
+                <div class="dib-colores" id="dibColores"></div>
+                <div class="dib-fila">
+                  <button type="button" class="dib-btn" data-herr="lapiz" aria-pressed="true" title="Lápiz">✏️</button>
+                  <button type="button" class="dib-btn" data-herr="arcoiris" aria-pressed="false" title="Arcoíris">🌈</button>
+                  <button type="button" class="dib-btn" data-herr="goma" aria-pressed="false" title="Goma">🧽</button>
+                  <button type="button" class="dib-btn" data-herr="sello" id="dibSello" aria-pressed="false" title="Sello (toca otra vez para cambiar)">💗</button>
+                  <input type="range" id="dibGrosor" min="2" max="28" value="6" aria-label="Grosor">
+                  <button type="button" class="dib-btn" id="dibDeshacer" title="Deshacer">↩️</button>
+                  <button type="button" class="dib-btn" id="dibLimpiar" title="Limpiar todo">🗑️</button>
+                  <button type="button" class="dib-btn" id="dibDescargar" title="Descargar dibujo">⬇️</button>
+                </div>
+              </div>
+              <canvas id="lienzo" width="900" height="620" aria-label="Lienzo de dibujo"></canvas>
+            </div>
+
             <!-- Plantilla "recuerdo con foto" -->
             <div class="foto-bloque" id="fotoBloque">
               <figure class="polaroid">
@@ -88,6 +122,15 @@
             </div>
 
             <textarea id="areaTexto" class="hoja-texto" maxlength="20000" placeholder="Escribe aquí lo que quieras…" spellcheck="true"></textarea>
+
+            <!-- Corazón, visto y nota en el margen -->
+            <div class="social-fila">
+              <button id="btnCorazon" class="btn btn-suave btn-chico" type="button" aria-pressed="false">🤍 Dejar un corazón</button>
+              <span id="corazonOtro" class="social-txt" hidden></span>
+              <span id="vistoTxt" class="social-txt"></span>
+            </div>
+            <p class="margen-otro" id="margenOtro" hidden></p>
+            <input id="margenMia" class="margen-mia" type="text" maxlength="140" placeholder="💌 Deja una notita en el margen para que la lea…" autocomplete="off">
 
             <footer class="hoja-pie">
               <span class="estado" id="estado">Todo guardado</span>
