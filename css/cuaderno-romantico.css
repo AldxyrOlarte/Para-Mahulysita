@@ -1,0 +1,96 @@
+/* Se carga DESPUÉS de cuaderno-extra.css: dibujo, corazones, notitas, pegatinas, papeles nuevos */
+
+/* La hoja puede hacer scroll si hay muchas herramientas */
+.hoja { overflow-y: auto; }
+.hoja-texto { min-height: 7rem; }
+
+/* Papeles nuevos */
+.hoja-zona[data-tema="atardecer"] { --papel: #fff0e8; --linea: rgba(230, 110, 60, .2); }
+.hoja-zona[data-tema="noche"] {
+  --papel: #231d48; --linea: rgba(255, 255, 255, .12);
+  --texto: #f4eaff; --texto-suave: #c4b3e8; --fucsia: #ff8cc6; --rosa: #8b6fd0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 20% 15%, #fff, transparent 60%),
+    radial-gradient(1.5px 1.5px at 70% 30%, #fff, transparent 60%),
+    radial-gradient(1px 1px at 40% 70%, #fff, transparent 60%),
+    radial-gradient(1.5px 1.5px at 85% 80%, #fff, transparent 60%),
+    radial-gradient(1px 1px at 10% 85%, #fff, transparent 60%),
+    linear-gradient(to right, transparent 54px, rgba(255, 140, 198, .35) 54px, rgba(255, 140, 198, .35) 56px, transparent 56px);
+}
+.hoja-zona[data-tema="noche"] .btn-suave { background: #3a3170; color: #ffd3ea; }
+.hoja-zona[data-tema="noche"] .hoja-titulo::placeholder,
+.hoja-zona[data-tema="noche"] .hoja-texto::placeholder { color: #8f7fc0; }
+
+/* Herramientas de escritura */
+.herr-texto { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+.pegatinas-wrap { position: relative; }
+.pegatinas-panel {
+  position: absolute; top: 40px; left: 0; z-index: 15; width: 250px;
+  display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; padding: 10px;
+  background: #fff; border-radius: 18px; box-shadow: var(--sombra); animation: aparecer .2s ease both;
+}
+.pegatinas-panel button { font-size: 1.4rem; border: none; background: transparent; border-radius: 10px; padding: 4px; cursor: pointer; }
+.pegatinas-panel button:hover { background: var(--rosa-pastel); }
+.idea-burbuja {
+  margin: 0 0 8px; padding: 10px 14px; border-radius: 16px; background: var(--rosa-pastel);
+  color: var(--fucsia-oscuro); font-weight: 600; font-size: .95rem; animation: aparecer .3s ease both;
+}
+.hoja-zona[data-tema="noche"] .idea-burbuja { background: #3a3170; color: #ffd3ea; }
+
+/* Dibujo */
+.dibujo-bloque { display: none; }
+.hoja[data-tipo="dibujo"] .dibujo-bloque { display: block; margin-bottom: 8px; }
+.hoja[data-tipo="dibujo"] .hoja-texto { height: 4.5rem; min-height: 4.5rem; flex: none; }
+#lienzo {
+  display: block; margin: 0 auto; width: 100%; max-width: 640px; height: auto; max-height: 46vh;
+  background: #fffdfe; border: 2px dashed var(--rosa); border-radius: 14px;
+  touch-action: none; cursor: crosshair; box-shadow: 0 6px 18px rgba(224, 25, 125, .12);
+}
+.dibujo-tools { display: grid; gap: 6px; margin-bottom: 8px; }
+.dib-colores, .dib-fila { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.dib-color {
+  width: 24px; height: 24px; border-radius: 50%; cursor: pointer; border: 2px solid #fff;
+  box-shadow: 0 0 0 1.5px var(--rosa);
+}
+.dib-color[aria-pressed="true"] { box-shadow: 0 0 0 3px var(--fucsia); }
+.dib-btn {
+  font-size: 1.15rem; width: 38px; height: 38px; border-radius: 12px; cursor: pointer;
+  border: 2px solid var(--rosa-suave); background: #fff;
+}
+.dib-btn[aria-pressed="true"] { border-color: var(--fucsia); background: var(--rosa-pastel); }
+#dibGrosor { width: 90px; accent-color: var(--fucsia); }
+
+/* Corazón, visto y notita */
+.social-fila { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: 8px; }
+.social-txt { font-size: .82rem; color: var(--texto-suave); font-weight: 600; }
+#btnCorazon[aria-pressed="true"] { background: var(--fucsia); color: #fff; }
+.margen-otro {
+  margin: 8px 0 0; padding: 8px 14px; background: #fff4a8; color: #6b5200; border-radius: 4px 14px 14px 14px;
+  font-family: var(--fuente-titulo); font-size: 1.15rem; box-shadow: 0 4px 10px rgba(0, 0, 0, .1); transform: rotate(-.6deg);
+}
+.margen-mia {
+  margin-top: 8px; width: 100%; border: none; border-bottom: 2px dashed var(--rosa); background: transparent;
+  font-family: var(--fuente-texto); font-size: .92rem; color: var(--texto); padding: 6px 2px; outline: none;
+}
+.margen-mia:focus { border-bottom-color: var(--fucsia); }
+.margen-mia::placeholder { color: #d9a9c0; }
+
+/* Portada */
+.portada-extra { display: grid; gap: 4px; text-align: center; color: #fff; }
+.portada-extra p { margin: 0; }
+.portada-frase { font-family: var(--fuente-titulo); font-size: 1.35rem; opacity: .95; }
+.portada-racha { font-size: .85rem; opacity: .9; }
+
+/* Pétalos al abrir o dejar un corazón */
+.petalo {
+  position: fixed; top: -30px; z-index: 60; pointer-events: none;
+  animation: caer-petalo linear forwards;
+}
+@keyframes caer-petalo {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) translateX(40px) rotate(320deg); opacity: 0; }
+}
+
+/* Selector de plantillas con más opciones */
+.tipos-grid { max-height: 52vh; overflow-y: auto; }
+@media (prefers-reduced-motion: reduce) { .petalo { display: none; } }
