@@ -23,9 +23,38 @@ const TIPOS = {
   carta: { nombre: "Carta",         emoji: "💌", info: "Con letra de carta",       ph: "Querida…", inicio: "" },
   foto:  { nombre: "Recuerdo",      emoji: "📸", info: "Foto tipo polaroid",       ph: "¿Qué recuerdas de este momento?", inicio: "" },
   cita:  { nombre: "Frase",         emoji: "✨", info: "Una frase grande",         ph: "Una frase que quieras guardar…", inicio: "" },
-  lista: { nombre: "Lista",         emoji: "✅", info: "Cosas por hacer o soñar",  ph: "☐ Escribe y pulsa Enter", inicio: "☐ " }
+  lista: { nombre: "Lista",         emoji: "✅", info: "Cosas por hacer o soñar",  ph: "☐ Escribe y pulsa Enter", inicio: "☐ " },
+  dibujo:{ nombre: "Dibujo",        emoji: "🎨", info: "Dibujen juntos",           ph: "Cuéntame de este dibujo…", inicio: "" },
+  poema: { nombre: "Poema",         emoji: "🌹", info: "Versos para ti",           ph: "Rosas son rojas…", inicio: "" },
+  sueno: { nombre: "Sueño juntos",  emoji: "🌙", info: "Un deseo para los dos",    ph: "Algún día quiero que…", inicio: "" }
 };
-const TEMAS = { rosa: "#ffeaf3", lila: "#eadcff", menta: "#d3f5e3", crema: "#ffedc2" };
+const TEMAS = { rosa: "#ffeaf3", lila: "#eadcff", menta: "#d3f5e3", crema: "#ffedc2", atardecer: "#ffcfb8", noche: "#2b2350" };
+
+/* ---------- Detalles románticos ---------- */
+const EMAIL_ELLA = "mahulyr@gmail.com";
+const NOMBRE = { ella: "Mahuly", el: "Thiago" };
+const INICIO_RELACION = new Date(2026, 4, 28); // 28 de mayo de 2026
+const FRASES_DIA = [
+  "Eres mi lugar favorito en el mundo.", "Contigo hasta el silencio es bonito.", "Mi corazón te eligió y sigue eligiéndote.",
+  "Gracias por existir en mi vida.", "Cada día contigo es mi día favorito.", "Eres mi casualidad más bonita.",
+  "Contigo aprendí que el amor sí es tranquilo y bonito.", "Tu sonrisa arregla mi día entero.", "Si me preguntan por la felicidad, pienso en ti.",
+  "No importa la distancia, estás en mi pensamiento.", "Eres mi persona favorita.", "Quiero muchos 'para siempre' contigo.",
+  "Eres lo mejor que me ha pasado.", "Mi lugar seguro tiene tu nombre.", "Te quiero hoy, mañana y siempre.",
+  "Todo es más lindo si estás tú.", "Contigo el tiempo se pasa volando.", "Eres mi sueño hecho realidad.",
+  "Te pienso más de lo que imaginas.", "Qué suerte la mía de tenerte."
+];
+const IDEAS = [
+  "Escribe tres cosas que te hicieron sonreír hoy por mí.", "Cuéntame tu recuerdo favorito de nosotros.", "¿Cómo imaginas nuestra primera casa?",
+  "Escribe qué fue lo primero que pensaste al conocerme.", "Dime algo que nunca te he dicho.", "Describe nuestra cita perfecta.",
+  "¿Qué canción te recuerda a mí y por qué?", "Escribe una promesa pequeña pero sincera.", "¿Qué lugar sueñas visitar conmigo?",
+  "Cuéntame algo que te dio miedo y cómo lo superaste.", "Escribe cinco cosas que amas de mí.", "¿Qué te gustaría que hagamos en un año?",
+  "Imagina nuestro domingo ideal, hora por hora.", "Escribe una carta para la versión de nosotros de dentro de 10 años.",
+  "¿Qué es lo que más te hace reír de mí?", "Cuéntame un sueño que tuviste con nosotros.", "Dime qué te hace sentir querida/o de verdad.",
+  "Escribe un mensaje para leer en un día difícil.", "¿Qué apodo nuevo me pondrías hoy?", "Describe cómo se siente abrazarme."
+];
+const PEGATINAS = ["💗","💕","💘","💌","🌹","🌸","🦋","✨","🌙","⭐","🍓","🧸","🎀","☀️","🌈","😘","🥰","💋","🫶","🐻","🍫","🎶","📸","🏡"];
+const SELLOS = ["💗","🌹","⭐","🦋","🍓","🧸","😘","🌸"];
+const COLORES_DIB = ["#e0197d","#ff7ab8","#ff8a3d","#ffd23f","#3bb273","#2f9de0","#7a4fe0","#5a2b43","#000000","#ffffff"];
 
 /* ---------- DOM ---------- */
 const $ = (id) => document.getElementById(id);
@@ -44,6 +73,16 @@ const [vistaLogin, vistaCuaderno, loginAviso, btnEntrar, btnSalir, libro, portad
 let rol = "lectura", paginas = [], paginaActualId = null, hayCambios = false, contadorCambios = 0;
 let temporizador = null, cancelarSuscripcion = null, avisoLogin = "";
 let fotoActual = "", temaActual = "rosa";
+let dibujoActual = "", dibujoPintado = null, dibujando = false, ultimaCargada = null, pilaUndo = [];
+
+const $$ = (id) => document.getElementById(id);
+const [btnPegatinas, pegatinasPanel, btnIdea, ideaBurbuja, dibujoBloque, lienzo, dibColores, dibGrosor, dibSello,
+  dibDeshacer, dibLimpiar, dibDescargar, btnCorazon, corazonOtro, vistoTxt, margenOtro, margenMia,
+  portadaExtra, portadaDias, portadaFrase, portadaRacha] =
+  ["btnPegatinas","pegatinasPanel","btnIdea","ideaBurbuja","dibujoBloque","lienzo","dibColores","dibGrosor","dibSello",
+   "dibDeshacer","dibLimpiar","dibDescargar","btnCorazon","corazonOtro","vistoTxt","margenOtro","margenMia",
+   "portadaExtra","portadaDias","portadaFrase","portadaRacha"].map($$);
+let yo = "el", libroAbierto = false, temporizadorNota = null;
 
 /* ---------- Corazones de fondo ---------- */
 (function () {
@@ -118,6 +157,7 @@ if (auth) onAuthStateChanged(auth, (usuario) => {
     return;
   }
   const correo = (usuario.email || "").toLowerCase();
+  yo = correo === EMAIL_ELLA ? "ella" : "el";
   if (normalizar(ESCRITORES).includes(correo)) rol = "escritura";
   else if (normalizar(LECTORES).includes(correo)) rol = "lectura";
   else { avisoLogin = "Esta cuenta (" + correo + ") no tiene acceso al cuaderno."; signOut(auth); return; }
@@ -130,7 +170,8 @@ function iniciarCuaderno() {
   portadaMensaje.textContent = rol === "escritura" ? MENSAJE_BIENVENIDA : MENSAJE_LECTURA;
   const solo = rol !== "escritura";
   inputTitulo.readOnly = solo; areaTexto.readOnly = solo; btnEmoji.disabled = solo;
-  libro.classList.remove("abierto"); portada.classList.remove("oculto");
+  libro.classList.remove("abierto"); portada.classList.remove("oculto"); libroAbierto = false;
+  pintarPortadaExtra();
   vistaLogin.classList.add("oculto"); vistaCuaderno.classList.remove("oculto");
   mostrarAvisoLogin("");
   suscribirPaginas();
@@ -140,7 +181,12 @@ function detenerCuaderno() {
   if (cancelarSuscripcion) { cancelarSuscripcion(); cancelarSuscripcion = null; }
   paginas = []; paginaActualId = null; hayCambios = false;
 }
-btnAbrir.addEventListener("click", () => { libro.classList.add("abierto"); setTimeout(() => portada.classList.add("oculto"), 1200); });
+btnAbrir.addEventListener("click", () => {
+  libro.classList.add("abierto"); setTimeout(() => portada.classList.add("oculto"), 1200);
+  libroAbierto = true; lluviaPetalos();
+  const actual = paginas.find((p) => p.id === paginaActualId);
+  if (actual) marcarVisto(actual);
+});
 
 /* ---------- Firestore en tiempo real (la página 1 es la más antigua) ---------- */
 function suscribirPaginas() {
@@ -158,7 +204,8 @@ function alRecibirPaginas() {
     return;
   }
   const editando = document.activeElement === inputTitulo || document.activeElement === areaTexto;
-  if (hayCambios || (rol === "escritura" && editando)) { actualizarMeta(actual); actualizarNav(); }
+  const escribiendoNota = document.activeElement === margenMia;
+  if (hayCambios || (rol === "escritura" && editando) || escribiendoNota || dibujando) { actualizarMeta(actual); actualizarNav(); pintarSocial(actual); }
   else cargarEnEditor(actual);
 }
 
@@ -177,7 +224,9 @@ function renderLista() {
     const t = document.createElement("span"); t.className = "pagina-titulo" + (p.titulo ? "" : " sin-titulo"); t.textContent = p.titulo || "Sin título";
     const f = document.createElement("span"); f.className = "pagina-fecha";
     const fecha = aFecha(p.modificadoEn) || aFecha(p.creadoEn);
-    f.textContent = (i + 1) + " · " + TIPOS[tipoDe(p)].nombre + (fecha ? " · " + formatoCorto.format(fecha) : "");
+    const otroK = yo === "ella" ? "el" : "ella";
+    const marcas = (p["corazon" + C(otroK)] ? " 💗" : "") + (p["nota" + C(otroK)] ? " 💌" : "");
+    f.textContent = (i + 1) + " · " + TIPOS[tipoDe(p)].nombre + (fecha ? " · " + formatoCorto.format(fecha) : "") + marcas;
     b.append(e, t, f);
     b.addEventListener("click", () => { seleccionarPagina(p.id); cerrarMenu(); });
     li.appendChild(b); listaPaginas.appendChild(li);
@@ -209,7 +258,11 @@ function cargarEnEditor(p) {
   if (inputTitulo.value !== (p.titulo || "")) inputTitulo.value = p.titulo || "";
   if (areaTexto.value !== (p.contenido || "")) areaTexto.value = p.contenido || "";
   fotoActual = p.foto || ""; temaActual = TEMAS[p.tema] ? p.tema : "rosa";
-  pintarFoto(); pintarTema(); actualizarMeta(p); actualizarNav();
+  if (p.id !== ultimaCargada) { pilaUndo = []; ideaBurbuja.hidden = true; ultimaCargada = p.id; }
+  dibujoActual = p.dibujo || "";
+  if (tipo === "dibujo") pintarDibujo(dibujoActual);
+  pintarFoto(); pintarTema(); actualizarMeta(p); actualizarNav(); pintarSocial(p);
+  if (libroAbierto) marcarVisto(p);
 }
 function mostrarPagina(p, animar, dir = "next") {
   if (!p) {
@@ -276,6 +329,7 @@ async function crearPagina(tipo) {
     if (hayCambios) await guardar(true);
     const ref = await addDoc(coleccion, {
       tipo, titulo: "", contenido: TIPOS[tipo].inicio, emoji: TIPOS[tipo].emoji, tema: "rosa", foto: "",
+      dibujo: "", por: yo,
       creadoEn: serverTimestamp(), modificadoEn: serverTimestamp()
     });
     seleccionarPagina(ref.id);
@@ -350,7 +404,7 @@ async function guardar(forzar) {
   try {
     await updateDoc(doc(db, "cuaderno", id), {
       titulo: inputTitulo.value.trim(), contenido: areaTexto.value, emoji: btnEmoji.textContent,
-      foto: fotoActual, tema: temaActual, modificadoEn: serverTimestamp()
+      foto: fotoActual, dibujo: dibujoActual, tema: temaActual, modificadoEn: serverTimestamp()
     });
     if (version === contadorCambios) hayCambios = false;
     setEstado("Guardado ✓", "ok"); corazonGuardado();
@@ -384,7 +438,7 @@ modalConfirmar.addEventListener("click", async () => {
   catch (err) { console.error(err); setEstado("No se pudo eliminar la página", "error"); }
 });
 document.addEventListener("keydown", (ev) => {
-  if (ev.key === "Escape") { modal.hidden = true; modalTipos.hidden = true; emojiPanel.hidden = true; cerrarMenu(); }
+  if (ev.key === "Escape") { pegatinasPanel.hidden = true; modal.hidden = true; modalTipos.hidden = true; emojiPanel.hidden = true; cerrarMenu(); }
 });
 
 /* ---------- Menú lateral en celular ---------- */
@@ -392,3 +446,215 @@ function abrirMenu() { lateral.classList.add("abierto"); telon.classList.add("vi
 function cerrarMenu() { lateral.classList.remove("abierto"); telon.classList.remove("visible"); }
 btnMenu.addEventListener("click", abrirMenu);
 telon.addEventListener("click", cerrarMenu);
+
+/* =========================================================
+   Extras románticos: dibujo, corazones, notitas, pegatinas…
+   ========================================================= */
+const C = (k) => (k === "ella" ? "Ella" : "El");
+const otroDe = () => (yo === "ella" ? "el" : "ella");
+
+function hace(d) {
+  const s = Math.max(0, (Date.now() - d.getTime()) / 1000);
+  if (s < 90) return "ahora mismo";
+  if (s < 3600) return "hace " + Math.round(s / 60) + " min";
+  if (s < 86400) return "hace " + Math.round(s / 3600) + " h";
+  return "hace " + Math.round(s / 86400) + " d";
+}
+
+/* ----- Portada: días juntos, frase del día y racha ----- */
+function pintarPortadaExtra() {
+  const hoy = new Date();
+  const dias = Math.floor((new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate()) - INICIO_RELACION) / 864e5);
+  portadaDias.textContent = dias >= 0 ? "💗 Llevamos " + dias + (dias === 1 ? " día" : " días") + " juntos" : "";
+  const n = Math.floor(Date.UTC(hoy.getFullYear(), hoy.getMonth(), hoy.getDate()) / 864e5);
+  portadaFrase.textContent = "“" + FRASES_DIA[n % FRASES_DIA.length] + "”";
+  let racha = 1;
+  try {
+    const hoyStr = hoy.toISOString().slice(0, 10).replace(/-.*/, "") + "-" + n;
+    const g = JSON.parse(localStorage.getItem("mahu_racha") || "null");
+    if (g && g.n === n) racha = g.r;
+    else if (g && g.n === n - 1) racha = g.r + 1;
+    localStorage.setItem("mahu_racha", JSON.stringify({ n, r: racha, k: hoyStr }));
+  } catch (e) { /* sin almacenamiento */ }
+  portadaRacha.textContent = racha > 1 ? "🔥 " + racha + " días seguidos entrando al cuaderno" : "";
+  portadaExtra.hidden = false;
+}
+
+function lluviaPetalos() {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const simbolos = ["🌸", "🌹", "💗", "🌷"];
+  for (let i = 0; i < 24; i++) {
+    const p = document.createElement("span");
+    p.className = "petalo";
+    p.textContent = simbolos[i % simbolos.length];
+    p.style.left = Math.random() * 100 + "vw";
+    p.style.fontSize = 14 + Math.random() * 16 + "px";
+    p.style.animationDuration = 3.5 + Math.random() * 3 + "s";
+    p.style.animationDelay = Math.random() * 1.2 + "s";
+    document.body.appendChild(p);
+    p.addEventListener("animationend", () => p.remove());
+  }
+}
+
+/* ----- Corazón, visto y notita en el margen ----- */
+function pintarSocial(p) {
+  const o = otroDe();
+  const mio = !!p["corazon" + C(yo)], suyo = !!p["corazon" + C(o)];
+  btnCorazon.textContent = mio ? "💗 Corazón dejado" : "🤍 Dejar un corazón";
+  btnCorazon.setAttribute("aria-pressed", String(mio));
+  corazonOtro.hidden = !suyo;
+  corazonOtro.textContent = suyo ? "💗 " + NOMBRE[o] + " dejó un corazón aquí" : "";
+  const nota = p["nota" + C(o)] || "";
+  margenOtro.hidden = !nota;
+  margenOtro.textContent = nota ? "💌 " + NOMBRE[o] + " escribió: " + nota : "";
+  const mia = p["nota" + C(yo)] || "";
+  if (document.activeElement !== margenMia && margenMia.value !== mia) margenMia.value = mia;
+  const v = aFecha(p["visto" + C(o)]);
+  vistoTxt.textContent = v ? "👀 " + NOMBRE[o] + " vio esta página " + hace(v) : "";
+}
+
+const marcadoVisto = new Map();
+function marcarVisto(p) {
+  if (rol !== "escritura" || !db) return;
+  const antes = marcadoVisto.get(p.id) || 0;
+  if (Date.now() - antes < 300000) return;
+  marcadoVisto.set(p.id, Date.now());
+  updateDoc(doc(db, "cuaderno", p.id), { ["visto" + C(yo)]: serverTimestamp() }).catch(() => {});
+}
+
+btnCorazon.addEventListener("click", async () => {
+  if (rol !== "escritura" || !paginaActualId) return;
+  const p = paginas.find((x) => x.id === paginaActualId);
+  if (!p) return;
+  const nuevo = !p["corazon" + C(yo)];
+  if (nuevo) lluviaPetalos();
+  try { await updateDoc(doc(db, "cuaderno", p.id), { ["corazon" + C(yo)]: nuevo }); }
+  catch (err) { console.error(err); setEstado("No se pudo dejar el corazón", "error"); }
+});
+
+margenMia.addEventListener("input", () => {
+  if (rol !== "escritura" || !paginaActualId) return;
+  const id = paginaActualId, texto = margenMia.value.trim().slice(0, 140);
+  clearTimeout(temporizadorNota);
+  temporizadorNota = setTimeout(() => {
+    updateDoc(doc(db, "cuaderno", id), { ["nota" + C(yo)]: texto }).catch((e) => console.error(e));
+  }, 800);
+});
+
+/* ----- Pegatinas e ideas ----- */
+PEGATINAS.forEach((e) => {
+  const b = document.createElement("button");
+  b.type = "button"; b.textContent = e;
+  b.addEventListener("click", () => {
+    if (rol !== "escritura") return;
+    const pos = areaTexto.selectionEnd ?? areaTexto.value.length;
+    areaTexto.setRangeText(e, pos, pos, "end");
+    alEscribir();
+  });
+  pegatinasPanel.appendChild(b);
+});
+btnPegatinas.addEventListener("click", (ev) => { ev.stopPropagation(); pegatinasPanel.hidden = !pegatinasPanel.hidden; });
+document.addEventListener("click", (ev) => { if (!pegatinasPanel.contains(ev.target)) pegatinasPanel.hidden = true; });
+
+btnIdea.addEventListener("click", () => {
+  const idea = IDEAS[Math.floor(Math.random() * IDEAS.length)];
+  ideaBurbuja.textContent = "💭 " + idea;
+  ideaBurbuja.hidden = false;
+  if (rol === "escritura" && !inputTitulo.value.trim() && hoja.dataset.tipo !== "dibujo") {
+    inputTitulo.value = idea.length > 80 ? idea.slice(0, 77) + "…" : idea; alEscribir();
+  }
+});
+
+/* ----- Dibujo ----- */
+const ctx = lienzo.getContext("2d", { willReadFrequently: true });
+const PAPEL_DIB = "#fffdfe";
+let herr = "lapiz", colorDib = COLORES_DIB[0], grosor = 6, sello = SELLOS[0], ultimo = null, matiz = 0;
+
+function limpiarLienzo() { ctx.fillStyle = PAPEL_DIB; ctx.fillRect(0, 0, lienzo.width, lienzo.height); }
+limpiarLienzo();
+
+COLORES_DIB.forEach((c, i) => {
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "dib-color"; b.style.background = c;
+  b.setAttribute("aria-label", "Color " + c); b.setAttribute("aria-pressed", String(i === 0));
+  b.addEventListener("click", () => {
+    colorDib = c; if (herr === "goma" || herr === "arcoiris") elegirHerr("lapiz");
+    [...dibColores.children].forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+  });
+  dibColores.appendChild(b);
+});
+function elegirHerr(h) {
+  herr = h;
+  document.querySelectorAll(".dib-btn[data-herr]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.herr === h)));
+}
+document.querySelectorAll(".dib-btn[data-herr]").forEach((b) => b.addEventListener("click", () => {
+  if (b.dataset.herr === "sello" && herr === "sello") {
+    sello = SELLOS[(SELLOS.indexOf(sello) + 1) % SELLOS.length]; dibSello.textContent = sello;
+  }
+  elegirHerr(b.dataset.herr);
+}));
+dibGrosor.addEventListener("input", () => { grosor = Number(dibGrosor.value); });
+
+function exportarDibujo() {
+  let q = 0.85, u = lienzo.toDataURL("image/jpeg", q);
+  while (u.length > 700000 && q > 0.4) { q -= 0.1; u = lienzo.toDataURL("image/jpeg", q); }
+  return u;
+}
+function pintarDibujo(url) {
+  if (dibujando || url === dibujoPintado) return;
+  dibujoPintado = url; limpiarLienzo();
+  if (!url) return;
+  const im = new Image();
+  im.onload = () => { if (dibujoPintado === url && !dibujando) { limpiarLienzo(); ctx.drawImage(im, 0, 0, lienzo.width, lienzo.height); } };
+  im.src = url;
+}
+function guardarUndo() {
+  pilaUndo.push(ctx.getImageData(0, 0, lienzo.width, lienzo.height));
+  if (pilaUndo.length > 12) pilaUndo.shift();
+}
+function terminarTrazo() {
+  dibujoActual = exportarDibujo(); dibujoPintado = dibujoActual; alEscribir();
+}
+function posLienzo(e) {
+  const r = lienzo.getBoundingClientRect();
+  return { x: (e.clientX - r.left) * lienzo.width / r.width, y: (e.clientY - r.top) * lienzo.height / r.height };
+}
+function segmento(a, b) {
+  ctx.lineCap = "round"; ctx.lineJoin = "round";
+  ctx.lineWidth = herr === "goma" ? grosor * 2.5 : grosor;
+  ctx.strokeStyle = herr === "goma" ? PAPEL_DIB : herr === "arcoiris" ? "hsl(" + ((matiz += 5) % 360) + " 90% 58%)" : colorDib;
+  ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x + 0.01, b.y); ctx.stroke();
+}
+lienzo.addEventListener("pointerdown", (e) => {
+  if (rol !== "escritura") return;
+  e.preventDefault();
+  try { lienzo.setPointerCapture(e.pointerId); } catch (_) { /* ok */ }
+  guardarUndo(); ultimo = posLienzo(e);
+  if (herr === "sello") {
+    ctx.font = (grosor * 4 + 24) + "px serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.fillText(sello, ultimo.x, ultimo.y); terminarTrazo(); return;
+  }
+  dibujando = true; segmento(ultimo, ultimo);
+});
+lienzo.addEventListener("pointermove", (e) => {
+  if (!dibujando) return;
+  const p = posLienzo(e); segmento(ultimo, p); ultimo = p;
+});
+["pointerup", "pointercancel"].forEach((ev) => lienzo.addEventListener(ev, () => {
+  if (!dibujando) return;
+  dibujando = false; terminarTrazo();
+}));
+dibDeshacer.addEventListener("click", () => {
+  const prev = pilaUndo.pop();
+  if (!prev || rol !== "escritura") return;
+  ctx.putImageData(prev, 0, 0); terminarTrazo();
+});
+dibLimpiar.addEventListener("click", () => {
+  if (rol !== "escritura" || !confirm("¿Borrar todo el dibujo?")) return;
+  guardarUndo(); limpiarLienzo(); terminarTrazo();
+});
+dibDescargar.addEventListener("click", () => {
+  const a = document.createElement("a");
+  a.href = lienzo.toDataURL("image/png"); a.download = "dibujo-" + (inputTitulo.value.trim() || "nuestro") + ".png";
+  document.body.appendChild(a); a.click(); a.remove();
+});
